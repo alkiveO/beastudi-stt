@@ -40,7 +40,7 @@
                                     </td>
                                     <td>
                                         <h6 class="mb-0">
-                                            <a href="{{ asset('storage/mou/' . $mou->file) }}" target="__blank">lihat file</a>
+                                            <a href="{{ asset('storage/mou/' . $mou->file) }}" target="__blank" style="text-decoration:underline">lihat file</a>
                                         </h6>
                                     </td>
                                     <td>

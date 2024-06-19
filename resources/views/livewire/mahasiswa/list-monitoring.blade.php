@@ -1,6 +1,7 @@
 <div>
     <div>
         {{-- @include('partials.modal-edit-monitoring') --}}
+        @include('partials.modal-detail-kontribusi')
         @include('partials.modal-delete-monitoring')
     </div>
 
@@ -16,6 +17,7 @@
                                 <th>Nama Lengkap</th>
                                 <th>Program Studi</th>
                                 <th>Angkatan</th>
+                                <th>Kontribusi</th>
                                 <th>File LPJ</th>
                                 <th>Aksi</th>
                             </tr>
@@ -40,7 +42,13 @@
                                     </td>
                                     <td>
                                         <h6 class="mb-0">
-                                            <a href="{{ asset('storage/monitoring/' . $monitoring->file) }}" target="__blank">lihat file</a>
+                                            {{ str()->limit($monitoring->kontribusi, 50) }}
+                                            <a href="#" style="text-decoration:underline" wire:click='$emit("showDetailKonstribusiModal", {{ $monitoring }})'>detail</a>
+                                        </h6>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-0">
+                                            <a href="{{ asset('storage/monitoring/' . $monitoring->file) }}" target="__blank" style="text-decoration:underline">lihat file</a>
                                         </h6>
                                     </td>
                                     <td>
@@ -54,7 +62,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center p-5">Monitoring tidak ditemukan</td>
+                                    <td colspan="8" class="text-center p-5">Monitoring tidak ditemukan</td>
                                 </tr>
                             @endforelse
                         </tbody>
