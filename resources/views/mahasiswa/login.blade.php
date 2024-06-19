@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+    <!-- All Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="DexignLab">
+    <meta name="robots" content="">
+    <meta name="keywords" content="school, school admin, education, academy, admin dashboard, college, college management, education management, institute, school management, school management system, student management, teacher management, university, university management">
+    <meta name="description" content="Discover Akademi - the ultimate admin dashboard and Bootstrap 5 template. Specially designed for professionals, and for business. Akademi provides advanced features and an easy-to-use interface for creating a top-quality website with School and Education Dashboard">
+    <meta property="og:title" content="Beastudi STT Terpadu Nurul Fikri">
+    <meta property="og:description" content="Akademi - the ultimate admin dashboard and Bootstrap 5 template. Specially designed for professionals, and for business. Akademi provides advanced features and an easy-to-use interface for creating a top-quality website with School and Education Dashboard">
+    <meta property="og:image" content="https://akademi.dexignlab.com/xhtml/social-image.png">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Mobile Specific -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Page Title Here -->
+    <title>Beastudi STT Terpadu Nurul Fikri</title>
+
+    <!-- FAVICONS ICON -->
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    <link href="{{ asset('vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custome.css') }}" rel="stylesheet">
+</head>
+
+<body class="body h-100">
+    <div class="authincation d-flex flex-column flex-lg-row flex-column-fluid">
+        <div class="flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden">
+            <div class="px-4">
+                <header class="d-flex flex-wrap justify-content-center border-2 px-4">
+                    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                        <img src="{{ asset('images/logo.png') }}" width="90" alt="logo-nf">
+                    </a>
+                </header>
+
+                <div class="px-4">
+                    <div class="d-flex">
+                        <div class="authincation-content style-2">
+                            <div class="row no-gutters">
+                                <div class="col-xl-12 tab-content">
+                                    <p class="fs-1 fw-bold lh-sm mt-4 text-gray">Informasi Beastudi</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fs-5 text-gray">Smply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Smply
+                        dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s when an unknown printerit to make a type specimen book.</p>
+                    <p class="fs-5 text-gray">Smply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="login-aside d-flex flex-column flex-row-auto flex-row-fluid bg-orange align-items-center ">
+            <div id="sign-up" class="auth-form tab-pane fade show active form-validation mt-4">
+                <div class="p-4">
+                    <form action="{{ route('login') }}" method="post">
+                    @csrf
+                        <div class="mb-4">
+                            <h2 class="text-white">Masuk</h3>
+                        </div>
+                            @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
+                        <div class="mb-3">
+                            <input type="email" class="form-control" name="email" id="email " placeholder="Email" value="user@nf.mail" required>
+                        </div>
+                        <div class="mb-2">
+                            <input type="password" class="form-control" name="password" id="pass" placeholder="Password" value="12345678" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4">Masuk</button>
+                    </form>
+                    <div class="mt-3">
+                        <p class="text-white">Bila belum memiliki akun mahasiswa beastudi aktif silahkan untuk menghubungi koordinator beastudi STT-NF</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <footer class="mt-auto text-center">
+                <p class="fs-12 text-white">Beastudi @ Sekolah Tinggi Teknologi Terpadu Nurul Fikri</p>
+            </footer>
+        </div>
+    </div>
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="{{ asset('vendor/global/global.min.js') }}"></script>
+    <script src="{{ asset('js/custom.min.js') }}"></script>
+    <script src="{{ asset('js/dlabnav-init.js') }}"></script>
+
+</body>
+
+</html>
