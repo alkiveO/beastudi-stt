@@ -1,4 +1,9 @@
 <div>
+    <div>
+        {{-- @include('partials.modal-edit-monitoring') --}}
+        @include('partials.modal-delete-monitoring')
+    </div>
+
     <div class="row">
         <div class="col-xl-12">
             <div class="table-responsive full-data">
@@ -40,9 +45,10 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <a href="#" class="btn btn-success shadow btn-xs sharp me-1"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></a>
-                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                            <button class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></button>
+                                            <button class="btn btn-danger shadow btn-xs sharp" wire:click='$emit("showDeleteMonitoringModal", {{ $monitoring }})'>
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -57,4 +63,8 @@
             </div>
         </div>
     </div>
+
+    @push('script')
+        <script src="{{ asset('livewire/monitoring.js') }}"></script>
+    @endpush
 </div>

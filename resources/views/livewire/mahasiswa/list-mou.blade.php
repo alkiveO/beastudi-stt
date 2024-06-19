@@ -46,7 +46,9 @@
                                     <td>
                                         <div class="d-flex">
                                             <button class="btn btn-primary shadow btn-xs sharp me-1" wire:click='$emit("showEditMouModal", {{ $mou }})'><i class="fas fa-pencil"></i></button>
-                                            <button class="btn btn-danger shadow btn-xs sharp" wire:click='$emit("showDeleteMouModal", {{ $mou }})'><i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-danger shadow btn-xs sharp" wire:click='$emit("showDeleteMouModal", {{ $mou }})'>
+                                                <i class="fa fa-trash"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
