@@ -39,7 +39,9 @@
                                         <h6 class="mb-0">{{ $mou->angkatan }}</h6>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0">MoU</h6>
+                                        <h6 class="mb-0">
+                                            <a href="{{ asset('storage/mou/' . $mou->file) }}" target="__blank">lihat file</a>
+                                        </h6>
                                     </td>
                                     <td>
                                         <div class="d-flex">

@@ -34,7 +34,9 @@
                                         <h6 class="mb-0">{{ $monitoring->angkatan }}</h6>
                                     </td>
                                     <td>
-                                        <h6 class="mb-0">file</h6>
+                                        <h6 class="mb-0">
+                                            <a href="{{ asset('storage/monitoring/' . $monitoring->file) }}" target="__blank">lihat file</a>
+                                        </h6>
                                     </td>
                                     <td>
                                         <div class="d-flex">
