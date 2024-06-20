@@ -149,16 +149,24 @@
 
     <script>
         document.addEventListener('livewire:load', function () {
+            Livewire.on('setProdi', (prodi_id) => {
+                let selectProdi = document.getElementById('edit-prodi');
+                selectProdi.value = prodi_id;
+                $(selectProdi).selectpicker('refresh');
+            });
+
             Livewire.on('resetProdi', () => {
                 let selectProdi = document.getElementById('prodi');
                 selectProdi.value = '';
                 $(selectProdi).selectpicker('refresh');
             });
+
             Livewire.on('resetJalurPrestasi', () => {
                 let selectJalurPrestasi = document.getElementById('jalur-prestasi');
                 selectJalurPrestasi.value = '';
                 $(selectJalurPrestasi).selectpicker('refresh');
             });
+
             Livewire.on('resetFileUpload', () => {
                 document.getElementById('file').value = '';
             });

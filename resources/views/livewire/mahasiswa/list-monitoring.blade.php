@@ -1,6 +1,6 @@
 <div>
     <div>
-        {{-- @include('partials.modal-edit-monitoring') --}}
+        @include('partials.modal-edit-monitoring')
         @include('partials.modal-detail-kontribusi')
         @include('partials.modal-delete-monitoring')
     </div>
@@ -43,7 +43,10 @@
                                     <td>
                                         <h6 class="mb-0">
                                             {{ str()->limit($monitoring->kontribusi, 50) }}
+
+                                            @if(strlen($monitoring->kontribusi) > 50)
                                             <a href="#" style="text-decoration:underline" wire:click='$emit("showDetailKonstribusiModal", {{ $monitoring }})'>detail</a>
+                                            @endif
                                         </h6>
                                     </td>
                                     <td>
@@ -53,7 +56,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex">
-                                            <button class="btn btn-primary shadow btn-xs sharp me-1"><i class="fas fa-pencil-alt"></i></button>
+                                            <button class="btn btn-primary shadow btn-xs sharp me-1" wire:click='$emit("showEditMonitoringModal", {{ $monitoring }})'><i class="fas fa-pencil-alt"></i></button>
                                             <button class="btn btn-danger shadow btn-xs sharp" wire:click='$emit("showDeleteMonitoringModal", {{ $monitoring }})'>
                                                 <i class="fa fa-trash"></i>
                                             </button>

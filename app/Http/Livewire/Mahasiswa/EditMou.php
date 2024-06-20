@@ -22,16 +22,16 @@ class EditMou extends Component
     public function rules()
     {
         return [
-             'nim' => [
-                 'required',
-                 'max:20',
-                 Rule::unique('mou', 'nim')
-                    ->ignore($this->nim, 'nim')
-             ],
-             'mahasiswa' => 'required|max:255',
-             'program_studi_id' => 'required|exists:program_studi,id',
-             'angkatan' => 'required|min:4|max:4',
-             'file' => 'nullable|mimes:docx,pdf|max:10240'
+            'nim' => [
+                'required',
+                'max:20',
+                Rule::unique('mou', 'nim')
+                ->ignore($this->nim, 'nim')
+            ],
+            'mahasiswa' => 'required|max:255',
+            'program_studi_id' => 'required|exists:program_studi,id',
+            'angkatan' => 'required|min:4|max:4',
+            'file' => 'nullable|mimes:docx,pdf|max:10240'
          ];
     }
 
@@ -50,6 +50,10 @@ class EditMou extends Component
         'file.max' => 'file mou maksimal 10 MB',
     ];
 
+    protected $listeners = [
+        'setEditMou'
+    ];
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
@@ -61,10 +65,6 @@ class EditMou extends Component
             'file' => 'mimes:docx,pdf|max:10240'
         ]);
     }
-
-    protected $listeners = [
-        'setEditMou'
-    ];
 
     public function setEditMou($mou)
     {

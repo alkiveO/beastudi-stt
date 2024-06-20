@@ -1,3 +1,15 @@
+Livewire.on('showDetailKonstribusiModal', (monitoring) => {
+    $('#detailKontribusiModal').modal('show')
+
+    Livewire.emit('setDetailKontribusi', monitoring)
+})
+
+Livewire.on('showEditMonitoringModal', (monitoring) => {
+    $('#editMonitoringModal').modal('show')
+
+    Livewire.emit('setEditMonitoring', monitoring)
+});
+
 Livewire.on('showDeleteMonitoringModal', (monitoring) => {
     $('#deleteMonitoringModal').modal('show')
 
@@ -5,12 +17,6 @@ Livewire.on('showDeleteMonitoringModal', (monitoring) => {
 })
 
 Livewire.on('closeModalMonitoring', () => {
-    //$('#editMouModal').modal('hide')
+    $('#editMonitoringModal').modal('hide')
     $('#deleteMonitoringModal').modal('hide')
-})
-
-Livewire.on('showDetailKonstribusiModal', (monitoring) => {
-    $('#detailKontribusiModal').modal('show')
-
-    Livewire.emit('setDetailKontribusi', monitoring)
 })
