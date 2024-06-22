@@ -1,3 +1,4 @@
-/storage/app/public
+/storage/app/public/
+/public/storage/
 /vendor/
 .env
