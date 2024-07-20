@@ -155,6 +155,12 @@
                 $(selectProdi).selectpicker('refresh');
             });
 
+            Livewire.on('setJalurPrestasi', (jalur_prestasi_id) => {
+                let selectJalurPrestasi = document.getElementById('edit-jalur-prestasi');
+                selectJalurPrestasi.value = jalur_prestasi_id;
+                $(selectJalurPrestasi).selectpicker('refresh');
+            });
+
             Livewire.on('resetProdi', () => {
                 let selectProdi = document.getElementById('prodi');
                 selectProdi.value = '';

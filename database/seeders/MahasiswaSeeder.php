@@ -13,7 +13,23 @@ class MahasiswaSeeder extends Seeder
         Mahasiswa::create([
             'nim' => '12345678',
             'email' => 'user@nf.mail',
-            'nama' => 'test user'
+            'nama' => 'test user',
+            'no_ktp' => '0987654321',
+            'tahun_masuk' => '2024',
+            'jenis_kelamin' => 'laki-laki',
+            'no_kk' => '0987654321',
+            'tanggal_lahir' => '01-01-1991',
+            'agama' => 'islam',
+            'program_studi' => 'sistem informasi',
+            'jalur_beastudi' => 'prestasi',
+            'provinsi' => 'sulawesi selatan',
+            'kota' => 'makassar',
+            'kecamatan' => 'manggala',
+            'kelurahan' => 'tamangapa',
+            'kode_pos' => '90235',
+            'nomor_hp' => '0987654321',
+            'nomor_hp_ortu' => '0987654321',
+            'alamat' => 'ini alamat lengkap'
         ]);
     }
 }

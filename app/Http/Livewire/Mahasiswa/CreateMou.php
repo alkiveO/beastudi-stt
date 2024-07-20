@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Mahasiswa;
 use App\Models\Mou;
 use Livewire\Component;
 use App\Models\ProgramStudi;
+use Hamcrest\Core\HasToString;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CreateMou extends Component
@@ -14,29 +16,18 @@ class CreateMou extends Component
 
     public $nim;
     public $mahasiswa;
+    public $program_studi;
     public $program_studi_id;
     public $angkatan;
     public $file;
 
     protected $rules = [
-        'nim' => 'required|max:20|unique:mou,nim',
-        'mahasiswa' => 'required|max:255',
-        'program_studi_id' => 'required|exists:program_studi,id',
-        'angkatan' => 'required|min:4|max:4',
+        'program_studi' => 'required',
         'file' => 'required|mimes:docx,pdf|max:10240'
     ];
 
     protected $messages = [
-        'nim.required' => 'nim harus diisi',
-        'nim.max' => 'nim maksimal 20 karakter',
-        'nim.unique' => 'nim sudah digunakan',
-        'mahasiswa.required' => 'nama mahasiswa harus diisi',
-        'mahasiswa.max' => 'nama mahasiswa maksimal 255 karakter',
-        'program_studi_id.required' => 'program studi harus diisi',
-        'program_studi_id.exists' => 'program studi tidak valid',
-        'angkatan.required' => 'angkatan harus diisi',
-        'angkatan.min' => 'angkatan minimal 4 karakter',
-        'angkatan.max' => 'angkatan maksimal 4 karakter',
+        'program_studi.required' => 'program studi harus diisi',
         'file.required' => 'file mou harus diisi',
         'file.mimes' => 'file mou harus berupa .docx atau .pdf',
         'file.max' => 'file mou maksimal 10 MB',
@@ -54,24 +45,48 @@ class CreateMou extends Component
         ]);
     }
 
+    public function mount()
+    {
+        $mahasiswa = auth()->guard('mahasiswa')->user();
+        $program_studi = ProgramStudi::query()
+            ->where('nama', 'like', '%' . $mahasiswa->program_studi . '%')
+            ->first();
+
+        $this->nim = $mahasiswa->nim;
+        $this->mahasiswa = $mahasiswa->nama;
+        $this->angkatan = $mahasiswa->angkatan;
+        $this->program_studi = ucwords($program_studi->nama);
+        $this->program_studi_id = $program_studi->id;
+        $this->angkatan = $mahasiswa->tahun_masuk;
+    }
+
     public function store()
     {
         $this->validate();
 
+        $mou = Mou::where('nim', $this->nim)->first();
+
+        if ($mou) {
+            Storage::disk('public')->delete('mou/' . $mou->file);
+        }
+
         $file_path = $this->file->store('mou', 'public');
 
-        Mou::create([
-            'nim' => $this->nim,
-            'mahasiswa' => $this->mahasiswa,
-            'program_studi_id' => $this->program_studi_id,
-            'angkatan' => $this->angkatan,
-            'file' => basename($file_path)
-        ]);
+        Mou::updateOrCreate(
+            ['nim' => $this->nim],
+            [
+                'nim' => $this->nim,
+                'mahasiswa' => $this->mahasiswa,
+                'program_studi_id' => $this->program_studi_id,
+                'angkatan' => $this->angkatan,
+                'file' => basename($file_path)
+            ]
+        );
+
+        toastr()->success('Mou berhasil ditambahkan');
 
         $this->emitTo(ListMou::class, 'refreshPage');
 
-        $this->reset();
-        $this->emit('resetProdi');
         $this->emit('resetFileUpload');
     }
 
