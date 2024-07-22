@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
             ProgramStudiSeeder::class,
             JalurPrestasiSeeder::class,
             MahasiswaSeeder::class,
-            AgamaSeeder::class
+            AgamaSeeder::class,
+            IndoRegionSeeder::class
         ]);
     }
 }
