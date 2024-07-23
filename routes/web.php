@@ -9,8 +9,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\Mahasiswa\DataDiriController;
 use App\Http\Controllers\Mahasiswa\LogoutController;
-use App\Http\Controllers\Mahasiswa\MabaController;
 use App\Http\Controllers\Mahasiswa\MonitoringController;
 use App\Http\Livewire\Mahasiswa\ShowMou;
 
@@ -37,10 +37,7 @@ Route::middleware('auth:mahasiswa')
         Route::get('/', DashboardController::class)->name('dashboard');
 
         Route::get('/mou', MouController::class)->name('mou.index');
-        // Route::get('/mou/{mou:nim}', ShowMou::class)->name('mou.show');
-
-        Route::get('/data-diri', MabaController::class)->name('data-diri');
-
+        Route::get('/data-diri', DataDiriController::class)->name('data-diri');
         Route::get('/monitoring', MonitoringController::class)->name('monitoring');
 
         Route::post('logout', LogoutController::class)->name('logout');

@@ -13,6 +13,22 @@ return new class extends Migration
             $table->string('nim');
             $table->string('email');
             $table->string('nama');
+            $table->string('no_kk');
+            $table->string('no_ktp');
+            $table->string('tahun_masuk');
+            $table->string('jenis_kelamin');
+            $table->string('tanggal_lahir');
+            $table->string('agama');
+            $table->string('program_studi');
+            $table->string('jalur_beastudi');
+            $table->string('provinsi');
+            $table->string('kota');
+            $table->string('kecamatan');
+            $table->string('kelurahan');
+            $table->string('nomor_hp');
+            $table->string('nomor_hp_ortu');
+            $table->string('kode_pos');
+            $table->string('alamat');
             $table->timestamps();
         });
     }

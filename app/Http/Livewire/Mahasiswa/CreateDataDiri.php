@@ -13,7 +13,7 @@ use App\Models\Province;
 use App\Models\Regency;
 use App\Models\Village;
 
-class CreateMaba extends Component
+class CreateDataDiri extends Component
 {
     public $nim;
     public $nama;
@@ -230,7 +230,7 @@ class CreateMaba extends Component
 
     public function render()
     {
-        return view('livewire.mahasiswa.create-maba', [
+        return view('livewire.mahasiswa.create-data-diri', [
             'program_studi' => ProgramStudi::all(),
             'list_prestasi' => JalurPrestasi::all(),
             'list_agama' => Agama::all(),
