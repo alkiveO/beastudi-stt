@@ -180,7 +180,7 @@ class CreateDataDiri extends Component
     private function formatDateToYMD($date)
     {
         try {
-            return Carbon::createFromFormat('d-m-y', $date)->format('Y-m-d');
+            return Carbon::createFromFormat('d-m-Y', $date)->format('Y-m-d');
         } catch (\Exception $e) {
             try {
                 return Carbon::createFromFormat('Y-m-d', $date)->format('Y-m-d');
