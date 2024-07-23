@@ -14,9 +14,9 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('mahasiswa.maba') }}" aria-expanded="false">
+                <a href="{{ route('mahasiswa.data-diri') }}" aria-expanded="false">
                     <i class="bi bi-pencil-square"></i>
-                    <span class="nav-text">Form Data Maba</span>
+                    <span class="nav-text">Form Data Diri</span>
                 </a>
             </li>
             <li>

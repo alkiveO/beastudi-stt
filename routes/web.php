@@ -32,7 +32,7 @@ Route::middleware('auth:mahasiswa')
         Route::get('/mou', MouController::class)->name('mou.index');
         // Route::get('/mou/{mou:nim}', ShowMou::class)->name('mou.show');
 
-        Route::get('/maba', MabaController::class)->name('maba');
+        Route::get('/data-diri', MabaController::class)->name('data-diri');
 
         Route::get('/monitoring', MonitoringController::class)->name('monitoring');
 
