@@ -1,11 +1,6 @@
 <div>
-    <div>
-        @include('partials.modal-edit-mou')
-        @include('partials.modal-delete-mou')
-    </div>
-
     <div class="row">
-        <div class="col-xl-12 wow fadeInUp">
+        <div class="col-xl-12">
             <div class="table-responsive full-data">
                 <div>
                     <table class="table-responsive-lg table display dataTablesCard">
@@ -63,8 +58,4 @@
             </div>
         </div>
     </div>
-
-    @push('script')
-        <script src="{{ asset('livewire/mou.js') }}"></script>
-    @endpush
 </div>
