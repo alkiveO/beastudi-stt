@@ -1,10 +1,4 @@
 <div>
-    <div>
-        @include('partials.modal-edit-monitoring')
-        @include('partials.modal-detail-kontribusi')
-        @include('partials.modal-delete-monitoring')
-    </div>
-
     <div class="row">
         <div class="col-xl-12">
             <div class="table-responsive full-data">
@@ -74,8 +68,4 @@
             </div>
         </div>
     </div>
-
-    @push('script')
-        <script src="{{ asset('livewire/monitoring.js') }}"></script>
-    @endpush
 </div>

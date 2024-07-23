@@ -12,10 +12,18 @@ return new class extends Migration
             $table->id();
             $table->string('nim');
             $table->string('mahasiswa');
+            $table->date('tanggal_isi');
+            $table->integer('semester');
+            $table->decimal('ipk', 3,2);
+            $table->decimal('ips', 3,2);
+            $table->integer('pembimbing_akademik');
             $table->integer('program_studi_id');
-            $table->string('angkatan');
-            $table->text('kontribusi');
-            $table->string('file');
+            $table->text('deskripsi_capaian')->nullable();
+            $table->text('deskripsi_kendala')->nullable();
+            $table->text('deskripsi_rencana')->nullable();
+            $table->string('file_kegiatan')->nullable();
+            $table->string('file_internal_kampus')->nullable();
+            $table->string('file_prestasi')->nullable();
             $table->timestamps();
         });
     }
