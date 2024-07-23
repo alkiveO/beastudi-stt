@@ -6,10 +6,17 @@ use App\Http\Controllers\Mahasiswa\LoginController as MahasiswaLoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Mahasiswa\MouController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KabupatenController;
+use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\Mahasiswa\LogoutController;
 use App\Http\Controllers\Mahasiswa\MabaController;
 use App\Http\Controllers\Mahasiswa\MonitoringController;
 use App\Http\Livewire\Mahasiswa\ShowMou;
+
+Route::get('kabupaten', KabupatenController::class);
+Route::get('kecamatan', KecamatanController::class);
+Route::get('kelurahan', KelurahanController::class);
 
 Route::middleware('guest:web,mahasiswa')->group(function() {
     Route::get('register', [RegisterController::class, 'index']);

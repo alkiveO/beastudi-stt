@@ -52,10 +52,10 @@ class CreateMaba extends Component
         'jenis_kelamin' => 'required',
         'tanggal_lahir' => 'required',
         'agama_id' => 'required|exists:agama,id',
-        // 'province_id' => 'required',
-        // 'regency_id' => 'required',
-        // 'district_id' => 'required',
-        // 'village_id' => 'required',
+        'province_id' => 'required',
+        'regency_id' => 'required',
+        'district_id' => 'required',
+        'village_id' => 'required',
     ];
 
     protected $messages = [
@@ -94,6 +94,12 @@ class CreateMaba extends Component
         'regency_id' => 'kabupaten harus diisi',
         'district_id' => 'kecamatan harus diisi',
         'village_id' => 'kelurahan harus diisi',
+    ];
+
+    protected $listeners = [
+        'provinsiChanged',
+        'regencyChanged',
+        'districtChanged'
     ];
 
     public function updated($propertyName)
@@ -153,6 +159,24 @@ class CreateMaba extends Component
         $this->village_id = $village->id;
     }
 
+    public function provinsiChanged()
+    {
+        $this->regency_id = '';
+        $this->district_id = '';
+        $this->village_id = '';
+    }
+
+    public function regencyChanged()
+    {
+        $this->district_id = '';
+        $this->village_id = '';
+    }
+
+    public function districtChanged()
+    {
+        $this->village_id = '';
+    }
+
     private function formatDateToYMD($date)
     {
         try {
@@ -171,9 +195,16 @@ class CreateMaba extends Component
         $agama = Agama::find($this->agama_id);
         $program_studi = ProgramStudi::find($this->program_studi_id);
         $jalur_prestasi = JalurPrestasi::find($this->jalur_prestasi_id);
+        $provinsi = Province::find($this->province_id);
+        $kabupaten = Regency::find($this->regency_id);
+        $kecamatan = District::find($this->district_id);
+        $kelurahan = Village::find($this->village_id);
 
         $validate = collect($this->validate())
-            ->except(['agama_id', 'program_studi_id', 'jalur_prestasi_id'])
+            ->except([
+                'agama_id', 'program_studi_id', 'jalur_prestasi_id',
+                'province_id', 'regency_id', 'district_id', 'village_id'
+            ])
             ->toArray();
 
         Mahasiswa::updateOrCreate(
@@ -184,6 +215,10 @@ class CreateMaba extends Component
                     'agama' => $agama->nama,
                     'program_studi' => $program_studi->nama,
                     'jalur_beastudi' => $jalur_prestasi->nama,
+                    'provinsi' => $provinsi->name,
+                    'kota' => $kabupaten->name,
+                    'kecamatan' => $kecamatan->name,
+                    'kelurahan' => $kelurahan->name
                 ]
             )
         );

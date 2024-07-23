@@ -266,4 +266,92 @@
             </div>
         </div>
     </form>
+
+    @push('script')
+        <script>
+            $('#provinsi').on('change', function(e) {
+                const provinsiId = e.target.value
+
+                $('#kabupaten').empty();
+                $('#kabupaten').selectpicker('refresh');
+
+                $('#kecamatan').empty();
+                $('#kecamatan').selectpicker('refresh');
+
+                $('#kelurahan').empty();
+                $('#kelurahan').selectpicker('refresh');
+
+                $.ajax({
+                    url: '/kabupaten',
+                    data: {province_id: provinsiId},
+                    success: function(res){
+                        $('#kabupaten').append('<option>Pilih</option>');
+                        $.each(res, function(id, value) {
+                            $('#kabupaten').append(
+                                `
+                                    <option value=${value.id}>${value.name}</option>
+                                `
+                            )
+                        })
+                        $('#kabupaten').selectpicker('refresh');
+                    }
+                })
+
+                Livewire.emit('provinsiChanged');
+            })
+
+            $('#kabupaten').on('change', function(e) {
+                const regencyId = e.target.value
+
+                $('#kecamatan').empty();
+                $('#kecamatan').selectpicker('refresh');
+
+                $('#kelurahan').empty();
+                $('#kelurahan').selectpicker('refresh');
+
+                $.ajax({
+                    url: '/kecamatan',
+                    data: {regency_id: regencyId},
+                    success: function(res){
+                        $('#kecamatan').append('<option>Pilih</option>');
+                        $.each(res, function(id, value) {
+                            $('#kecamatan').append(
+                                `
+                                    <option value=${value.id}>${value.name}</option>
+                                `
+                            )
+                        })
+                        $('#kecamatan').selectpicker('refresh');
+                    }
+                })
+
+                Livewire.emit('regencyChanged');
+            })
+
+            $('#kecamatan').on('change', function(e) {
+                const districtId = e.target.value
+
+                $('#kelurahan').empty();
+                $('#kelurahan').selectpicker('refresh');
+
+                $.ajax({
+                    url: '/kelurahan',
+                    data: {district_id: districtId},
+                    success: function(res){
+                        $('#kelurahan').append('<option>Pilih</option>');
+                        $.each(res, function(id, value) {
+                            $('#kelurahan').append(
+                                `
+                                    <option value=${value.id}>${value.name}</option>
+                                `
+                            )
+                        })
+                        $('#kelurahan').selectpicker('refresh');
+                    }
+                })
+
+                Livewire.emit('districtChanged');
+            })
+        </script>
+    @endpush
 </div>
