@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('semester');
             $table->decimal('ipk', 3,2);
             $table->decimal('ips', 3,2);
-            $table->integer('pembimbing_akademik');
+            $table->integer('pembimbing_akademik_id');
             $table->integer('program_studi_id');
             $table->text('deskripsi_capaian')->nullable();
             $table->text('deskripsi_kendala')->nullable();

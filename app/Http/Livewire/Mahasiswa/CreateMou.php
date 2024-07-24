@@ -85,8 +85,6 @@ class CreateMou extends Component
 
         toastr()->success('Mou berhasil ditambahkan');
 
-        $this->emitTo(ListMou::class, 'refreshPage');
-
         $this->emit('resetFileUpload');
     }
 

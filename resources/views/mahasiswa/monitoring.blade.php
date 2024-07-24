@@ -2,6 +2,8 @@
 
 @section('title', 'SPB Monitoring')
 
+@section('title_dashboard', 'SPB Monitoring')
+
 @section('content')
 
 <div class="container-fluid">

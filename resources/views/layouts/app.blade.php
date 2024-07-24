@@ -49,6 +49,10 @@
         input[type=number] {
         -moz-appearance: textfield;
         }
+
+        textarea.monitoring {
+            height: 250px !important;
+        }
     </style>
 
 </head>
@@ -161,6 +165,14 @@
                 $(selectJalurPrestasi).selectpicker('refresh');
             });
 
+            Livewire.on('resetBootstrapSelect', () => {
+                let selects = document.querySelectorAll('#bootstrap-select');
+                selects.forEach(select => {
+                    select.value = '';
+                    $(select).selectpicker('refresh');
+                });
+            });
+
             Livewire.on('resetProdi', () => {
                 let selectProdi = document.getElementById('prodi');
                 selectProdi.value = '';
@@ -174,7 +186,10 @@
             });
 
             Livewire.on('resetFileUpload', () => {
-                document.getElementById('file').value = '';
+                let file = document.querySelectorAll('#file');
+                file.forEach(file => {
+                    file.value = '';
+                });
             });
         });
     </script>

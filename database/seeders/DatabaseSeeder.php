@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
             JalurPrestasiSeeder::class,
             MahasiswaSeeder::class,
             AgamaSeeder::class,
-            IndoRegionSeeder::class
+            IndoRegionSeeder::class,
+            PembimbingAkademikSeeder::class
         ]);
     }
 }

@@ -37,8 +37,6 @@ class CreateDataDiri extends Component
     public $village_id;
 
     protected $rules = [
-        'nim' => 'required|max:20|unique:maba,nim',
-        'nama' => 'required|max:255',
         'tahun_masuk' => 'required|min:4|max:4',
         'program_studi_id' => 'required|exists:program_studi,id',
         'jalur_prestasi_id' => 'required|exists:jalur_prestasi,id',
@@ -59,11 +57,6 @@ class CreateDataDiri extends Component
     ];
 
     protected $messages = [
-        'nim.required' => 'nim harus diisi',
-        'nim.max' => 'nim maksimal 20 karakter',
-        'nim.unique' => 'nim sudah digunakan',
-        'nama.required' => 'nama mahasiswa harus diisi',
-        'nama.max' => 'nama mahasiswa maksimal 255 karakter',
         'tahun_masuk.required' => 'tahun angkatan masuk harus diisi',
         'tahun_masuk.min' => 'tahun angkatan masuk minimal 4 karakter',
         'tahun_masuk.max' => 'tahun angkatan maksimal 4 karakter',
@@ -224,8 +217,6 @@ class CreateDataDiri extends Component
         );
 
         toastr()->success('Data diri berhasil ditambahkan');
-
-        $this->emitTo(ListMaba::class, 'refreshPage');
     }
 
     public function render()

@@ -2,6 +2,8 @@
 
 @section('title', 'Data Diri')
 
+@section('title_dashboard', 'Data Diri')
+
 @section('content')
 
 <div class="container-fluid">

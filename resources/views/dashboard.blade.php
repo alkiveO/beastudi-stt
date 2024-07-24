@@ -2,11 +2,11 @@
 
 @section('title', 'Dashboard')
 
+@section('title_dashboard', 'Dashboard')
+
 @section('content')
 <div class="container-fluid">
     <!-- Row -->
-    <div class="row">
-        <h2 class="mt-2 mb-3">Dasboard</h2>
-    </div>
+    <div class="row"></div>
 </div>
 @endsection

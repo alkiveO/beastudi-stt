@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand">
             <div class="collapse navbar-collapse justify-content-between">
                 <div class="header-left">
-                    <div class="dashboard_bar">{{ $dashboard_title ?? '' }}</div>
+                    <div class="dashboard_bar">@yield('title_dashboard')</div>
                 </div>
                 <ul class="navbar-nav header-right">
                     <li class="nav-item dropdown notification_dropdown">
@@ -51,10 +51,12 @@
                                             <li>
                                                 <img src="{{ asset('images/user.jpg') }}" class="ms-0" alt="">
                                             </li>
-                                            <li class="ms-2">
-                                                <h4 class="mb-0">Nella Vita</h4>
-                                                <span>Admin</span>
-                                            </li>
+                                            @if(auth()->guard('mahasiswa')->check())
+                                                <li class="ms-2">
+                                                    <h4 class="mb-0">{{ auth()->user()->nama }}</h4>
+                                                    <span>Mahasiswa</span>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
                                     <div class="card-footer text-center p-3">

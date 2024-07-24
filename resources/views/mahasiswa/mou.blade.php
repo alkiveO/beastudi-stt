@@ -2,6 +2,8 @@
 
 @section('title', 'SPB MOU')
 
+@section('title_dashboard', 'SPB MOU')
+
 @section('content')
 
 <div class="container-fluid">
