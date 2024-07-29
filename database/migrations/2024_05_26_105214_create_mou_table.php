@@ -8,13 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('mou', function (Blueprint $table) {
+        Schema::create('mou', function (Blueprint $table) { // mou camaba
             $table->id();
-            $table->string('nim');
-            $table->string('mahasiswa');
-            $table->integer('program_studi_id');
-            $table->string('angkatan');
-            $table->string('file');
+            $table->string('mahasiswa_id');
+            $table->string('spb_rangkap_1');
+            $table->string('spb_rangkap_2');
+            $table->string('surat_komitmen_ortu');
             $table->timestamps();
         });
     }

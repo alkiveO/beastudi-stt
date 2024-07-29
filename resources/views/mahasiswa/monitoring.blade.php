@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'SPB Monitoring')
+@section('title', 'Laporan Semester')
 
-@section('title_dashboard', 'SPB Monitoring')
+@section('title_dashboard', 'Laporan Semester')
 
 @section('content')
 

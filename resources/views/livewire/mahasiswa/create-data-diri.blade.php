@@ -181,7 +181,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3 custom-form">
-                            <label class="form-label text-dark">Kabupaten</label>
+                            <label class="form-label text-dark">Kabupaten / Kota</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="kabupaten" class="default-select form-control wide" wire:model.debounce='regency_id'>
                                     <option>Pilih</option>
@@ -221,7 +221,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3 custom-form">
-                            <label class="form-label text-dark">Kelurahan</label>
+                            <label class="form-label text-dark">Desa / Kelurahan</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="kelurahan" class="default-select form-control wide" wire:model.debounce='village_id'>
                                     <option>Pilih</option>

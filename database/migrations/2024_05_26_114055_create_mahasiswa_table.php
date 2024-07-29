@@ -10,25 +10,27 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->string('nim');
-            $table->string('email');
+            $table->string('nim')->nullable();
+            $table->string('email')->nullable();
             $table->string('nama');
-            $table->string('no_kk');
-            $table->string('no_ktp');
+            $table->string('no_kk')->nullable();
+            $table->string('no_ktp')->nullable();
             $table->string('tahun_masuk');
-            $table->string('jenis_kelamin');
-            $table->string('tanggal_lahir');
-            $table->string('agama');
+            $table->string('jenis_kelamin')->nullable();
+            $table->string('tanggal_lahir')->nullable();
+            $table->string('agama')->nullable();
             $table->string('program_studi');
-            $table->string('jalur_beastudi');
-            $table->string('provinsi');
-            $table->string('kota');
-            $table->string('kecamatan');
-            $table->string('kelurahan');
-            $table->string('nomor_hp');
-            $table->string('nomor_hp_ortu');
-            $table->string('kode_pos');
-            $table->string('alamat');
+            $table->string('jalur_beastudi')->nullable();
+            $table->string('provinsi')->nullable();
+            $table->string('kota')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kelurahan')->nullable();
+            $table->string('nomor_hp')->nullable();
+            $table->string('nomor_hp_ortu')->nullable();
+            $table->string('kode_pos')->nullable();
+            $table->string('alamat')->nullable();
+            $table->boolean('status')->default(false); // status camaba
+            $table->string('status_beastudi')->nullable();
             $table->timestamps();
         });
     }

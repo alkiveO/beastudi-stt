@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('pembimbing_akademik', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
+            $table->string('program_studi');
         });
     }
 

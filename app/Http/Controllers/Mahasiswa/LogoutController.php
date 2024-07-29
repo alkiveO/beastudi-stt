@@ -10,6 +10,6 @@ class LogoutController extends Controller
     {
         auth()->guard('mahasiswa')->logout();
 
-        return redirect('mahasiswa/login');
+        return redirect('mahasiswa-beastudi');
     }
 }

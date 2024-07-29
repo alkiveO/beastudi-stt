@@ -8,21 +8,15 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('mahasiswa.mou.index') }}">
-                    <i class="bi bi-pencil-square"></i>
-                    <span class="nav-text">Form SPB MOU</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('mahasiswa.data-diri') }}" aria-expanded="false">
                     <i class="bi bi-pencil-square"></i>
-                    <span class="nav-text">Form Data Diri</span>
+                    <span class="nav-text">Data Diri</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('mahasiswa.monitoring') }}" aria-expanded="false">
                     <i class="bi bi-pencil-square"></i>
-                    <span class="nav-text">Form Monitoring</span>
+                    <span class="nav-text">Laporan Semester</span>
                 </a>
             </li>
             <li>

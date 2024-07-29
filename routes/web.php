@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CamabaController;
 use App\Models\Monitoring;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mahasiswa\LoginController as MahasiswaLoginController;
@@ -22,13 +23,14 @@ Route::middleware('guest:web,mahasiswa')->group(function() {
     Route::get('register', [RegisterController::class, 'index']);
     Route::post('register', [RegisterController::class, 'store']);
 
-    Route::get('mahasiswa/login', [MahasiswaLoginController::class, 'index'])->name('login');
-    Route::post('mahasiswa/login', [MahasiswaLoginController::class, 'store']);
+    Route::get('mahasiswa-beastudi', [MahasiswaLoginController::class, 'index'])->name('login');
+    Route::post('mahasiswa-beastudi', [MahasiswaLoginController::class, 'store']);
 });
 
 // admin
 
-// pic
+// camaba
+Route::view('camaba-beastudi', 'camaba-beastudi')->name('camaba-beastudi');
 
 // mahasiswa
 Route::middleware('auth:mahasiswa')
@@ -36,9 +38,8 @@ Route::middleware('auth:mahasiswa')
     ->group(function() {
         Route::get('/', DashboardController::class)->name('dashboard');
 
-        Route::get('/mou', MouController::class)->name('mou.index');
-        Route::get('/data-diri', DataDiriController::class)->name('data-diri');
-        Route::get('/monitoring', MonitoringController::class)->name('monitoring');
+        Route::view('/data-diri', 'mahasiswa.data-diri')->name('data-diri');
+        Route::view('/laporan-semester', 'mahasiswa.monitoring')->name('monitoring');
 
         Route::post('logout', LogoutController::class)->name('logout');
     });

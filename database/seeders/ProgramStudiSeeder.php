@@ -13,7 +13,7 @@ class ProgramStudiSeeder extends Seeder
         ProgramStudi::insert([
             ['nama' => 'teknik informatika', 'slug' => 'teknik-informatika'],
             ['nama' => 'sistem informasi', 'slug' => 'sistem-informasi'],
-            ['nama' => 'digital marketing', 'slug' => 'digital-marketing'],
+            ['nama' => 'bisnis digital', 'slug' => 'bisnis-digital'],
         ]);
     }
 }

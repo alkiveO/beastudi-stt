@@ -35,6 +35,8 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custome.css') }}" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+
     @livewireStyles
 
     <style>
@@ -146,6 +148,8 @@
     <script src="{{ asset('js/dlabnav-init.js') }} "></script>
     <script src="{{ asset('js/custom.min.js') }} "></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Chart ChartJS plugin files -->
     {{-- <script src="{{ asset('js/plugins-init/chartjs-init.js') }}"></script> --}}
 
@@ -190,6 +194,10 @@
                 file.forEach(file => {
                     file.value = '';
                 });
+            });
+
+            Livewire.on('alert', (title, message, type) => {
+                Swal.fire(title, message, type);
             });
         });
     </script>

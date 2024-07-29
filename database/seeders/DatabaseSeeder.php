@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             AgamaSeeder::class,
             IndoRegionSeeder::class,
-            PembimbingAkademikSeeder::class
+            PembimbingAkademikSeeder::class,
+            PeriodeSeeder::class,
         ]);
     }
 }
