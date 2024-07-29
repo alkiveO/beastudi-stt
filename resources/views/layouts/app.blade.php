@@ -177,18 +177,6 @@
                 });
             });
 
-            Livewire.on('resetProdi', () => {
-                let selectProdi = document.getElementById('prodi');
-                selectProdi.value = '';
-                $(selectProdi).selectpicker('refresh');
-            });
-
-            Livewire.on('resetJalurPrestasi', () => {
-                let selectJalurPrestasi = document.getElementById('jalur-prestasi');
-                selectJalurPrestasi.value = '';
-                $(selectJalurPrestasi).selectpicker('refresh');
-            });
-
             Livewire.on('resetFileUpload', () => {
                 let file = document.querySelectorAll('#file');
                 file.forEach(file => {
