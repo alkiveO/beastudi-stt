@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('kode_pos')->nullable();
             $table->string('alamat')->nullable();
             $table->boolean('status')->default(false); // status camaba
-            $table->string('status_beastudi')->nullable();
             $table->timestamps();
         });
     }
