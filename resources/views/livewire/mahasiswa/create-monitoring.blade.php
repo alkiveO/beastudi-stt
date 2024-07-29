@@ -40,7 +40,7 @@
                             <label class="form-label text-dark">Semester</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="bootstrap-select" class="default-select form-control wide" wire:model.debounce='semester'>
-                                    <option>Pilih</option>
+                                    <option value="">Pilih</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -64,7 +64,7 @@
                             <label class="form-label text-dark">Pembimbing Akademik</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="bootstrap-select" class="default-select form-control wide" wire:model.debounce='pembimbing_akademik_id'>
-                                    <option>Pilih</option>
+                                    <option value="">Pilih</option>
                                     @foreach($pembimbing_akademik as $pa)
                                         <option value="{{ $pa->id }}">{{ $pa->nama }}</option>
                                     @endforeach
@@ -94,7 +94,7 @@
                             <label class="form-label text-dark">Periode</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="bootstrap-select" class="default-select form-control wide" wire:model.debounce='periode_id'>
-                                    <option>Pilih</option>
+                                    <option value="">Pilih</option>
                                     @foreach($list_periode as $periode)
                                         <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
                                     @endforeach
@@ -113,7 +113,8 @@
                             <label class="form-label text-dark">Kontribusi Khusus</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="bootstrap-select" class="default-select form-control wide" wire:model.debounce='kontribusi_khusus_id'>
-                                    <option>Pilih</option>
+                                    <option value="">Pilih</option>
+                                    <option value="1">test 1</option>
                                     @foreach($kontribusi_khusus = [] as $kontribusi)
                                         <option value="{{ $kontribusi->id }}">{{ $kontribusi->nama }}</option>
                                     @endforeach
