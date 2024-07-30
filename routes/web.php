@@ -17,6 +17,7 @@ use App\Http\Controllers\Mahasiswa\DataDiriController;
 use App\Http\Controllers\Mahasiswa\LogoutController;
 use App\Http\Controllers\Mahasiswa\MonitoringController;
 use App\Http\Livewire\Admin\ShowMasterData;
+use App\Http\Livewire\Admin\ShowMonitoring;
 use App\Http\Livewire\Mahasiswa\ShowMou;
 
 Route::get('kabupaten', KabupatenController::class);
@@ -43,6 +44,8 @@ Route::middleware('auth')
 
         Route::view('/master-data', 'admin.master-data')->name('master-data');
         Route::get('master-data/{nim}/mahasiswa', ShowMasterData::class)->name('master-data.show');
+
+        Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
 
         Route::view('/redaksi', 'admin.redaksi')->name('redaksi');
 

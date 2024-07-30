@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             IndoRegionSeeder::class,
             PembimbingAkademikSeeder::class,
             PeriodeSeeder::class,
+            KontribusiSeeder::class,
+            RedaksiSeeder::class
         ]);
     }
 }

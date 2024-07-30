@@ -4,13 +4,18 @@ namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
+use App\Models\Redaksi;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     public function index()
     {
-        return view('mahasiswa.login');
+        $redaksi_login_page = Redaksi::query()
+            ->where('jenis', 'login page mahasiswa')
+            ->first();
+
+        return view('mahasiswa.login', compact('redaksi_login_page'));
     }
 
     public function store()
