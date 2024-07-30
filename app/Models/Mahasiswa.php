@@ -12,4 +12,9 @@ class Mahasiswa extends Authenticatable
 
     protected $table = 'mahasiswa';
     protected $guarded = [];
+
+    public function mou()
+    {
+        return $this->hasOne(Mou::class, 'mahasiswa_id');
+    }
 }

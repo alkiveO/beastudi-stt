@@ -69,7 +69,7 @@
                                 </div>
                             @endif
                         <div class="mb-3">
-                            <input type="email" class="form-control" name="email" id="email " placeholder="Email" value="user@nf.mail" required>
+                            <input type="email" class="form-control" name="email" id="email " placeholder="Email" value="user@nf.mail" autocomplete="off" required>
                         </div>
                         <div class="mb-2">
                             <input type="password" class="form-control" name="password" id="pass" placeholder="Password" value="12345678" required>

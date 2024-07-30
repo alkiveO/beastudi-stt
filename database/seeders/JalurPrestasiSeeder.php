@@ -12,6 +12,8 @@ class JalurPrestasiSeeder extends Seeder
     {
         JalurPrestasi::insert([
             ['nama' => 'prestasi', 'slug' => 'prestasi'],
+            ['nama' => 'yayasan', 'slug' => 'yayasan'],
+            ['nama' => 'kipk-k', 'slug' => 'kipk-k'],
             ['nama' => 'hafidz quran', 'slug' => 'hafidz-quran'],
         ]);
     }

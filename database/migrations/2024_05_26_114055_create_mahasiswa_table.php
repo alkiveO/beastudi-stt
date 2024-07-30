@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('nim')->nullable();
             $table->string('email')->nullable();
             $table->string('nama');
+            $table->string('rombel')->nullable();
             $table->string('no_kk')->nullable();
             $table->string('no_ktp')->nullable();
             $table->string('tahun_masuk');

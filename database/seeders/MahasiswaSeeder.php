@@ -14,6 +14,7 @@ class MahasiswaSeeder extends Seeder
             'nim' => '12345678',
             'email' => 'user@nf.mail',
             'nama' => 'test user',
+            'rombel' => 'ti01',
             'no_ktp' => '0987654321',
             'tahun_masuk' => '2024',
             'jenis_kelamin' => 'laki-laki',

@@ -157,7 +157,7 @@ class CreateMonitoring extends Component
         }
 
         Monitoring::updateOrCreate(
-            ['nim' => $this->nim, 'periode_id' => $this->periode_id],
+            ['nim' => $this->nim, 'semester' => $this->semester, 'periode_id' => $this->periode_id],
             [
                 'nim' => $this->nim,
                 'semester' => $this->semester,
