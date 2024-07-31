@@ -1,16 +1,24 @@
 # Beastudi
 
-- [ ] buat migration dan model redaksi
-- [ ] buat halaman master data (admin)
-    * import file xlsx (livewire)
-    * list data mahasiswa (livewire)
+## Install
 
-- [ ] buat halaman manage akun (admin)
-    * export akun
-    * detail akun
-    * edit akun
+- composer update
+- set APP_ENV=production (file .env)
+- set APP_URL=url_beastudi (file .env)
+- ```php artisan migrate:fresh --seed ```
 
-- [ ] buat halaman redaksi (admin)
-- [ ] buat halaman pengaturan (admin)
-    * kontribusi khusus
-    * jalur_beastudi
+## Todo
+
+* Admin
+- [ ] dashboard
+- [ ] ekspor data mahasiswa
+- [ ] edit data mahasiswa
+- [ ] edit monitoring mahasiswa
+- [ ] update status beastudi mahasiswa
+- [ ] pengaturan kontribusi khusus
+- [ ] pengaturan jalur beastudi
+- [ ] pengaturan periode
+
+* Mahasiswa
+- [ ] dashboard
+- [ ] download perjanjian beastudi
