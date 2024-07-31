@@ -6,6 +6,7 @@
 - set APP_ENV=production (file .env)
 - set APP_URL=url_beastudi (file .env)
 - ```php artisan migrate:fresh --seed ```
+- ```php artisan storage:link ```
 
 ## Todo
 
