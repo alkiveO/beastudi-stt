@@ -30,7 +30,6 @@ class ListMasterData extends Component
         ];
     }
 
-
     public function updated($propertyName)
     {
         $this->filters[$propertyName] = $this->{$propertyName};

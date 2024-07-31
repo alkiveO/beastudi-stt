@@ -67,7 +67,7 @@
                                 <td>
                                     <a href="{{ route('admin.master-data.show', $mahasiswa->nim) }}">Detail |</a>
                                     <a href="#">Ekspor | </a>
-                                    <a href="#">Monitoring</a>
+                                    <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}">Monitoring</a>
                                 </td>
                             </tr>
                         @endforeach

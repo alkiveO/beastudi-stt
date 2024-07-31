@@ -159,18 +159,24 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="d-flex justify-content-between" style="padding-right:30%;">
-                            <p>Surat Perjanjian Rangkap 1</p>
-                            <p><a href="{{ asset('storage/camaba/spb-rangkap-1/' . $mahasiswa->mou->spb_rangkap_1) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                        </div>
-                        <div class="d-flex justify-content-between" style="padding-right:30%;">
-                            <p>Surat Perjanjian Rangkap 2</p>
-                            <p><a href="{{ asset('storage/camaba/spb-rangkap-2/' . $mahasiswa->mou->spb_rangkap_2) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                        </div>
-                        <div class="d-flex justify-content-between" style="padding-right:30%;">
-                            <p>Surat Komitmen Orang Tua</p>
-                            <p><a href="{{ asset('storage/camaba/surat-komitmen-ortu/' . $mahasiswa->mou->surat_komitmen_ortu) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                        </div>
+                        @if($mahasiswa->mou && $mahasiswa->mou->spb_rangkap_1)
+                            <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                <p>Surat Perjanjian Rangkap 1</p>
+                                <p><a href="{{ asset('storage/camaba/spb-rangkap-1/' . $mahasiswa->mou->spb_rangkap_1) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                            </div>
+                        @endif
+                        @if($mahasiswa->mou && $mahasiswa->mou->spb_rangkap_2)
+                            <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                <p>Surat Perjanjian Rangkap 2</p>
+                                <p><a href="{{ asset('storage/camaba/spb-rangkap-2/' . $mahasiswa->mou->spb_rangkap_2) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                            </div>
+                        @endif
+                        @if($mahasiswa->mou && $mahasiswa->mou->surat_komitmen_ortu)
+                            <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                <p>Surat Komitmen Orang Tua</p>
+                                <p><a href="{{ asset('storage/camaba/surat-komitmen-ortu/' . $mahasiswa->mou->surat_komitmen_ortu) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
