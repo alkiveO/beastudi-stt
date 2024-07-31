@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Mahasiswa;
 
+use App\Models\KontribusiKhusus;
 use Livewire\Component;
 use App\Models\Monitoring;
 use App\Models\ProgramStudi;
@@ -37,7 +38,7 @@ class CreateMonitoring extends Component
         'ips' => 'required|min:4',
         'pembimbing_akademik_id' => 'required|exists:pembimbing_akademik,id',
         'periode_id' => 'required|exists:periode,id',
-        // 'kontribusi_khusus_id' => 'required|exists:kontribusi_khusus,id',
+        'kontribusi_khusus_id' => 'required|exists:kontribusi_khusus,id',
         'deskripsi_capaian' => 'nullable|max:500',
         'deskripsi_kendala' => 'nullable|max:500',
         'deskripsi_rencana' => 'nullable|max:500',
@@ -189,6 +190,7 @@ class CreateMonitoring extends Component
         return view('livewire.mahasiswa.create-monitoring',[
             'list_periode' => Periode::all(),
             'program_studi' => ProgramStudi::all(),
+            'kontribusi_khusus' => KontribusiKhusus::all(),
             'pembimbing_akademik' => PembimbingAkademik::query()
                 ->where('program_studi', $this->program_studi_nama)
                 ->get(),

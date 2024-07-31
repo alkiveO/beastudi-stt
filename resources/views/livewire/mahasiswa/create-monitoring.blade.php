@@ -114,8 +114,7 @@
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                 <select id="bootstrap-select" class="default-select form-control wide" wire:model.debounce='kontribusi_khusus_id'>
                                     <option value="">Pilih</option>
-                                    <option value="1">test 1</option>
-                                    @foreach($kontribusi_khusus = [] as $kontribusi)
+                                    @foreach($kontribusi_khusus as $kontribusi)
                                         <option value="{{ $kontribusi->id }}">{{ $kontribusi->nama }}</option>
                                     @endforeach
                                 </select>
