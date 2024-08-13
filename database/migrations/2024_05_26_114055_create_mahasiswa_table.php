@@ -12,10 +12,13 @@ return new class extends Migration
             $table->id();
             $table->string('nim')->nullable();
             $table->string('email')->nullable();
+            $table->string('password')->nullable();
             $table->string('nama');
             $table->string('rombel')->nullable();
             $table->string('no_kk')->nullable();
             $table->string('no_ktp')->nullable();
+            $table->string('no_ktp_kepala_keluarga')->nullable();
+            $table->string('nama_kepala_keluarga')->nullable();
             $table->string('tahun_masuk');
             $table->string('jenis_kelamin')->nullable();
             $table->string('tanggal_lahir')->nullable();

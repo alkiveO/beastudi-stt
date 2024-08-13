@@ -11,10 +11,10 @@ class JalurPrestasiSeeder extends Seeder
     public function run(): void
     {
         JalurPrestasi::insert([
-            ['nama' => 'prestasi', 'slug' => 'prestasi'],
+            ['nama' => 'baznas depok', 'slug' => 'baznas-depok'],
             ['nama' => 'yayasan', 'slug' => 'yayasan'],
-            ['nama' => 'kipk-k', 'slug' => 'kipk-k'],
-            ['nama' => 'hafidz quran', 'slug' => 'hafidz-quran'],
+            ['nama' => 'kip kuliah', 'slug' => 'kip-kuliah'],
+            ['nama' => 'bps', 'slug' => 'bps'],
         ]);
     }
 }

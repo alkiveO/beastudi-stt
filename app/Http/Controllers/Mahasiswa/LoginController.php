@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Mahasiswa;
 use App\Models\Redaksi;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -22,10 +23,9 @@ class LoginController extends Controller
     {
         $mahasiswa = Mahasiswa::query()
             ->where('email', request()->email)
-            ->where('nim', request()->password)
             ->first();
 
-        if ($mahasiswa) {
+        if ($mahasiswa && $mahasiswa->status && Hash::check(request()->password, $mahasiswa->password)) {
             Auth::guard('mahasiswa')->login($mahasiswa);
 
             return redirect()->intended(route('mahasiswa.dashboard'));
