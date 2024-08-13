@@ -12,10 +12,11 @@
 
 * Admin
 - [ ] dashboard
-- [ ] ekspor data mahasiswa
+- [x] import data mahasiswa
 - [ ] edit data mahasiswa
-- [ ] edit monitoring mahasiswa
-- [ ] update status beastudi mahasiswa
+- [ ] ekspor data mahasiswa
+- [x] edit monitoring mahasiswa
+- [x] update status beastudi mahasiswa
 - [ ] pengaturan kontribusi khusus
 - [ ] pengaturan jalur beastudi
 - [ ] pengaturan periode
