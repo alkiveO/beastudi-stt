@@ -208,7 +208,7 @@
     </form>
 
     @push('script')
-         <script>
+        <script>
             function validateNumberInput(event) {
                 const input = event.target;
 

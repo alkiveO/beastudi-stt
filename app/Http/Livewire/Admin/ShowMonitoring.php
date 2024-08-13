@@ -49,6 +49,23 @@ class ShowMonitoring extends Component
         'deskripsi_rencana' => 'nullable|max:500',
     ];
 
+    protected $messages = [
+        'semester.required' => 'semester harus diisi',
+        'ipk.required' => 'IPK harus diisi',
+        'ipk.min' => 'IPK min / max 4 karakter',
+        'ips.required' => 'IPS harus diisi',
+        'ips.min' => 'IPS min / max 4 karakter',
+        'pembimbing_akademik_id.required' => 'pembimbing akademik harus diisi',
+        'pembimbing_akademik_id.exists' => 'pembimbing akademik tidak valid',
+        'periode_id.required' => 'periode harus diisi',
+        'periode_id.exists' => 'periode tidak valid',
+        'kontribusi_khusus_id.required' => 'kontribusi khusus harus diisi',
+        'kontribusi_khusus_id.exists' => 'kontribusi khusus tidak valid',
+        'deskripsi_capaian.max' => 'deskripsi capaian maksimal 500 kata',
+        'deskripsi_kendala.max' => 'deskripsi kendala maksimal 500 kata',
+        'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
+    ];
+
     public function mount($nim)
     {
         $this->list_periode = Periode::all();
@@ -67,7 +84,7 @@ class ShowMonitoring extends Component
         $this->semester = $value;
 
         if ($this->semester && $this->periode_id) {
-            $this->setMonitoring();
+            $this->setMonitoring($this->semester, $this->periode_id);
         }
     }
 
@@ -108,6 +125,32 @@ class ShowMonitoring extends Component
         if (!$this->monitoring) {
             $this->monitoring = 'Monitoring tidak ditemukan pada semester dan periode tersebut';
         }
+    }
+
+    public function updateStatus($nim, $semester, $periode_id)
+    {
+        $this->emit('showUpdateStatusMonitoringModal', $nim, $semester, $periode_id);
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $this->monitoring->update([
+            'nim' => $this->nim,
+            'semester' => $this->semester,
+            'tanggal_isi' => $this->tanggal_isi,
+            'ipk' => $this->ipk,
+            'ips' => $this->ips,
+            'pembimbing_akademik_id' => $this->pembimbing_akademik_id,
+            'periode_id' => $this->periode_id,
+            'kontribusi_khusus_id' => $this->kontribusi_khusus_id,
+            'deskripsi_capaian' => $this->deskripsi_capaian,
+            'deskripsi_kendala' => $this->deskripsi_kendala,
+            'deskripsi_rencana' => $this->deskripsi_rencana
+        ]);
+
+        $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diubah', 'success');
     }
 
     public function render()
