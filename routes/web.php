@@ -40,14 +40,18 @@ Route::middleware('auth')
     ->prefix('admin')
     ->as('admin.')
     ->group(function() {
-        Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
+        Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
 
-        Route::view('/master-data', 'admin.master-data')->name('master-data');
+        Route::view('master-data', 'admin.master-data')->name('master-data');
         Route::get('master-data/{nim}/mahasiswa', ShowMasterData::class)->name('master-data.show');
 
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
 
-        Route::view('/redaksi', 'admin.redaksi')->name('redaksi');
+        Route::view('redaksi', 'admin.redaksi')->name('redaksi');
+
+        // Route::view('periode', 'admin.periode')->name('periode');
+        // Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
+        Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')->name('kontribusi-khusus');
 
         Route::post('logout', AdminLogoutController::class)->name('logout');
     });
@@ -61,8 +65,8 @@ Route::middleware('auth:mahasiswa')
     ->group(function() {
         Route::get('/', DashboardController::class)->name('dashboard');
 
-        Route::view('/data-diri', 'mahasiswa.data-diri')->name('data-diri');
-        Route::view('/laporan-semester', 'mahasiswa.monitoring')->name('monitoring');
+        Route::view('data-diri', 'mahasiswa.data-diri')->name('data-diri');
+        Route::view('laporan-semester', 'mahasiswa.monitoring')->name('monitoring');
 
         Route::post('logout', LogoutController::class)->name('logout');
     });

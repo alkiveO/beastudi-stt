@@ -20,6 +20,17 @@
                         <span class="nav-text">Redaksi</span>
                     </a>
                 </li>
+                <li class="">
+                    <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                        <i class="material-symbols-outlined">settings</i>
+                        <span class="nav-text">Pengaturan</span>
+                    </a>
+					<ul aria-expanded="false" class="mm-collapse" style="height: 16px;">
+						<li><a href="#">Periode</a></li>
+						<li><a href="#">Jalur Beastudi</a></li>
+						<li><a href="{{ route('admin.kontribusi-khusus') }}">Kontribusi Khusus</a></li>
+					</ul>
+					</li>
                 <li>
                     <a
                         href="{{ route('admin.logout') }}"

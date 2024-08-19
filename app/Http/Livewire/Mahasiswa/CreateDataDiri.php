@@ -146,9 +146,9 @@ class CreateDataDiri extends Component
             ->where('district_id', $district->id)
             ->first();
 
-        $this->agama_id = $agama->id;
-        $this->program_studi_id = $program_studi->id;
-        $this->jalur_prestasi_id = $jalur_beastudi->id;
+        $this->agama_id = $agama?->id;
+        $this->program_studi_id = $program_studi?->id;
+        $this->jalur_prestasi_id = $jalur_beastudi?->id;
 
         $this->nama = $mahasiswa->nama;
         $this->nim = $mahasiswa->nim;
@@ -162,10 +162,10 @@ class CreateDataDiri extends Component
         $this->nomor_hp_ortu = $mahasiswa->nomor_hp_ortu;
         $this->tanggal_lahir = $this->formatDateToYMD($mahasiswa->tanggal_lahir);
 
-        $this->province_id = $province->id;
-        $this->regency_id = $regency->id;
-        $this->district_id = $district->id;
-        $this->village_id = $village->id;
+        $this->province_id = $province?->id;
+        $this->regency_id = $regency?->id;
+        $this->district_id = $district?->id;
+        $this->village_id = $village?->id;
     }
 
     public function provinsiChanged()
