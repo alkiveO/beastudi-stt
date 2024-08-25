@@ -32,7 +32,8 @@ class MahasiswaSeeder extends Seeder
             'kode_pos' => '90235',
             'nomor_hp' => '0987654321',
             'nomor_hp_ortu' => '0987654321',
-            'alamat' => 'ini alamat lengkap'
+            'alamat' => 'ini alamat lengkap',
+            'status' => true
         ]);
     }
 }
