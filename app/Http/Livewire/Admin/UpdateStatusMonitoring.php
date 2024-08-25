@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Admin;
 
 use Livewire\Component;
 use App\Models\Monitoring;
@@ -47,6 +47,6 @@ class UpdateStatusMonitoring extends Component
 
     public function render()
     {
-        return view('livewire.update-status-monitoring');
+        return view('livewire.admin.update-status-monitoring');
     }
 }
