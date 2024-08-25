@@ -10,6 +10,14 @@ class EditKontribusiKhusus extends Component
     public $kontribusi_khusus_id;
     public $nama;
 
+    protected $rules = [
+        'nama' => 'required'
+    ];
+
+    protected $messages = [
+        'nama.required' => 'kontribusi khusus harus diisi'
+    ];
+
     protected $listeners = [
         'setEditKontribusiKhusus'
     ];
@@ -22,12 +30,14 @@ class EditKontribusiKhusus extends Component
 
     public function update()
     {
+        $this->validate();
+
         KontribusiKhusus::updateOrCreate(
             ['id' => $this->kontribusi_khusus_id],
             ['nama' => $this->nama]
         );
 
-        $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil dihapus', 'success');
+        $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil diubah', 'success');
 
         $this->emit('closeModalKontribusiKhusus');
 

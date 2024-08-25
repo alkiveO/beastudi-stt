@@ -11,4 +11,9 @@ class KontribusiKhusus extends Model
 
     protected $table = 'kontribusi_khusus';
     protected $guarded = [];
+
+    public function monitoring()
+    {
+        return $this->hasMany(Monitoring::class);
+    }
 }

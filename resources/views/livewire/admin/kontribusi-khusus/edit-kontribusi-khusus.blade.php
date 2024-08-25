@@ -5,6 +5,7 @@
                 Kontribusi Khusus
             </label>
             <input type="text" class="form-control" id="nama" autocomplete="off" wire:model.debounce='nama'>
+            <div class="text-danger">@error('nama') {{ $message }} @enderror</div>
         </div>
 
         <div class="card-footer" style="border: none;">

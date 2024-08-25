@@ -22,7 +22,7 @@ class DeleteKontribusiKhusus extends Component
     {
         KontribusiKhusus::find($this->kontribusi_khusus_id)->delete();
 
-        $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil diubah', 'success');
+        $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil dihapus', 'success');
 
         $this->emit('closeModalKontribusiKhusus');
 

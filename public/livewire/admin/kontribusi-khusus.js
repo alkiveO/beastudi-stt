@@ -1,3 +1,7 @@
+Livewire.on('showAddKontribusiKhususModal', () => {
+    $('#addKontribusiKhususModal').modal('show')
+})
+
 Livewire.on('showEditKontribusiKhususModal', (kontribusiKhusus) => {
     $('#editKontribusiKhususModal').modal('show')
 
@@ -11,6 +15,7 @@ Livewire.on('showDeleteKontribusiKhususModal', (kontribusiKhusus) => {
 })
 
 Livewire.on('closeModalKontribusiKhusus', () => {
+    $('#addKontribusiKhususModal').modal('hide')
     $('#editKontribusiKhususModal').modal('hide')
     $('#deleteKontribusiKhususModal').modal('hide')
 })
