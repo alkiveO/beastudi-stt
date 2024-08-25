@@ -29,7 +29,7 @@ class CreateMonitoring extends Component
     public $file_kegiatan;
     public $file_internal_kampus;
     public $file_prestasi;
-    public $file_spb;
+    public $file_lpj;
 
     protected $rules = [
         'tanggal_isi' => 'required',
@@ -45,7 +45,7 @@ class CreateMonitoring extends Component
         'file_kegiatan' => 'nullable|mimes:pdf|max:1024',
         'file_internal_kampus' => 'nullable|mimes:pdf|max:1024',
         'file_prestasi' => 'nullable|mimes:pdf|max:1024',
-        'file_spb' => 'required|mimes:pdf|max:1024',
+        'file_lpj' => 'required|mimes:pdf|max:1024',
     ];
 
     protected $messages = [
@@ -69,9 +69,9 @@ class CreateMonitoring extends Component
         'file_internal_kampus.max' => 'dokumen keikutsertaan internal kampus maksimal 1 MB',
         'file_prestasi.mimes' => 'dokumen prestasi harus berupa .pdf',
         'file_prestasi.max' => 'dokumen prestasi maksimal 1 MB',
-        'file_spb.required' => 'dokumen spb harus diisi',
-        'file_spb.mimes' => 'dokumen spb harus berupa .pdf',
-        'file_spb.max' => 'dokumen spb maksimal 1 MB',
+        'file_lpj.required' => 'dokumen lpj harus diisi',
+        'file_lpj.mimes' => 'dokumen lpj harus berupa .pdf',
+        'file_lpj.max' => 'dokumen lpj maksimal 1 MB',
     ];
 
     public function updated($propertyName)
@@ -100,10 +100,10 @@ class CreateMonitoring extends Component
         ]);
     }
 
-    public function updatedFileSpb()
+    public function updatedFileLpj()
     {
         $this->validate([
-            'file_spb' => 'mimes:pdf|max:1024'
+            'file_lpj' => 'mimes:pdf|max:1024'
         ]);
     }
 
@@ -137,8 +137,8 @@ class CreateMonitoring extends Component
             Storage::disk('public')->delete('monitoring/file-prestasi/' . $monitoring->file_prestasi);
         }
 
-        if ($monitoring && $monitoring->file_spb) {
-            Storage::disk('public')->delete('monitoring/file-spb/' . $monitoring->file_spb);
+        if ($monitoring && $monitoring->file_lpj) {
+            Storage::disk('public')->delete('monitoring/file-lpj/' . $monitoring->file_lpj);
         }
 
         if ($this->file_kegiatan) {
@@ -153,8 +153,8 @@ class CreateMonitoring extends Component
             $file_prestasi_path = $this->file_prestasi->store('monitoring/file-prestasi', 'public');
         }
 
-        if ($this->file_spb) {
-            $file_spb_path = $this->file_spb->store('monitoring/file-spb', 'public');
+        if ($this->file_lpj) {
+            $file_lpj_path = $this->file_lpj->store('monitoring/file-lpj', 'public');
         }
 
         Monitoring::updateOrCreate(
@@ -174,7 +174,7 @@ class CreateMonitoring extends Component
                 'file_kegiatan' => $this->file_kegiatan ? basename($file_kegiatan_path) : null,
                 'file_internal_kampus' => $this->file_internal_kampus ? basename($file_internal_kampus_path) : null,
                 'file_prestasi' => $this->file_prestasi ? basename($file_prestasi_path) : null,
-                'file_spb' => basename($file_spb_path)
+                'file_lpj' => basename($file_lpj_path)
             ]
         );
 

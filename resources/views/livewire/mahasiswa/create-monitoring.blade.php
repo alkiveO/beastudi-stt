@@ -192,9 +192,9 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-4">
-                        <label for="file" class="form-label text-dark">Unggah dokumen SPB <span class="text-danger">*</span></label>
-                        <input class="form-control" type="file" id="file" wire:model='file_spb'>
-                        <div class="text-danger">@error('file_spb') {{ $message }} @enderror</div>
+                        <label for="file" class="form-label text-dark">Unggah dokumen LPJ <span class="text-danger">*</span></label>
+                        <input class="form-control" type="file" id="file" wire:model='file_lpj'>
+                        <div class="text-danger">@error('file_lpj') {{ $message }} @enderror</div>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('file_kegiatan')->nullable();
             $table->string('file_internal_kampus')->nullable();
             $table->string('file_prestasi')->nullable();
-            $table->string('file_spb');
+            $table->string('file_lpj');
             $table->string('status_beastudi')->nullable();
             $table->timestamps();
         });

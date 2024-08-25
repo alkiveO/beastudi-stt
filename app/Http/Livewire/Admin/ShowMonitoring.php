@@ -34,7 +34,7 @@ class ShowMonitoring extends Component
     public $file_kegiatan;
     public $file_internal_kampus;
     public $file_prestasi;
-    public $file_spb;
+    public $file_lpj;
 
     protected $rules = [
         'tanggal_isi' => 'required',
@@ -119,7 +119,7 @@ class ShowMonitoring extends Component
             $this->file_kegiatan = $this->monitoring->file_kegiatan;
             $this->file_internal_kampus = $this->monitoring->file_internal_kampus;
             $this->file_prestasi = $this->monitoring->file_prestasi;
-            $this->file_spb = $this->monitoring->file_spb;
+            $this->file_lpj = $this->monitoring->file_lpj;
         }
 
         if (!$this->monitoring) {

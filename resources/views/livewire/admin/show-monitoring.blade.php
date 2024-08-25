@@ -216,8 +216,8 @@
                                     </div>
                                 @endif
                                 <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                    <p>Dokumen SPB</p>
-                                    <p><a href="{{ asset('storage/monitoring/file-spb/' . $file_spb) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                                    <p>Dokumen LPJ</p>
+                                    <p><a href="{{ asset('storage/monitoring/file-lpj/' . $file_lpj) }}" target="__blank" class="text-dark">Lihat File</a></p>
                                 </div>
                             </div>
                         </div>
