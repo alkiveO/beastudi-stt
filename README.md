@@ -17,7 +17,7 @@
 - [ ] ekspor data mahasiswa
 - [x] edit monitoring mahasiswa
 - [x] update status beastudi mahasiswa
-- [ ] pengaturan kontribusi khusus
+- [x] pengaturan kontribusi khusus
 - [ ] pengaturan jalur beastudi
 - [ ] pengaturan periode
 
