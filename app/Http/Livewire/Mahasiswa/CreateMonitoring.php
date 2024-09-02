@@ -15,6 +15,10 @@ class CreateMonitoring extends Component
 {
     use WithFileUploads;
 
+    public $semester_select;
+    public $periode_select;
+    public $monitoring;
+
     public $tanggal_isi;
     public $nim;
     public $semester;
@@ -115,8 +119,69 @@ class CreateMonitoring extends Component
             ->first();
 
         $this->nim = $mahasiswa->nim;
-        $this->mahasiswa = $mahasiswa->nama;
         $this->program_studi_nama = $program_studi->nama;
+    }
+
+    public function updatedSemesterSelect($value)
+    {
+        $this->semester = $value;
+
+        if ($this->semester && $this->periode_id) {
+            $this->setMonitoring();
+        }
+
+        $this->emit('semesterSelect', $value);
+    }
+
+    public function updatedPeriodeSelect($value)
+    {
+        $this->periode_id = $value;
+
+        if ($this->semester && $this->periode_id) {
+            $this->setMonitoring();
+        }
+
+        $this->emit('periodeSelect', $value);
+    }
+
+    public function setMonitoring()
+    {
+        $this->monitoring = Monitoring::query()
+            ->where('nim', $this->nim)
+            ->where('semester', $this->semester)
+            ->where('periode_id', $this->periode_id)
+            ->first();
+
+        if (! $this->monitoring) {
+            $this->reset([
+                'tanggal_isi',
+                'ips',
+                'ipk',
+                'pembimbing_akademik_id',
+                'kontribusi_khusus_id',
+                'deskripsi_capaian',
+                'deskripsi_kendala',
+                'deskripsi_rencana'
+            ]);
+
+            $this->emit('clearSelect');
+        }
+
+        if ($this->monitoring) {
+            $this->tanggal_isi = $this->monitoring->tanggal_isi;
+            $this->ips = $this->monitoring->ips;
+            $this->ipk = $this->monitoring->ipk;
+            $this->semester = $this->monitoring->semester;
+            $this->pembimbing_akademik_id = $this->monitoring->pembimbing_akademik_id;
+            $this->periode_id = $this->monitoring->periode_id;
+            $this->kontribusi_khusus_id = $this->monitoring->kontribusi_khusus_id;
+            $this->deskripsi_capaian = $this->monitoring->deskripsi_capaian;
+            $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
+            $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
+
+            $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
+            $this->emit('paSelect', $this->monitoring->pembimbing_akademik_id);
+        }
     }
 
     public function store()
@@ -181,8 +246,8 @@ class CreateMonitoring extends Component
         $this->emit('alert', 'Berhasil', 'Laporan semester berhasil ditambahkan', 'success');
 
         $this->reset(['tanggal_isi', 'semester', 'ipk', 'ips', 'deskripsi_capaian', 'deskripsi_kendala', 'deskripsi_rencana']);
-        $this->emit('resetFileUpload');
         $this->emit('resetBootstrapSelect');
+        $this->emit('resetFileUpload');
     }
 
     public function render()

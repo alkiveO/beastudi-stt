@@ -47,7 +47,7 @@
                 </div>
 
                 @if (is_string($monitoring))
-                    <div>
+                    <div class="p-4">
                         <p>{{ $monitoring }}</p>
                     </div>
                 @elseif ($monitoring)

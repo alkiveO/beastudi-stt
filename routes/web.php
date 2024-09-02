@@ -20,10 +20,18 @@ use App\Http\Livewire\Admin\ShowMasterData;
 use App\Http\Livewire\Admin\ShowMonitoring;
 use App\Http\Livewire\Mahasiswa\ShowMou;
 
+Route::view('pdf', 'pdf');
+Route::view('lpj', 'lpj');
+
+Route::get('p', function() {
+    return env('APP_ENV');
+});
+
 Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
 Route::get('kelurahan', KelurahanController::class);
 
+// auth
 Route::middleware('guest:web,mahasiswa')->group(function() {
     Route::get('register', [RegisterController::class, 'index']);
     Route::post('register', [RegisterController::class, 'store']);

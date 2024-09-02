@@ -84,7 +84,7 @@ class ShowMonitoring extends Component
         $this->semester = $value;
 
         if ($this->semester && $this->periode_id) {
-            $this->setMonitoring($this->semester, $this->periode_id);
+            $this->setMonitoring();
         }
     }
 
@@ -156,7 +156,6 @@ class ShowMonitoring extends Component
     public function render()
     {
         return view('livewire.admin.show-monitoring', [
-            'list_periode' => Periode::all(),
             'kontribusi_khusus' => KontribusiKhusus::all(),
             'pembimbing_akademik' => PembimbingAkademik::query()
                 ->where('program_studi', $this->program_studi_nama)
