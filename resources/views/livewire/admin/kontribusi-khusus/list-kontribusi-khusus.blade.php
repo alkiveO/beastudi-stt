@@ -15,7 +15,6 @@
                         <tr>
                             <th style="color:white !important;">#</th>
                             <th style="color:white !important;">Kontribusi Khusus</th>
-                            <th style="color:white !important;">Jumlah Mahasiswa</th>
                             <th style="color:white !important;">Aksi</th>
                         </tr>
                     </thead>
@@ -24,7 +23,6 @@
                             <tr>
                                 <td>{{ $loop->iteration }}.</td>
                                 <td>{{ $kontribusi_khusus->nama }}</td>
-                                <td>{{ $kontribusi_khusus->monitoring()->distinct('nim')->count() }}</td>
                                 <td>
                                     <a href="#" wire:click='$emit("showEditKontribusiKhususModal", {{ $kontribusi_khusus }})'>Edit |</a>
                                     <a href="#" wire:click='$emit("showDeleteKontribusiKhususModal", {{ $kontribusi_khusus }})'>Hapus</a>
