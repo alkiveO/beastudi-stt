@@ -23,7 +23,7 @@
                     <div class="col-md-6">
                         <div class="mb-3 custom-form">
                             <label class="form-label text-dark">
-                                Pilih Publish Redaksi
+                                Judul Redaksi
                             </label>
                             <input type="text" class="form-control" autocomplete="off" wire:model.debounce='judul'>
                             <span class="required">@error('judul') {{ $message }} @enderror</span>

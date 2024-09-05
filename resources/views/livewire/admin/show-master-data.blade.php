@@ -1,185 +1,380 @@
 <div>
     @section('title_dashboard', 'Detail Master Data: ' .$mahasiswa->nama)
 
-    <div class="container-fluid">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Informasi Data Diri</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Nama Mahasiswa
-                            </label>
-                            <p>{{ $mahasiswa->nama }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Nomor KTP
-                            </label>
-                            <p>{{ $mahasiswa->no_ktp }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Jenis Kelamin
-                            </label>
-                            <p>{{ $mahasiswa->jenis_kelamin }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Agama
-                            </label>
-                            <p>{{ $mahasiswa->agama }}</p>
-                        </div>
+    <form wire:submit.prevent='update'>
+        <div class="container-fluid">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Informasi Data Diri</h5>
                     </div>
-                    <div class="row mt-5">
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Email
-                            </label>
-                            <p>{{ $mahasiswa->email }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Nomor KK
-                            </label>
-                            <p>{{ $mahasiswa->no_kk }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Tanggal dan Tahun Lahir
-                            </label>
-                            <p>{{ $mahasiswa->tanggal_lahir }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Nomor Handphone
-                            </label>
-                            <p>{{ $mahasiswa->nomor_hp }}</p>
-                        </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Nomor Handphone Orang Tua / Wali
-                            </label>
-                            <p>{{ $mahasiswa->nomor_hp_ortu }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-header">
-                    <h5 class="mb-0">Alamat Mahasiswa</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Desa / Kelurahan
-                            </label>
-                            <p>{{ strtoupper($mahasiswa->kelurahan) }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Kecamatan
-                            </label>
-                            <p>{{ strtoupper($mahasiswa->kecamatan) }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Kabupaten / Kota
-                            </label>
-                            <p>{{ strtoupper($mahasiswa->kota) }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Provinsi
-                            </label>
-                            <p>{{ strtoupper($mahasiswa->provinsi) }}</p>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Kode Pos
-                            </label>
-                            <p>{{ $mahasiswa->kode_pos }}</p>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label text-dark">
-                                Alamat
-                            </label>
-                            <p>{{ $mahasiswa->alamat }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-header">
-                    <h5 class="mb-0">Data Akademik</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="form-label text-dark">
-                                NIM
-                            </label>
-                            <p>{{ $mahasiswa->nim }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label text-dark">
-                                Program Studi
-                            </label>
-                            <p>{{ ucwords($mahasiswa->program_studi) }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label text-dark">
-                                Rombel
-                            </label>
-                            <p>{{ strtoupper($mahasiswa->rombel) }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label text-dark">
-                                Angkatan
-                            </label>
-                            <p>{{ $mahasiswa->tahun_masuk }}</p>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label text-dark">
-                                Jalur Beastudi
-                            </label>
-                            <p>{{ ucwords($mahasiswa->jalur_beastudi) }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-header">
-                    <h5 class="mb-0">Berkas Akademik</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        @if($mahasiswa->mou && $mahasiswa->mou->spb_rangkap_1)
-                            <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                <p>Surat Perjanjian Rangkap 1</p>
-                                <p><a href="{{ asset('storage/camaba/spb-rangkap-1/' . $mahasiswa->mou->spb_rangkap_1) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">
+                                    Nama Mahasiswa
+                                </label>
+                                <input type="text" class="form-control" id="nama" autocomplete="off" wire:model.debounce='nama'>
+                                <span class="required">@error('nama') {{ $message }} @enderror</span>
                             </div>
-                        @endif
-                        @if($mahasiswa->mou && $mahasiswa->mou->spb_rangkap_2)
-                            <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                <p>Surat Perjanjian Rangkap 2</p>
-                                <p><a href="{{ asset('storage/camaba/spb-rangkap-2/' . $mahasiswa->mou->spb_rangkap_2) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                            <div class="col-md-3">
+                                <label for="no_ktp" class="form-label text-dark">
+                                    Nomor KTP Mahasiswa
+                                </label>
+                                <input type="text" class="form-control" id="no_ktp" autocomplete="off" wire:model.debounce='no_ktp'>
+                                <span class="required">@error('no_ktp') {{ $message }} @enderror</span>
                             </div>
-                        @endif
-                        @if($mahasiswa->mou && $mahasiswa->mou->surat_komitmen_ortu)
-                            <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                <p>Surat Komitmen Orang Tua</p>
-                                <p><a href="{{ asset('storage/camaba/surat-komitmen-ortu/' . $mahasiswa->mou->surat_komitmen_ortu) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Jenis Kelamin</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="jenis_kelamin" class="default-select form-control wide" wire:model.debounce='jenis_kelamin'>
+                                        <option value=''>Pilih</option>
+                                        <option value="laki-laki">Laki-laki</option>
+                                        <option value="perempuan">Perempuan</option>
+                                    </select>
+                                    <div class="dropdown-menu">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('jenis_kelamin') {{ $message }} @enderror</span>
                             </div>
-                        @endif
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Agama</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="agama" class="default-select form-control wide" wire:model.debounce='agama_id'>
+                                        <option value=''>Pilih</option>
+                                        @foreach($list_agama as $agama)
+                                            <option value="{{ $agama->id }}">{{ ucfirst($agama->nama) }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('agama_id') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">
+                                    Email
+                                </label>
+                                <input type="email" class="form-control" id="email" autocomplete="off" wire:model.debounce='email'>
+                                <span class="required">@error('email') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">
+                                    Nomor KK Mahasiswa
+                                </label>
+                                <input type="text" class="form-control" id="no_kk" autocomplete="off" wire:model.debounce='no_kk'>
+                                <span class="required">@error('no_kk') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="tanggal_lahir" class="form-label text-dark">
+                                    Tanggal dan Tahun Lahir
+                                </label>
+                                <input type="date" class="form-control" id="tanggal_lahir" autocomplete="off" wire:model.debounce='tanggal_lahir'>
+                                <span class="required">@error('tanggal_lahir') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">
+                                    Nomor Handphone
+                                </label>
+                                <input type="text" class="form-control" id="nomor_hp" autocomplete="off" wire:model.debounce='nomor_hp'>
+                                <span class="required">@error('nomor_hp') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">
+                                    Nomor Handphone Orang Tua / Wali
+                                </label>
+                                <input type="text" class="form-control" id="nomor_hp_ortu" autocomplete="off" wire:model.debounce='nomor_hp_ortu'>
+                                <span class="required">@error('nomor_hp_ortu') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header">
+                        <h5 class="mb-0">Alamat Mahasiswa</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Provinsi</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="provinsi" class="default-select form-control wide" wire:model.debounce='province_id'>
+                                        <option value=''>Pilih</option>
+                                        @foreach($list_provinsi as $provinsi)
+                                        <option value="{{ $provinsi->id }}">{{ $provinsi->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu ">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('province_id') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Kabupaten / Kota</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="kabupaten" class="default-select form-control wide" wire:model.debounce='regency_id'>
+                                        <option value=''>Pilih</option>
+                                        @foreach($list_kabupaten as $kabupaten)
+                                        <option value="{{ $kabupaten->id }}">{{ $kabupaten->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu ">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('regency_id') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Kecamatan</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="kecamatan" class="default-select form-control wide" wire:model.debounce='district_id'>
+                                        <option value=''>Pilih</option>
+                                        @foreach($list_kecamatan as $kecamatan)
+                                        <option value="{{ $kecamatan->id }}">{{ $kecamatan->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu ">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('district_id') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Desa / Kelurahan</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="kelurahan" class="default-select form-control wide" wire:model.debounce='village_id'>
+                                        <option value=''>Pilih</option>
+                                        @foreach($list_kelurahan as $kelurahan)
+                                        <option value="{{ $kelurahan->id }}">{{ $kelurahan->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu ">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('village_id') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-3">
+                                <label for="kode_pos" class="form-label text-dark">
+                                    Kode POS
+                                </label>
+                                <input type="number" class="form-control" id="kode_pos" autocomplete="off" wire:model.debounce='kode_pos'>
+                                <span class="required">@error('kode_pos') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="alamat" class="form-label text-dark">
+                                    Alamat Domisili
+                                </label>
+                                <textarea class="form-control" id="alamat" autocomplete="off" wire:model.debounce='alamat' style="resize:none;"></textarea>
+                                <span class="required">@error('alamat') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header">
+                        <h5 class="mb-0">Data Akademik</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="form-label text-dark">
+                                    NIM
+                                </label>
+                                <input type="text" class="form-control" id="nim_mhs" autocomplete="off" wire:model.debounce='nim_mhs'>
+                                <span class="required">@error('nim_mhs') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Program Studi</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="prodi" class="default-select form-control wide" wire:model.debounce='program_studi_id'>
+                                        <option value=''>Pilih</option>
+                                        @foreach($program_studi as $program)
+                                        <option value="{{ $program->id }}">{{ ucwords($program->nama) }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu ">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('program_studi_id') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label text-dark">
+                                    Rombel
+                                </label>
+                                <input type="text" class="form-control" id="rombel" autocomplete="off" wire:model.debounce='rombel'>
+                                <span class="required">@error('rombel') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label text-dark">
+                                    Angkatan
+                                </label>
+                                <input type="number" class="form-control" id="tahun_masuk" autocomplete="off" wire:model.debounce='tahun_masuk'>
+                                <span class="required">@error('tahun_masuk') {{ $message }} @enderror</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label text-dark">Jalur Bestudi</label>
+                                <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+                                    <select id="jalur-prestasi" class="default-select form-control wide" wire:model.debounce='jalur_prestasi_id'>
+                                        <option>Pilih</option>
+                                        @foreach($list_prestasi as $prestasi)
+                                        <option value="{{ $prestasi->id }}">{{ ucwords($prestasi->nama) }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="dropdown-menu ">
+                                        <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
+                                            <ul class="dropdown-menu inner show" role="presentation"></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="required">@error('jalur_prestasi_id') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-header">
+                        <h5 class="mb-0">Berkas Akademik</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @if($mahasiswa->mou && $mahasiswa->mou->spb_rangkap_1)
+                                <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                    <p>Surat Perjanjian Rangkap 1</p>
+                                    <p><a href="{{ asset('storage/camaba/spb-rangkap-1/' . $mahasiswa->mou->spb_rangkap_1) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                                </div>
+                            @endif
+                            @if($mahasiswa->mou && $mahasiswa->mou->spb_rangkap_2)
+                                <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                    <p>Surat Perjanjian Rangkap 2</p>
+                                    <p><a href="{{ asset('storage/camaba/spb-rangkap-2/' . $mahasiswa->mou->spb_rangkap_2) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                                </div>
+                            @endif
+                            @if($mahasiswa->mou && $mahasiswa->mou->surat_komitmen_ortu)
+                                <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                    <p>Surat Komitmen Orang Tua</p>
+                                    <p><a href="{{ asset('storage/camaba/surat-komitmen-ortu/' . $mahasiswa->mou->surat_komitmen_ortu) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="card-footer" style="border: none;">
+                        <div>
+                            <button type="submit" class="btn btn-primary">Edit Data</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
+
+    @push('script')
+        <script>
+            $('#provinsi').on('change', function(e) {
+                const provinsiId = e.target.value
+
+                $('#kabupaten').empty();
+                $('#kabupaten').selectpicker('refresh');
+
+                $('#kecamatan').empty();
+                $('#kecamatan').selectpicker('refresh');
+
+                $('#kelurahan').empty();
+                $('#kelurahan').selectpicker('refresh');
+
+                $.ajax({
+                    url: '/kabupaten',
+                    data: {province_id: provinsiId},
+                    success: function(res){
+                        $('#kabupaten').append('<option>Pilih</option>');
+                        $.each(res, function(id, value) {
+                            $('#kabupaten').append(
+                                `
+                                    <option value=${value.id}>${value.name}</option>
+                                `
+                            )
+                        })
+                        $('#kabupaten').selectpicker('refresh');
+                    }
+                })
+
+                Livewire.emit('provinsiChanged');
+            })
+
+            $('#kabupaten').on('change', function(e) {
+                const regencyId = e.target.value
+
+                $('#kecamatan').empty();
+                $('#kecamatan').selectpicker('refresh');
+
+                $('#kelurahan').empty();
+                $('#kelurahan').selectpicker('refresh');
+
+                $.ajax({
+                    url: '/kecamatan',
+                    data: {regency_id: regencyId},
+                    success: function(res){
+                        $('#kecamatan').append('<option>Pilih</option>');
+                        $.each(res, function(id, value) {
+                            $('#kecamatan').append(
+                                `
+                                    <option value=${value.id}>${value.name}</option>
+                                `
+                            )
+                        })
+                        $('#kecamatan').selectpicker('refresh');
+                    }
+                })
+
+                Livewire.emit('regencyChanged');
+            })
+
+            $('#kecamatan').on('change', function(e) {
+                const districtId = e.target.value
+
+                $('#kelurahan').empty();
+                $('#kelurahan').selectpicker('refresh');
+
+                $.ajax({
+                    url: '/kelurahan',
+                    data: {district_id: districtId},
+                    success: function(res){
+                        $('#kelurahan').append('<option>Pilih</option>');
+                        $.each(res, function(id, value) {
+                            $('#kelurahan').append(
+                                `
+                                    <option value=${value.id}>${value.name}</option>
+                                `
+                            )
+                        })
+                        $('#kelurahan').selectpicker('refresh');
+                    }
+                })
+
+                Livewire.emit('districtChanged');
+            })
+        </script>
+    @endpush
 </div>
