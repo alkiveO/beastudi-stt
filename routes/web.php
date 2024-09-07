@@ -57,7 +57,7 @@ Route::middleware('auth')
 
         Route::view('redaksi', 'admin.redaksi')->name('redaksi');
 
-        // Route::view('periode', 'admin.periode')->name('periode');
+        Route::view('periode', 'admin.periode')->name('periode');
         Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
         Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')->name('kontribusi-khusus');
 

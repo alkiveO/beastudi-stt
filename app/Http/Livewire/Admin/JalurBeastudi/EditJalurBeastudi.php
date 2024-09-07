@@ -26,7 +26,7 @@ class EditJalurBeastudi extends Component
 
     protected $messages = [
         'nama.required' => 'jalur beastudi harus diisi',
-        'nama.unique' => 'jaluar beastudi sudah digunakan'
+        'nama.unique' => 'jalur beastudi sudah digunakan'
     ];
 
     protected $listeners = [
