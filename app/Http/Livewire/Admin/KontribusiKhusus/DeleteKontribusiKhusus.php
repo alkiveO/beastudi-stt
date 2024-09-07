@@ -28,9 +28,9 @@ class DeleteKontribusiKhusus extends Component
 
         $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil dihapus', 'success');
 
-        $this->emit('closeModalKontribusiKhusus');
-
         $this->emitTo(ListKontribusiKhusus::class, 'refreshPage');
+
+        $this->emit('closeModalKontribusiKhusus');
     }
 
     public function render()

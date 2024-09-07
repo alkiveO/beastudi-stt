@@ -27,7 +27,7 @@
                     </a>
 					<ul aria-expanded="false" class="mm-collapse" style="height: 16px;">
 						<li><a href="#">Periode</a></li>
-						<li><a href="#">Jalur Beastudi</a></li>
+						<li><a href="{{ route('admin.jalur-beastudi') }}">Jalur Beastudi</a></li>
 						<li><a href="{{ route('admin.kontribusi-khusus') }}">Kontribusi Khusus</a></li>
 					</ul>
 					</li>

@@ -60,9 +60,9 @@ class EditKontribusiKhusus extends Component
 
         $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil diubah', 'success');
 
-        $this->emit('closeModalKontribusiKhusus');
-
         $this->emitTo(ListKontribusiKhusus::class, 'refreshPage');
+
+        $this->emit('closeModalKontribusiKhusus');
     }
 
     public function updateItems()

@@ -28,6 +28,11 @@ class CreateKontribusiKhusus extends Component
         'telp_pic.max' => 'nomor handphone pic maksimal 13 karakter',
     ];
 
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function store()
     {
         $this->validate();
@@ -59,9 +64,11 @@ class CreateKontribusiKhusus extends Component
 
         $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil ditambahkan', 'success');
 
+        $this->emitTo(ListKontribusiKhusus::class, 'refreshPage');
+
         $this->emit('closeModalKontribusiKhusus');
 
-        $this->emitTo(ListKontribusiKhusus::class, 'refreshPage');
+        $this->reset(['nama', 'pic', 'telp_pic']);
     }
 
     public function render()
