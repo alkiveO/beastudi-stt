@@ -18,7 +18,7 @@
             <label class="form-label text-dark">Program Studi</label>
             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                 <select id="prodi" class="default-select form-control wide" wire:model.lazy='program_studi'>
-                    <option value="">Pilih</option>
+                    <option hidden>Nothing Selected</option>
                     @foreach($list_prodi as $prodi)
                         <option value="{{ $prodi->nama }}">{{ ucwords($prodi->nama) }}</option>
                     @endforeach

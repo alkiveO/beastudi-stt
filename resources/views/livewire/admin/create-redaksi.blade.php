@@ -10,7 +10,7 @@
                             </label>
                             <div wire:ignore>
                                 <select id="bootstrap-select" class="form-control" wire:model.debounce='jenis'>
-                                    <option value="">Pilih</option>
+                                    <option hidden>Nothing Selected</option>
                                     <option value="login page mahasiswa">Login Page Mahasiswa</option>
                                     <option value="login spb mahasiswa">Login SPB Mahasiswa</option>
                                 </select>
