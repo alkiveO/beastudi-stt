@@ -105,6 +105,25 @@ class ShowMonitoring extends Component
             ->where('periode_id', $this->periode_id)
             ->first();
 
+        if (! $this->monitoring) {
+            $this->reset([
+                'tanggal_isi',
+                'ips',
+                'ipk',
+                'pembimbing_akademik_id',
+                'kontribusi_khusus_id',
+                'deskripsi_capaian',
+                'deskripsi_kendala',
+                'deskripsi_rencana',
+                'file_kegiatan',
+                'file_internal_kampus',
+                'file_prestasi',
+                'file_lpj'
+            ]);
+
+            $this->emit('clearSelect');
+        }
+
         if ($this->monitoring) {
             $this->tanggal_isi = $this->monitoring->tanggal_isi;
             $this->ips = $this->monitoring->ips;
@@ -120,10 +139,9 @@ class ShowMonitoring extends Component
             $this->file_internal_kampus = $this->monitoring->file_internal_kampus;
             $this->file_prestasi = $this->monitoring->file_prestasi;
             $this->file_lpj = $this->monitoring->file_lpj;
-        }
 
-        if (!$this->monitoring) {
-            $this->monitoring = 'Monitoring tidak ditemukan pada semester dan periode tersebut';
+            $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
+            $this->emit('paSelect', $this->monitoring->pembimbing_akademik_id);
         }
     }
 

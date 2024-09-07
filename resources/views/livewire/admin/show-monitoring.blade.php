@@ -9,8 +9,8 @@
                         <div class="col-md-3">
                             <label class="form-label text-dark">Semester</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
-                                <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester_select'>
-                                    <option value="">Pilih</option>
+                                <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester'>
+                                    <option hidden>Nothing Selected</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -30,8 +30,8 @@
                         <div class="col-md-3">
                             <label class="form-label text-dark">Periode</label>
                             <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
-                                <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode_select'>
-                                    <option value="">Pilih</option>
+                                <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode_id'>
+                                    <option hidden>Nothing Selected</option>
                                     @foreach($list_periode as $periode)
                                     <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
                                     @endforeach
@@ -46,15 +46,11 @@
                     </div>
                 </div>
 
-                @if (is_string($monitoring))
-                    <div class="p-4">
-                        <p>{{ $monitoring }}</p>
-                    </div>
-                @elseif ($monitoring)
-                    <div>
-                        @include('partials.modal-update-status-monitoring')
-                    </div>
+                <div>
+                    @include('partials.modal-update-status-monitoring')
+                </div>
 
+                @if($semester && $periode_id)
                     <form wire:submit.prevent='update'>
                         <div class="card-header">
                             <h5 class="mb-0">Data Diri</h5>
@@ -91,33 +87,6 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <div class="mb-3" wire:ignore>
-                                        <label class="form-label text-dark">Semester</label>
-                                        <select id="semester" class="form-control" wire:model.debounce='semester'>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                        </select>
-                                        <span class="required">@error('semester') {{ $message }} @enderror</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="mb-3" wire:ignore>
-                                        <label class="form-label text-dark">Pembimbing Akademik</label>
-                                        <select id="pembimbing_akademik" class="default-select form-control wide" wire:model.debounce='pembimbing_akademik_id'>
-                                            @foreach($pembimbing_akademik as $pa)
-                                            <option value="{{ $pa->id }}">{{ $pa->nama }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="required">@error('pembimbing_akademik_id') {{ $message }} @enderror</span>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
                                     <div class="mb-3">
                                         <label for="ipk" class="form-label text-dark">
                                             IPK
@@ -126,23 +95,23 @@
                                         <span class="required">@error('ipk') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="mb-3" wire:ignore>
-                                        <label class="form-label text-dark">Periode</label>
-                                        <select id="periode" class="default-select form-control wide" wire:model.debounce='periode_id'>
-                                            @foreach($list_periode as $periode)
-                                            <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
+                                        <label class="form-label text-dark">Pembimbing Akademik</label>
+                                        <select id="bootstrap-select" class="default-select pa-select form-control wide" wire:model.debounce='pembimbing_akademik_id'>
+                                            <option hidden>Nothing Selected</option>
+                                            @foreach($pembimbing_akademik as $pa)
+                                            <option value="{{ $pa->id }}">{{ $pa->nama }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="required">@error('periode_id') {{ $message }} @enderror</span>
+                                        <span class="required">@error('pembimbing_akademik_id') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3" wire:ignore>
                                         <label class="form-label text-dark">Kontribusi Khusus</label>
-                                        <select id="kontribusi_khusus" class="default-select form-control wide" wire:model.debounce='kontribusi_khusus_id'>
+                                        <select id="bootstrap-select" class="default-select kontribusi-select form-control wide" wire:model.debounce='kontribusi_khusus_id'>
+                                            <option hidden>Nothing Selected</option>
                                             @foreach($kontribusi_khusus as $kontribusi)
                                             <option value="{{ $kontribusi->id }}">{{ $kontribusi->nama }}</option>
                                             @endforeach
@@ -215,19 +184,23 @@
                                         <p><a href="{{ asset('storage/monitoring/file-prestasi/' . $file_prestasi) }}" target="__blank" class="text-dark">Lihat File</a></p>
                                     </div>
                                 @endif
-                                <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                    <p>Dokumen LPJ</p>
-                                    <p><a href="{{ asset('storage/monitoring/file-lpj/' . $file_lpj) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                                </div>
+                                @if($file_lpj)
+                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                        <p>Dokumen LPJ</p>
+                                        <p><a href="{{ asset('storage/monitoring/file-lpj/' . $file_lpj) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
                         <div class="card-footer" style="border: none;">
                             <div>
                                 <button type="submit" class="btn btn-primary">Edit Data</button>
+                                @if($monitoring)
                                 <button type="button" class="btn btn-primary" wire:click='updateStatus("{{ $mahasiswa->nim }}", "{{ $semester  }}", "{{ $periode_id }}")'>
                                     Update Status
                                 </button>
+                                @endif
                             </div>
                         </div>
                     </form>
@@ -238,33 +211,6 @@
 
     @push('script')
         <script>
-            function initSelectPicker() {
-                $('#semester').selectpicker();
-                $('#pembimbing_akademik').selectpicker();
-                $('#periode').selectpicker();
-                $('#kontribusi_khusus').selectpicker();
-
-                $('#semester-select, #periode-select').selectpicker('destroy').selectpicker();
-
-                $('#semester-select').on('changed.bs.select', function () {
-                    var selectedSemester = $(this).val();
-                    @this.set('semester_select', selectedSemester);
-                });
-
-                $('#periode-select').on('changed.bs.select', function () {
-                    var selectedPeriode = $(this).val();
-                    @this.set('periode_select', selectedPeriode);
-                });
-            }
-
-            document.addEventListener('livewire:load', function () {
-                initSelectPicker();
-            });
-
-            document.addEventListener('livewire:update', function () {
-                initSelectPicker();
-            });
-
             function validateNumberInput(event) {
                 const input = event.target;
 
@@ -285,14 +231,47 @@
                 input.value = value;
             }
 
-            Livewire.on('showUpdateStatusMonitoringModal', (nim, semester, periodeId) => {
-                $('#updateStatusMonitoringModal').modal('show')
+            function initSelectPicker() {
+                $('#bootstrap-select').selectpicker();
 
-                Livewire.emit('setMonitoring', nim, semester, periodeId)
+                let selects = document.querySelectorAll('#bootstrap-select');
+                selects.forEach(select => {
+                    $(select).selectpicker();
+                });
+            }
+
+            document.addEventListener('livewire:load', function () {
+                initSelectPicker();
+            });
+
+            document.addEventListener('livewire:update', function () {
+                initSelectPicker();
+            });
+
+            $('#semester-select').on('changed.bs.select', function () {
+                var selectedSemester = $(this).val();
+                @this.set('semester_select', selectedSemester);
+            });
+
+            $('#periode-select').on('changed.bs.select', function () {
+                var selectedPeriode = $(this).val();
+                @this.set('periode_select', selectedPeriode);
+            });
+
+            Livewire.on('clearSelect', () => {
+                $('.kontribusi-select, .pa-select')
+                    .selectpicker('destroy')
+                    .selectpicker();
             })
 
-            Livewire.on('closeUpdateStatusMonitoringModal', () => {
-                $('#updateStatusMonitoringModal').modal('hide')
+            Livewire.on('kontribusiSelect', (value) => {
+                $('.kontribusi-select').val(value);
+                $('.kontribusi-select').selectpicker('refresh');
+            })
+
+            Livewire.on('paSelect', (value) => {
+                $('.pa-select').val(value);
+                $('.pa-select').selectpicker('refresh');
             })
         </script>
     @endpush
