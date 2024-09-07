@@ -20,7 +20,11 @@ class DeleteKontribusiKhusus extends Component
 
     public function destroy()
     {
-        KontribusiKhusus::find($this->kontribusi_khusus_id)->delete();
+        $kontribusi_khusus = KontribusiKhusus::find($this->kontribusi_khusus_id);
+
+        $kontribusi_khusus->item_kontribusi_khusus()->delete();
+
+        $kontribusi_khusus->delete();
 
         $this->emit('alert', 'Berhasil', 'Kontribusi khusus berhasil dihapus', 'success');
 

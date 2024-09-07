@@ -12,6 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->string('slug');
+            $table->string('pic')->nullable();
+            $table->string('telp_pic')->nullable();
             $table->timestamps();
         });
     }

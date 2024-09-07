@@ -15,6 +15,8 @@
                         <tr>
                             <th style="color:white !important;">#</th>
                             <th style="color:white !important;">Kontribusi Khusus</th>
+                            <th style="color:white !important;">PIC</th>
+                            <th style="color:white !important;">Telephone PIC</th>
                             <th style="color:white !important;">Aksi</th>
                         </tr>
                     </thead>
@@ -22,7 +24,14 @@
                         @foreach($data_kontribusi_khusus as $kontribusi_khusus)
                             <tr>
                                 <td>{{ $loop->iteration }}.</td>
-                                <td>{{ $kontribusi_khusus->nama }}</td>
+                                <td>
+                                    {{ $kontribusi_khusus->nama }} <br>
+                                    @foreach($kontribusi_khusus->item_kontribusi_khusus as $item_kontribusi_khusus)
+                                        <span class="d-block mt-2">- {{ $item_kontribusi_khusus->nama }}</span>
+                                    @endforeach
+                                </td>
+                                <td>{{ $kontribusi_khusus->pic }}</td>
+                                <td>{{ $kontribusi_khusus->telp_pic }}</td>
                                 <td>
                                     <a href="#" wire:click='$emit("showEditKontribusiKhususModal", {{ $kontribusi_khusus }})'>Edit |</a>
                                     <a href="#" wire:click='$emit("showDeleteKontribusiKhususModal", {{ $kontribusi_khusus }})'>Hapus</a>

@@ -1,5 +1,5 @@
 <div class="modal fade" id="editKontribusiKhususModal" data-bs-backdrop="static">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="editKontribusiKhususModalLabel">Edit Kontribusi Khusus</h1>

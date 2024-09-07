@@ -16,4 +16,9 @@ class KontribusiKhusus extends Model
     {
         return $this->hasMany(Monitoring::class);
     }
+
+    public function item_kontribusi_khusus()
+    {
+        return $this->hasMany(ItemKontribusiKhusus::class);
+    }
 }
