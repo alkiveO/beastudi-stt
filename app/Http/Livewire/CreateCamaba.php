@@ -103,7 +103,7 @@ class CreateCamaba extends Component
 
         $this->emit('alert', 'Berhasil', 'Data calon mahasiswa berhasil ditambahkan', 'success');
 
-        $this->reset(['mahasiswa', 'tahun_masuk']);
+        $this->reset(['mahasiswa', 'tahun_masuk', 'spb_rangkap_1', 'spg_rangkap_2', 'surat_komitmen_ortu']);
         $this->emit('resetProdi');
         $this->emit('resetFileUpload');
     }
