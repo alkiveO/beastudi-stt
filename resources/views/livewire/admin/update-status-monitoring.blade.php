@@ -15,7 +15,7 @@
             <br>
 
             <select class="form-control" wire:model.lazy='status_beastudi'>
-                <option>Pilih</option>
+                <option hidden>Nothing Selected</option>
                 <option value="aman">Aman</option>
                 <option value="evaluasi">Evaluasi</option>
                 <option value="keluar">Keluar</option>

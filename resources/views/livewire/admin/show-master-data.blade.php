@@ -28,7 +28,7 @@
                                 <label class="form-label text-dark">Jenis Kelamin</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="jenis_kelamin" class="default-select form-control wide" wire:model.debounce='jenis_kelamin'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         <option value="laki-laki">Laki-laki</option>
                                         <option value="perempuan">Perempuan</option>
                                     </select>
@@ -44,7 +44,7 @@
                                 <label class="form-label text-dark">Agama</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="agama" class="default-select form-control wide" wire:model.debounce='agama_id'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($list_agama as $agama)
                                             <option value="{{ $agama->id }}">{{ ucfirst($agama->nama) }}</option>
                                         @endforeach
@@ -108,7 +108,7 @@
                                 <label class="form-label text-dark">Provinsi</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="provinsi" class="default-select form-control wide" wire:model.debounce='province_id'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($list_provinsi as $provinsi)
                                         <option value="{{ $provinsi->id }}">{{ $provinsi->name }}</option>
                                         @endforeach
@@ -125,7 +125,7 @@
                                 <label class="form-label text-dark">Kabupaten / Kota</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="kabupaten" class="default-select form-control wide" wire:model.debounce='regency_id'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($list_kabupaten as $kabupaten)
                                         <option value="{{ $kabupaten->id }}">{{ $kabupaten->name }}</option>
                                         @endforeach
@@ -142,7 +142,7 @@
                                 <label class="form-label text-dark">Kecamatan</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="kecamatan" class="default-select form-control wide" wire:model.debounce='district_id'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($list_kecamatan as $kecamatan)
                                         <option value="{{ $kecamatan->id }}">{{ $kecamatan->name }}</option>
                                         @endforeach
@@ -159,7 +159,7 @@
                                 <label class="form-label text-dark">Desa / Kelurahan</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="kelurahan" class="default-select form-control wide" wire:model.debounce='village_id'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($list_kelurahan as $kelurahan)
                                         <option value="{{ $kelurahan->id }}">{{ $kelurahan->name }}</option>
                                         @endforeach
@@ -207,7 +207,7 @@
                                 <label class="form-label text-dark">Program Studi</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="prodi" class="default-select form-control wide" wire:model.debounce='program_studi_id'>
-                                        <option value=''>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($program_studi as $program)
                                         <option value="{{ $program->id }}">{{ ucwords($program->nama) }}</option>
                                         @endforeach
@@ -238,7 +238,7 @@
                                 <label class="form-label text-dark">Jalur Bestudi</label>
                                 <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                                     <select id="jalur-prestasi" class="default-select form-control wide" wire:model.debounce='jalur_prestasi_id'>
-                                        <option>Pilih</option>
+                                        <option hidden>Nothing Selected</option>
                                         @foreach($list_prestasi as $prestasi)
                                         <option value="{{ $prestasi->id }}">{{ ucwords($prestasi->nama) }}</option>
                                         @endforeach
@@ -308,7 +308,7 @@
                     url: '/kabupaten',
                     data: {province_id: provinsiId},
                     success: function(res){
-                        $('#kabupaten').append('<option>Pilih</option>');
+                        $('#kabupaten').append('<option hidden>Nothing Selected</option>');
                         $.each(res, function(id, value) {
                             $('#kabupaten').append(
                                 `
@@ -336,7 +336,7 @@
                     url: '/kecamatan',
                     data: {regency_id: regencyId},
                     success: function(res){
-                        $('#kecamatan').append('<option>Pilih</option>');
+                        $('#kecamatan').append('<option hidden>Nothing Selected</option>');
                         $.each(res, function(id, value) {
                             $('#kecamatan').append(
                                 `
@@ -361,7 +361,7 @@
                     url: '/kelurahan',
                     data: {district_id: districtId},
                     success: function(res){
-                        $('#kelurahan').append('<option>Pilih</option>');
+                        $('#kelurahan').append('<option hidden>Nothing Selected</option>');
                         $.each(res, function(id, value) {
                             $('#kelurahan').append(
                                 `
