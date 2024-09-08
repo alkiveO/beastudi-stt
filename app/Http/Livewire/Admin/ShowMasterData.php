@@ -124,7 +124,8 @@ class ShowMasterData extends Component
     protected $listeners = [
         'provinsiChanged',
         'regencyChanged',
-        'districtChanged'
+        'districtChanged',
+        'villageChanged'
     ];
 
     public function updated($propertyName)
@@ -189,22 +190,33 @@ class ShowMasterData extends Component
         $this->village_id = $village?->id;
     }
 
-    public function provinsiChanged()
+    public function provinsiChanged($province_id)
     {
+        $this->province_id = $province_id;
+
         $this->regency_id = '';
         $this->district_id = '';
         $this->village_id = '';
     }
 
-    public function regencyChanged()
+    public function regencyChanged($regency_id)
     {
+        $this->regency_id = $regency_id;
+
         $this->district_id = '';
         $this->village_id = '';
     }
 
-    public function districtChanged()
+    public function districtChanged($district_id)
     {
+        $this->district_id = $district_id;
+
         $this->village_id = '';
+    }
+
+    public function villageChanged($village_id)
+    {
+        $this->village_id = $village_id;
     }
 
     private function formatDateToYMD($date)

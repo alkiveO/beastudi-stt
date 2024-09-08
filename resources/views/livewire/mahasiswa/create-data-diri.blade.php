@@ -297,7 +297,7 @@
                     }
                 })
 
-                Livewire.emit('provinsiChanged');
+                Livewire.emit('provinsiChanged', provinsiId);
             })
 
             $('#kabupaten').on('change', function(e) {
@@ -325,7 +325,7 @@
                     }
                 })
 
-                Livewire.emit('regencyChanged');
+                Livewire.emit('regencyChanged', regencyId);
             })
 
             $('#kecamatan').on('change', function(e) {
@@ -350,7 +350,12 @@
                     }
                 })
 
-                Livewire.emit('districtChanged');
+                Livewire.emit('districtChanged', districtId);
+            })
+
+            $('#kelurahan').on('change', function(e) {
+                const villageId = e.target.value
+                Livewire.emit('villageChanged', villageId);
             })
         </script>
     @endpush
