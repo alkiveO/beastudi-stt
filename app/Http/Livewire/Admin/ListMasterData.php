@@ -7,6 +7,7 @@ use App\Models\Mahasiswa;
 use App\Models\ProgramStudi;
 use Livewire\WithPagination;
 use App\Models\JalurPrestasi;
+use App\Models\Periode;
 
 class ListMasterData extends Component
 {
@@ -60,7 +61,8 @@ class ListMasterData extends Component
         return view('livewire.admin.list-master-data', [
             'data_mahasiswa' => $data_mahasiswa,
             'list_prodi' => ProgramStudi::all(),
-            'list_beastudi' => JalurPrestasi::all()
+            'list_beastudi' => JalurPrestasi::all(),
+            'list_periode' => Periode::all(),
         ]);
     }
 }

@@ -1,4 +1,8 @@
 <div>
+    <div>
+        @include('partials.modal-download-spb')
+        @include('partials.modal-download-lpj')
+    </div>
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -66,8 +70,9 @@
                                 <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                 <td>
                                     <a href="{{ route('admin.master-data.show', $mahasiswa->nim) }}">Detail |</a>
-                                    <a href="#">Ekspor | </a>
-                                    <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}">Monitoring</a>
+                                    <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}">Monitoring |</a>
+                                    <a href="#" id="download-spb" data-nim="{{ $mahasiswa->nim }}">Download SPB | </a>
+                                    <a href="#" id="download-lpj" data-nim="{{ $mahasiswa->nim }}">Download LPJ</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -79,4 +84,36 @@
             </div>
         </div>
     </div>
+
+    @push('script')
+        <script>
+            $('body').on('click', '#download-spb', function() {
+                const nim = $(this).data('nim');
+
+                $('#downloadSpbModal')
+                    .find('form')
+                    .attr('action', '/admin/download-spb')
+
+                $('#downloadSpbModal')
+                    .find('#input-nim')
+                    .val(nim)
+
+                $('#downloadSpbModal').modal('show')
+            })
+
+            $('body').on('click', '#download-lpj', function() {
+                const nim = $(this).data('nim');
+
+                $('#downloadLpjModal')
+                    .find('form')
+                    .attr('action', '/admin/download-lpj')
+
+                $('#downloadLpjModal')
+                    .find('#input-nim')
+                    .val(nim)
+
+                $('#downloadLpjModal').modal('show')
+            })
+        </script>
+    @endpush
 </div>

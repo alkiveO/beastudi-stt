@@ -240,7 +240,7 @@ class CreateMonitoring extends Component
             ? basename($file_internal_kampus_path)
             : ($this->monitoring && $this->monitoring->file_internal_kampus ? $this->monitoring->file_internal_kampus : null);
 
-        $file_prestasi = $this->file_kegiatan
+        $file_prestasi = $this->file_prestasi
             ? basename($file_prestasi_path)
             : ($this->monitoring && $this->monitoring->file_prestasi ? $this->monitoring->file_prestasi : null);
 

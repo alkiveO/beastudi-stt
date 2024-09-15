@@ -17,8 +17,13 @@ class Monitoring extends Model
         return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
     }
 
-    public function prodi()
+    public function pembimbing_akademik()
     {
-        return $this->belongsTo(ProgramStudi::class, 'program_studi_id');
+        return $this->belongsTo(PembimbingAkademik::class);
+    }
+
+    public function kontribusi_khusus()
+    {
+        return $this->belongsTo(KontribusiKhusus::class);
     }
 }

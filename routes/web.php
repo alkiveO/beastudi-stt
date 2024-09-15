@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\DownloadLpjController;
+use App\Http\Controllers\Admin\DownloadSpbController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\LogoutController as AdminLogoutController;
 use App\Http\Controllers\CamabaController;
@@ -16,8 +18,6 @@ use App\Http\Controllers\Mahasiswa\MonitoringController;
 use App\Http\Livewire\Admin\ShowMasterData;
 use App\Http\Livewire\Admin\ShowMonitoring;
 
-Route::view('pdf', 'pdf');
-Route::view('lpj', 'lpj');
 
 Route::get('p', function() {
     return env('APP_ENV');
@@ -50,6 +50,9 @@ Route::middleware('auth')
         Route::get('master-data/{nim}/mahasiswa', ShowMasterData::class)->name('master-data.show');
 
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
+
+        Route::get('download-spb', DownloadSpbController::class)->name('download-spb');
+        Route::get('download-lpj', DownloadLpjController::class)->name('download-lpj');
 
         Route::view('redaksi', 'admin.redaksi')->name('redaksi');
 
