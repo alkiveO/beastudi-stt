@@ -25,6 +25,6 @@ class DownloadLpjController extends Controller
 
         $nama_file = 'LPJ ' . $mahasiswa->nama . ' Semester ' . request()->semester . ' Periode ' . $periode->nama . '.pdf';
 
-        return $pdf->stream($nama_file);
+        return $pdf->download($nama_file);
     }
 }
