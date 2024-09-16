@@ -1,57 +1,70 @@
 (function($) {
-    "use strict" 
+	"use strict" 
 
+
+/* function draw() {
 	
-	/* function draw() {
-		
-	} */
+} */
 
- var dzSparkLine = function(){
+var dzSparkLine = function(){
 	//let draw = Chart.controllers.line.__super__.draw; //draw shadow
 	
 	var screenWidth = $(window).width();
 	
-	var barChart1 = function(){
-		if(jQuery('#barChart_1').length > 0 ){
-			const barChart_1 = document.getElementById("barChart_1").getContext('2d');
-    
-			barChart_1.height = 100;
+	var barChart = function() {
+		if (document.getElementById('barChart')) {
+				const ctx = document.getElementById('barChart').getContext('2d');
+				ctx.height = 100;
 
-			new Chart(barChart_1, {
-				type: 'bar',
-				data: {
-					defaultFontFamily: 'Poppins',
-					labels: ["2014", "2015", "2016", "2017", "2018", "2019", "2020","2021","2022","2023"],
-					datasets: [
-						{
-							label: "My First dataset",
-							data: [65, 59, 80, 81, 56, 55, 40],
-							borderColor: 'rgba(77, 68,181,1))',
-							borderWidth: "0",
-							backgroundColor: 'rgba(77, 68,181,1)',
-							//barThickness: 50,
-						}
-					]
-				},
-				options: {
-					plugins:{
-						legend: false, 
-					},
-					scales: {
-						y: {
-							ticks: {
-								beginAtZero: true
-							}
+				new Chart(ctx, {
+						type: 'bar',
+						data: {
+								defaultFontFamily: 'Poppins',
+								labels: ["2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023"],
+								datasets: [
+										{
+												label: "Teknik Informatika",
+												data: [900, 509, 380, 281, 456, 255, 450, 456, 255, 450],
+												borderColor: 'rgba(77, 68, 181, 1)',
+												borderWidth: "0",
+												backgroundColor: 'rgba(77, 68, 181, 1)',
+										},
+										{
+												label: "Sistem Informasi",
+												data: [700, 600, 500, 400, 300, 200, 100, 50, 25, 10],
+												borderColor: 'rgb(238, 137, 18)',
+												borderWidth: "0",
+												backgroundColor: 'rgb(238, 137, 18)',
+										},
+										{
+												label: "Digital Marketing",
+												data: [300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200],
+												borderColor: 'rgb(238, 57, 18)',
+												borderWidth: "0",
+												backgroundColor: 'rgb(238, 57, 18)',
+										}
+								]
 						},
-						x: {
-							// Change here
-							barPercentage: 0.5
+						options: {
+								plugins: {
+										legend: true,
+								},
+								scales: {
+										y: {
+												ticks: {
+														beginAtZero: true
+												}
+										},
+										x: {
+												barPercentage: 0.5
+										}
+								}
 						}
-					}
-				}
-			});
+				});
 		}
-	}
+};
+
+barChart();
 	var barChart2 = function(){
 		if(jQuery('#barChart_2').length > 0 ){
 
@@ -529,7 +542,7 @@
 		//basic area chart
 		if(jQuery('#areaChart_1').length > 0 ){
 			const areaChart_1 = document.getElementById("areaChart_1").getContext('2d');
-    
+		
 			areaChart_1.height = 100;
 
 			new Chart(areaChart_1, {
@@ -633,7 +646,7 @@
 		//gradient area chart
 		if(jQuery('#areaChart_3').length > 0 ){
 			const areaChart_3 = document.getElementById("areaChart_3").getContext('2d');
-    
+		
 			areaChart_3.height = 100;
 
 			new Chart(areaChart_3, {
@@ -786,7 +799,7 @@
 			});
 		}
 	}
-    var doughnutChart = function(){
+		var doughnutChart = function(){
 		if(jQuery('#doughnut_chart').length > 0 ){
 			//doughut chart
 			const doughnut_chart = document.getElementById("doughnut_chart").getContext('2d');
@@ -905,14 +918,14 @@
 }();
 
 
-	
+
 jQuery(window).on('load',function(){
-	dzSparkLine.load();
+dzSparkLine.load();
 });
 
 jQuery(window).on('resize',function(){
-	//dzSparkLine.resize();
-	setTimeout(function(){ dzSparkLine.resize(); }, 1000);
+//dzSparkLine.resize();
+setTimeout(function(){ dzSparkLine.resize(); }, 1000);
 });
-	
+
 })(jQuery);

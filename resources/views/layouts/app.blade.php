@@ -152,6 +152,7 @@
 
     <!-- Chart ChartJS plugin files -->
     {{-- <script src="{{ asset('js/plugins-init/chartjs-init.js') }}"></script> --}}
+    @stack('js')
 
     @livewireScripts
 
