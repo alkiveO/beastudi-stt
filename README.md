@@ -13,14 +13,14 @@
 * Admin
 - [ ] dashboard
 - [x] import data mahasiswa
-- [ ] edit data mahasiswa
-- [ ] ekspor data mahasiswa
+- [x] ekspor perjanjian beastudi mahasiswa
+- [x] ekspor laporan beastudi mahasiswa
+- [x] edit data mahasiswa
 - [x] edit monitoring mahasiswa
 - [x] update status beastudi mahasiswa
 - [x] pengaturan kontribusi khusus
-- [ ] pengaturan jalur beastudi
-- [ ] pengaturan periode
+- [x] pengaturan jalur beastudi
+- [x] pengaturan periode
 
 * Mahasiswa
 - [ ] dashboard
-- [ ] download perjanjian beastudi
