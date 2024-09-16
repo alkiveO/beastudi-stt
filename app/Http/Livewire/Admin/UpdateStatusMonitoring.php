@@ -25,7 +25,7 @@ class UpdateStatusMonitoring extends Component
     public function setMonitoring($nim, $semester, $periode_id)
     {
         $this->monitoring = Monitoring::query()
-            ->with(['mahasiswa','prodi'])
+            ->with(['mahasiswa'])
             ->where('nim', $nim)
             ->where('semester', $semester)
             ->where('periode_id', $periode_id)

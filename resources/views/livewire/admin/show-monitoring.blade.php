@@ -273,6 +273,16 @@
                 $('.pa-select').val(value);
                 $('.pa-select').selectpicker('refresh');
             })
+
+            Livewire.on('showUpdateStatusMonitoringModal', (nim, semester, periode_id) => {
+                $('#updateStatusMonitoringModal').modal('show');
+
+                Livewire.emitTo('admin.update-status-monitoring', 'setMonitoring', nim, semester, periode_id);
+            })
+
+            Livewire.on('closeUpdateStatusMonitoringModal', () => {
+                $('#updateStatusMonitoringModal').modal('hide');
+            })
         </script>
     @endpush
 </div>
