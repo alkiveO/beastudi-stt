@@ -48,10 +48,10 @@
                             </div>
                         </div>
                     </div>
-                    <p class="fs-5 text-gray">Smply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Smply
+                    {{-- <p class="fs-5 text-gray">Smply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.Smply
                         dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s when an unknown printerit to make a type specimen book.</p>
                     <p class="fs-5 text-gray">Smply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </div>

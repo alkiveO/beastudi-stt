@@ -48,9 +48,9 @@
                             </div>
                         </div>
                     </div>
-                    <p class="fs-5 text-gray">
+                    {{-- <p class="fs-5 text-gray">
                         {!! $redaksi_login_page->deskripsi !!}
-                    </p>
+                    </p> --}}
                 </div>
             </div>
         </div>
