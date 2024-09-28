@@ -12,6 +12,7 @@ class MahasiswaSeeder extends Seeder
     public function run(): void
     {
         Mahasiswa::create([
+            'mhs_id' => '2024' . now()->format('his'),
             'nim' => '12345678',
             'email' => 'user@nf.mail',
             'password' => Hash::make('12345678'),
@@ -24,7 +25,7 @@ class MahasiswaSeeder extends Seeder
             'tanggal_lahir' => '01-01-1991',
             'agama' => 'islam',
             'program_studi' => 'sistem informasi',
-            'jalur_beastudi' => 'prestasi',
+            'jalur_beastudi' => 'yayasan',
             'provinsi' => 'sulawesi selatan',
             'kota' => 'makassar',
             'kecamatan' => 'manggala',

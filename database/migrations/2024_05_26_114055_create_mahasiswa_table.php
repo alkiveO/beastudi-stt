@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
+            $table->string('mhs_id');
             $table->string('nim')->nullable();
             $table->string('email')->nullable();
             $table->string('password')->nullable();
