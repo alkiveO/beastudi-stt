@@ -50,6 +50,7 @@
                 <table class="table table-bordered">
                     <thead style="background:#FF4747;">
                         <tr>
+                            <th style="color:white !important;">ID</th>
                             <th style="color:white !important;">NIM</th>
                             <th style="color:white !important;">Nama Mahasiswa</th>
                             <th style="color:white !important;">Program Studi</th>
@@ -62,6 +63,7 @@
                     <tbody class="text-black">
                         @foreach($data_mahasiswa as $mahasiswa)
                             <tr>
+                                <td>{{ $mahasiswa->mhs_id }}</td>
                                 <td>{{ $mahasiswa->nim }}</td>
                                 <td>{{ $mahasiswa->nama }}</td>
                                 <td>{{ ucwords($mahasiswa->program_studi) }}</td>
@@ -69,10 +71,12 @@
                                 <td>{{ $mahasiswa->tahun_masuk }}</td>
                                 <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                 <td>
-                                    <a href="{{ route('admin.master-data.show', $mahasiswa->nim) }}">Detail |</a>
-                                    <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}">Monitoring |</a>
-                                    <a href="#" id="download-spb" data-nim="{{ $mahasiswa->nim }}">Download SPB | </a>
-                                    <a href="#" id="download-lpj" data-nim="{{ $mahasiswa->nim }}">Download LPJ</a>
+                                    @if($mahasiswa->nim)
+                                        <a href="{{ route('admin.master-data.show', $mahasiswa->nim) }}">Detail |</a>
+                                        <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}">Monitoring |</a>
+                                        <a href="#" id="download-spb" data-nim="{{ $mahasiswa->nim }}">Download SPB | </a>
+                                        <a href="#" id="download-lpj" data-nim="{{ $mahasiswa->nim }}">Download LPJ</a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

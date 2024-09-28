@@ -109,6 +109,7 @@ class ShowMasterData extends Component
         'kode_pos.min' => 'kode pos minimal 5 karakter',
         'kode_pos.max' => 'kode pos maksimal 5 karakter',
         'jenis_kelamin.required' => 'jenis kelamin harus diisi',
+        'no_kk.required' => 'nomor kk harus diisi',
         'no_kk.max' => 'nomor kk maksimal 255 karakter',
         'no_ktp.required' => 'nomor ktp harus diisi',
         'no_ktp.max' => 'nomor ktp maksimal 255 karakter',
