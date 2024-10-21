@@ -76,20 +76,12 @@ class CreateCamaba extends Component
     {
         $this->validate();
 
-        // TODO: cek camaba
-        // Mahasiswa::query()
-        //     ->whereRaw('BINARY nama = ?', [$this->mahasiswa])
-        //     ->where('tahun_masuk', $this->tahun_masuk)
-        //     ->where('program_studi', $this->program_studi)
-        //     ->where('status', false)
-        //     ->first();
-
         $spb_1_path = $this->spb_rangkap_1->store('camaba/spb-rangkap-1', 'public');
         $spb_2_path = $this->spb_rangkap_2->store('camaba/spb-rangkap-2', 'public');
         $surat_ortu_path = $this->surat_komitmen_ortu->store('camaba/surat-komitmen-ortu', 'public');
 
         $mahasiswa = Mahasiswa::create([
-            'mhs_id' => $this->tahun_masuk . now()->format('his'),
+            'mhs_id' => now()->format('Ymdhis'),
             'nama' => $this->mahasiswa,
             'tahun_masuk' => $this->tahun_masuk,
             'program_studi' => $this->program_studi,

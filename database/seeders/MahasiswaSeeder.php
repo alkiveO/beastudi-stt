@@ -12,7 +12,7 @@ class MahasiswaSeeder extends Seeder
     public function run(): void
     {
         Mahasiswa::create([
-            'mhs_id' => '2024' . now()->format('his'),
+            'mhs_id' => now()->format('Ymdhis'),
             'nim' => '12345678',
             'email' => 'user@nf.mail',
             'password' => Hash::make('12345678'),

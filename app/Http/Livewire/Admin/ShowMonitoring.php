@@ -71,7 +71,7 @@ class ShowMonitoring extends Component
         $this->list_periode = Periode::all();
         $this->mahasiswa = Mahasiswa::query()
             ->where('nim', $nim)
-            ->first();
+            ->firstOrFail();
         $program_studi = ProgramStudi::query()
             ->where('nama', 'like', '%' . $this->mahasiswa->program_studi . '%')
             ->first();

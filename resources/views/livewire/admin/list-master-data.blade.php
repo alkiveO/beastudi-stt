@@ -71,9 +71,9 @@
                                 <td>{{ $mahasiswa->tahun_masuk }}</td>
                                 <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                 <td>
+                                    <a href="{{ route('admin.master-data.show', $mahasiswa->mhs_id) }}">Detail</a>
                                     @if($mahasiswa->nim)
-                                        <a href="{{ route('admin.master-data.show', $mahasiswa->nim) }}">Detail |</a>
-                                        <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}">Monitoring |</a>
+                                        <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}"> | Monitoring | </a>
                                         <a href="#" id="download-spb" data-nim="{{ $mahasiswa->nim }}">Download SPB | </a>
                                         <a href="#" id="download-lpj" data-nim="{{ $mahasiswa->nim }}">Download LPJ</a>
                                     @endif
