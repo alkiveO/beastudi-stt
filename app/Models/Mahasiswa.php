@@ -15,7 +15,7 @@ class Mahasiswa extends Authenticatable
 
     public function mou()
     {
-        return $this->hasOne(Mou::class, 'mahasiswa_id');
+        return $this->hasOne(Mou::class, 'mhs_id', 'mhs_id');
     }
 
     public function monitoring()

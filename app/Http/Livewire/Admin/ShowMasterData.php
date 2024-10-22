@@ -109,6 +109,7 @@ class ShowMasterData extends Component
         'kode_pos.min' => 'kode pos minimal 5 karakter',
         'kode_pos.max' => 'kode pos maksimal 5 karakter',
         'jenis_kelamin.required' => 'jenis kelamin harus diisi',
+        'no_kk.required' => 'nomor kk harus diisi',
         'no_kk.max' => 'nomor kk maksimal 255 karakter',
         'no_ktp.required' => 'nomor ktp harus diisi',
         'no_ktp.max' => 'nomor ktp maksimal 255 karakter',
@@ -133,13 +134,12 @@ class ShowMasterData extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function mount($nim)
+    public function mount($mhs_id)
     {
         $this->mahasiswa = Mahasiswa::query()
             ->with('mou')
-            ->where('nim', $nim)
-            ->first();
-
+            ->where('mhs_id', $mhs_id)
+            ->firstOrFail();
         $agama = Agama::query()
             ->where('nama', 'like', '%' . $this->mahasiswa->agama . '%')
             ->first();
@@ -166,9 +166,15 @@ class ShowMasterData extends Component
             ->where('district_id', $district->id)
             ->first();
 
-        $this->agama_id = $agama?->id;
+        $this->agama_id = !is_null($this->mahasiswa->agama)
+            && $agama
+            ? $agama->id
+            : null;
         $this->program_studi_id = $program_studi?->id;
-        $this->jalur_prestasi_id = $jalur_beastudi?->id;
+        $this->jalur_prestasi_id = !is_null($this->mahasiswa->jalur_beastudi)
+            && $jalur_beastudi
+            ? $jalur_beastudi->id
+            : null;
 
         $this->nama = $this->mahasiswa->nama;
         $this->nim_mhs = $this->mahasiswa->nim;
@@ -184,10 +190,22 @@ class ShowMasterData extends Component
         $this->nomor_hp_ortu = $this->mahasiswa->nomor_hp_ortu;
         $this->tanggal_lahir = $this->formatDateToYMD($this->mahasiswa->tanggal_lahir);
 
-        $this->province_id = $province?->id;
-        $this->regency_id = $regency?->id;
-        $this->district_id = $district?->id;
-        $this->village_id = $village?->id;
+        $this->province_id = !is_null($this->mahasiswa->provinsi)
+            && $province
+            ? $province->id
+            : null;
+        $this->regency_id = !is_null($this->mahasiswa->kota)
+            && $regency
+            ? $regency->id
+            : null;
+        $this->district_id = !is_null($this->mahasiswa->kecamatan)
+            && $district
+            ? $district->id
+            : null;
+        $this->village_id = !is_null($this->mahasiswa->kelurahan)
+            && $village
+            ? $village->id
+            : null;
     }
 
     public function provinsiChanged($province_id)

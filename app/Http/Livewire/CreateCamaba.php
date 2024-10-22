@@ -76,26 +76,19 @@ class CreateCamaba extends Component
     {
         $this->validate();
 
-        // TODO: cek camaba
-        // Mahasiswa::query()
-        //     ->whereRaw('BINARY nama = ?', [$this->mahasiswa])
-        //     ->where('tahun_masuk', $this->tahun_masuk)
-        //     ->where('program_studi', $this->program_studi)
-        //     ->where('status', false)
-        //     ->first();
-
         $spb_1_path = $this->spb_rangkap_1->store('camaba/spb-rangkap-1', 'public');
         $spb_2_path = $this->spb_rangkap_2->store('camaba/spb-rangkap-2', 'public');
         $surat_ortu_path = $this->surat_komitmen_ortu->store('camaba/surat-komitmen-ortu', 'public');
 
         $mahasiswa = Mahasiswa::create([
+            'mhs_id' => now()->format('Ymdhis'),
             'nama' => $this->mahasiswa,
             'tahun_masuk' => $this->tahun_masuk,
             'program_studi' => $this->program_studi,
         ]);
 
         Mou::create([
-            'mahasiswa_id' => $mahasiswa->id,
+            'mhs_id' => $mahasiswa->mhs_id,
             'spb_rangkap_1' => basename($spb_1_path),
             'spb_rangkap_2' => basename($spb_2_path),
             'surat_komitmen_ortu' => basename($surat_ortu_path),
@@ -103,7 +96,7 @@ class CreateCamaba extends Component
 
         $this->emit('alert', 'Berhasil', 'Data calon mahasiswa berhasil ditambahkan', 'success');
 
-        $this->reset(['mahasiswa', 'tahun_masuk', 'spb_rangkap_1', 'spg_rangkap_2', 'surat_komitmen_ortu']);
+        $this->reset(['mahasiswa', 'tahun_masuk', 'spb_rangkap_1', 'spb_rangkap_2', 'surat_komitmen_ortu']);
         $this->emit('resetProdi');
         $this->emit('resetFileUpload');
     }

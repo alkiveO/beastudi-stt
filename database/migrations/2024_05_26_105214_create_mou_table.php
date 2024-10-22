@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('mou', function (Blueprint $table) { // mou camaba
             $table->id();
-            $table->string('mahasiswa_id');
+            $table->string('mhs_id');
             $table->string('spb_rangkap_1');
             $table->string('spb_rangkap_2');
             $table->string('surat_komitmen_ortu');

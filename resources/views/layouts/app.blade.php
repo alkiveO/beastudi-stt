@@ -4,14 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="DexignLab">
+    <meta name="author" content="STT Terpadu Nurul Fikri">
     <meta name="robots" content="">
-    <meta name="keywords" content="school, school admin, education, academy, admin dashboard, college, college management, education management, institute, school management, school management system, student management, teacher management, university, university management">
-    <meta name="description" content="Discover Akademi - the ultimate admin dashboard and Bootstrap 5 template. Specially designed for professionals, and for business. Akademi provides advanced features and an easy-to-use interface for creating a top-quality website with School and Education Dashboard">
+    <meta name="keywords" content="stt terpadu nurul fikri, kampus nurul fikri, universitas nurul fikri, teknik informatika nurul fikri, sistem informasi nurul fikri, bisnis digital nurul, mahasiswa beastudi, mahasiswa berprestasi">
+    <meta name="description" content="Beastudi STT Terpadu Nurul Fikr - program beasiswa yang mendukung pengembangan akademis dan profesional mahasiswa dengan memberikan pelatihan keterampilan, serta pembinaan karakter untuk mencetak lulusan unggul dan berintegritas.">
     <meta property="og:title" content="Beastudi STT Terpadu Nurul Fikri">
-    <meta property="og:description" content="Akademi - the ultimate admin dashboard and Bootstrap 5 template. Specially designed for professionals, and for business. Akademi provides advanced features and an easy-to-use interface for creating a top-quality website with School and Education Dashboard">
-    <meta property="og:image" content="https://akademi.dexignlab.com/xhtml/social-image.png">
-    <meta name="format-detection" content="telephone=no">
+    <meta property="og:description" content="Beastudi STT Terpadu Nurul Fikri - program beasiswa yang mendukung pengembangan akademis dan profesional mahasiswa dengan memberikan pelatihan keterampilan, serta pembinaan karakter untuk mencetak lulusan unggul dan berintegritas.">
+    <meta property="og:image" content="https://nurulfikri.ac.id/wp-content/uploads/slider/cache/b9cdbba1a0e7c5c45cc35ca06eaebf93/Banner-Web-1-scaled.webp">
+
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Mobile Specific -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,6 +56,14 @@
         textarea.monitoring {
             height: 250px !important;
         }
+        .loader2 {
+            width: 30px;
+            aspect-ratio: 3;
+            background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% space;
+            clip-path: inset(0 100% 0 0);
+            animation: l1 1s steps(4) infinite;
+        }
+        @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
     </style>
 
 </head>

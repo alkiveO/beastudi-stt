@@ -47,7 +47,7 @@ Route::middleware('auth')
         Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
 
         Route::view('master-data', 'admin.master-data')->name('master-data');
-        Route::get('master-data/{nim}/mahasiswa', ShowMasterData::class)->name('master-data.show');
+        Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)->name('master-data.show');
 
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
 
