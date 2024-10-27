@@ -13,7 +13,6 @@ class MahasiswaImport implements ToModel, WithHeadingRow, WithChunkReading
     public function model(array $row)
     {
         abort_if(! array_key_exists('id', $row), 500);
-
         return Mahasiswa::updateOrCreate(
             ['mhs_id' => $row['id']],
             [

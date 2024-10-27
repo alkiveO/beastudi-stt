@@ -301,4 +301,6 @@ class ShowMasterData extends Component
         ])
             ->extends('layouts.app');
     }
+
+    
 }

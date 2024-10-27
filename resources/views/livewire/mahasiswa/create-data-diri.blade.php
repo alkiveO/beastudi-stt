@@ -146,7 +146,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3 custom-form">
-                            <label for="nomor_hp" class="form-label text-dark">Nomor Handhone</label>
+                            <label for="nomor_hp" class="form-label text-dark">Nomor Handphone/WA</label>
                             <input type="number" class="form-control" id="nomor_hp" autocomplete="off" wire:model.debounce='nomor_hp'>
                             <span class="required">@error('nomor_hp') {{ $message }} @enderror</span>
                         </div>

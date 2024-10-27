@@ -65,4 +65,5 @@ class ListMasterData extends Component
             'list_periode' => Periode::all(),
         ]);
     }
+
 }

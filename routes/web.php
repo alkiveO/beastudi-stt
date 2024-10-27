@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DownloadLpjController;
 use App\Http\Controllers\Admin\DownloadSpbController;
+use App\Http\Controllers\Admin\MahasiswaExportController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\LogoutController as AdminLogoutController;
 use App\Http\Controllers\CamabaController;
@@ -27,10 +28,12 @@ Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
 Route::get('kelurahan', KelurahanController::class);
 
+
+
 // auth
 Route::middleware('guest:web,mahasiswa')->group(function() {
-    Route::get('register', [RegisterController::class, 'index']);
-    Route::post('register', [RegisterController::class, 'store']);
+    // Route::get('register', [RegisterController::class, 'index']);
+    // Route::post('register', [RegisterController::class, 'store']);
 
     Route::get('mahasiswa-beastudi', [MahasiswaLoginController::class, 'index'])->name('login');
     Route::post('mahasiswa-beastudi', [MahasiswaLoginController::class, 'store']);
@@ -48,6 +51,7 @@ Route::middleware('auth')
 
         Route::view('master-data', 'admin.master-data')->name('master-data');
         Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)->name('master-data.show');
+        Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)->name('index');
 
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
 
