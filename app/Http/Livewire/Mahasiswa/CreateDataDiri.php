@@ -133,7 +133,7 @@ class CreateDataDiri extends Component
             ->first();
 
         $province = Province::query()
-            ->where('name', 'like', '%' . $mahasiswa->provinsi . '%')
+            ->where('name', $mahasiswa->provinsi)
             ->first();
         $regency = Regency::query()
             ->where('name', 'like', '%' . $mahasiswa->kota . '%')

@@ -151,7 +151,7 @@ class ShowMasterData extends Component
             ->first();
 
         $province = Province::query()
-            ->where('name', 'like', '%' . $this->mahasiswa->provinsi . '%')
+            ->where('name', $this->mahasiswa->provinsi)
             ->first();
         $regency = Regency::query()
             ->where('name', 'like', '%' . $this->mahasiswa->kota . '%')
@@ -302,5 +302,5 @@ class ShowMasterData extends Component
             ->extends('layouts.app');
     }
 
-    
+
 }
