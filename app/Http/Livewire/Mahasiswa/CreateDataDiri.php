@@ -123,13 +123,13 @@ class CreateDataDiri extends Component
         $mahasiswa = auth()->guard('mahasiswa')->user();
 
         $agama = Agama::query()
-            ->where('nama', 'like', '%' . $mahasiswa->agama . '%')
+            ->where('nama', $mahasiswa->agama)
             ->first();
         $program_studi = ProgramStudi::query()
-            ->where('nama', 'like', '%' . $mahasiswa->program_studi . '%')
+            ->where('nama', $mahasiswa->program_studi)
             ->first();
         $jalur_beastudi = JalurPrestasi::query()
-            ->where('nama', 'like', '%' . $mahasiswa->jalur_beastudi . '%')
+            ->where('nama', $mahasiswa->jalur_beastudi)
             ->first();
 
         $province = Province::query()
@@ -137,15 +137,15 @@ class CreateDataDiri extends Component
             ->first();
         $regency = Regency::query()
             ->where('name', 'like', '%' . $mahasiswa->kota . '%')
-            ->where('province_id', $province->id)
+            ->where('province_id', $province?->id)
             ->first();
         $district = District::query()
             ->where('name', 'like', '%' . $mahasiswa->kecamatan . '%')
-            ->where('regency_id', $regency->id)
+            ->where('regency_id', $regency?->id)
             ->first();
         $village = Village::query()
             ->where('name', 'like', '%' . $mahasiswa->kelurahan . '%')
-            ->where('district_id', $district->id)
+            ->where('district_id', $district?->id)
             ->first();
 
         $this->agama_id = $agama?->id;

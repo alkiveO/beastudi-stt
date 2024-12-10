@@ -155,15 +155,15 @@ class ShowMasterData extends Component
             ->first();
         $regency = Regency::query()
             ->where('name', 'like', '%' . $this->mahasiswa->kota . '%')
-            ->where('province_id', $province->id)
+            ->where('province_id', $province?->id)
             ->first();
         $district = District::query()
             ->where('name', 'like', '%' . $this->mahasiswa->kecamatan . '%')
-            ->where('regency_id', $regency->id)
+            ->where('regency_id', $regency?->id)
             ->first();
         $village = Village::query()
             ->where('name', 'like', '%' . $this->mahasiswa->kelurahan . '%')
-            ->where('district_id', $district->id)
+            ->where('district_id', $district?->id)
             ->first();
 
         $this->agama_id = !is_null($this->mahasiswa->agama)
