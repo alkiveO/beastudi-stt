@@ -69,7 +69,6 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, WithChunkReading,
 
     private function isPasswordHashed($password)
     {
-        // Check if the password is hashed (assuming hash is 60 characters long, for bcrypt)
         return strlen($password) === 60 && preg_match('/^\$2[ayb]\$.{56}$/', $password);
     }
 }
