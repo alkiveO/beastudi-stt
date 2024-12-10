@@ -35,7 +35,7 @@ Route::middleware('guest:web,mahasiswa')->group(function() {
     // Route::get('register', [RegisterController::class, 'index']);
     // Route::post('register', [RegisterController::class, 'store']);
 
-    Route::get('mahasiswa-login', [MahasiswaLoginController::class, 'index'])->name('login');
+    Route::get('mahasiswa-login', [MahasiswaLoginController::class, 'index'])->name('mahasiswa.login');
     Route::post('mahasiswa-login', [MahasiswaLoginController::class, 'store']);
 
     Route::get('admin-login', [AdminLoginController::class, 'index'])->name('admin.login');

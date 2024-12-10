@@ -56,7 +56,7 @@
         <div class="login-aside d-flex flex-column flex-row-auto flex-row-fluid bg-orange align-items-center ">
             <div id="sign-up" class="auth-form tab-pane fade show active form-validation mt-4">
                 <div class="p-4">
-                    <form action="{{ route('login') }}" method="post">
+                    <form action="{{ route('mahasiswa.login') }}" method="post">
                     @csrf
                         <div class="mb-4">
                             <h2 class="text-white">Masuk</h3>
