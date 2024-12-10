@@ -42,7 +42,7 @@
                         <div class="authincation-content style-2">
                             <div class="row no-gutters">
                                 <div class="col-xl-12 tab-content">
-                                    <p class="fs-1 fw-bold lh-sm mt-4 text-gray">{{ ucwords($redaksi_login_page->judul) }}</p>
+                                    <p class="fs-1 fw-bold lh-sm mt-4 text-gray">{{ ucwords($redaksi_login_page?->judul) }}</p>
                                 </div>
                             </div>
                         </div>
