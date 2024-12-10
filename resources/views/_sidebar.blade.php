@@ -4,25 +4,25 @@
             <ul class="metismenu" id="menu">
                 <li>
                     <a href="{{ route('admin.dashboard') }}">
-                        <i class="material-icons">signal_cellular_alt</i>
+                        <i class="material-icons">dashboard</i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.master-data') }}" aria-expanded="false">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="material-icons">folder</i>
                         <span class="nav-text">Master Data</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.redaksi') }}" aria-expanded="false">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="material-icons">folder</i>
                         <span class="nav-text">Redaksi</span>
                     </a>
                 </li>
                 <li class="">
                     <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-                        <i class="material-symbols-outlined">settings</i>
+                        <i class="material-icons">settings</i>
                         <span class="nav-text">Pengaturan</span>
                     </a>
 					<ul aria-expanded="false" class="mm-collapse" style="height: 16px;">
@@ -36,7 +36,7 @@
                         href="{{ route('admin.logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     >
-                        <i class="bi bi-box-arrow-left"></i>
+                        <i class="material-icons">logout</i>
                         <span class="nav-text">Keluar</span>
                     </a>
                 </li>
@@ -51,19 +51,19 @@
             <ul class="metismenu" id="menu">
                 <li>
                     <a href="{{ route('mahasiswa.dashboard') }}">
-                        <i class="material-icons">signal_cellular_alt</i>
+                        <i class="material-icons">dashboard</i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('mahasiswa.data-diri') }}" aria-expanded="false">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="material-icons">assignment</i>
                         <span class="nav-text">Data Diri</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('mahasiswa.monitoring') }}" aria-expanded="false">
-                        <i class="bi bi-pencil-square"></i>
+                        <i class="material-icons">receipt_long</i>
                         <span class="nav-text">Laporan Semester</span>
                     </a>
                 </li>
@@ -72,7 +72,7 @@
                         href="{{ route('mahasiswa.logout') }}"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     >
-                        <i class="bi bi-box-arrow-left"></i>
+                        <i class="material-icons">logout</i>
                         <span class="nav-text">Keluar</span>
                     </a>
                 </li>
