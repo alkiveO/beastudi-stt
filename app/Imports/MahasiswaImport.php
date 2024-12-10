@@ -16,11 +16,23 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, WithChunkReading,
 {
     public function collection(Collection $rows)
     {
-       ini_set('max_execution_time', 600); // Waktu dalam detik
+        // TODO: gunakan pendekatan lain
+        // butuh waktu sekitar 3 menit utk
+        // import sebanyak 600 data
+
+        ini_set('max_execution_time', 600); // Waktu dalam detik
 
         foreach ($rows as $row) {
-            if (!isset($row['id'])) {
+            if (! isset($row['id'])) {
                 continue;
+            }
+
+            // Cek apakah password adalah hash atau plain text
+            $password = $row['password'] ?? '';
+            if (! empty($password) && ! $this->isPasswordHashed($password)) {
+                $password = Hash::make($password);
+            } elseif (empty($password)) {
+                $password = Hash::make('beastudi');
             }
 
             Mahasiswa::updateOrCreate(
@@ -28,9 +40,7 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, WithChunkReading,
                 [
                     'nama' => $row['nama'],
                     'email' => $row['email_mahasiswa'],
-                    'password' => ! is_null($row['password'])
-                        ? Hash::make($row['password'])
-                        : Hash::make('beastudi'),
+                    'password' => $password,
                     'nim' => $row['nim'],
                     'tahun_masuk' => $row['angkatan'],
                     'program_studi' => strtolower($row['program_studi']),
@@ -55,5 +65,11 @@ class MahasiswaImport implements ToCollection, WithHeadingRow, WithChunkReading,
     public function chunkSize(): int
     {
         return 100;
+    }
+
+    private function isPasswordHashed($password)
+    {
+        // Check if the password is hashed (assuming hash is 60 characters long, for bcrypt)
+        return strlen($password) === 60 && preg_match('/^\$2[ayb]\$.{56}$/', $password);
     }
 }
