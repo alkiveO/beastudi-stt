@@ -19,6 +19,13 @@ class ListMasterData extends Component
     public $tahun_masuk = '';
     public $filters = [];
 
+    protected $queryString = [
+        'nama' => ['except' => ''],
+        'program_studi' => ['except' => ''],
+        'jalur_beastudi' => ['except' => ''],
+        'tahun_masuk' => ['except' => ''],
+    ];
+
     protected $listeners = ['refreshPage' => '$refresh'];
 
     public function mount()

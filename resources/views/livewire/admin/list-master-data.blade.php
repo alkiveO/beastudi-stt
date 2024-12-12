@@ -83,7 +83,8 @@
                     </tbody>
                 </table>
                 <div class="mt-4">
-                    {{ $data_mahasiswa->links('pagination::bootstrap-5') }}
+                    {{ $data_mahasiswa->links('vendor.livewire.bootstrap') }}
+
                 </div>
             </div>
         </div>
