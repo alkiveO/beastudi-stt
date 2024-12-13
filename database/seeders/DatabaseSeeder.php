@@ -9,17 +9,19 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call([
-            UserSeeder::class,
-            ProgramStudiSeeder::class,
-            JalurPrestasiSeeder::class,
-            MahasiswaSeeder::class,
-            AgamaSeeder::class,
-            IndoRegionSeeder::class,
-            PembimbingAkademikSeeder::class,
-            PeriodeSeeder::class,
-            KontribusiSeeder::class,
-            RedaksiSeeder::class
-        ]);
+        if (app()->isLocal()) {
+            $this->call([
+                UserSeeder::class,
+                ProgramStudiSeeder::class,
+                JalurPrestasiSeeder::class,
+                MahasiswaSeeder::class,
+                AgamaSeeder::class,
+                IndoRegionSeeder::class,
+                PembimbingAkademikSeeder::class,
+                PeriodeSeeder::class,
+                KontribusiSeeder::class,
+                RedaksiSeeder::class
+            ]);
+        }
     }
 }
