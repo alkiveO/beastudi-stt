@@ -19,11 +19,11 @@ class DownloadSpbController extends Controller
 
         $pdf = Pdf::loadView('pdf.spb', [
             'mahasiswa' => $mahasiswa,
+            'periode' => $periode,
             'semester' => request()->semester,
-            'periode' => request()->periode,
         ]);
 
-        $nama_file = 'SPB ' . $mahasiswa->nama . ' Semester ' . request()->semester . ' Periode ' . $periode->nama . '.pdf';
+        $nama_file = 'SPB ' . $mahasiswa->nama . ' Semester ' . request()->semester . ' Periode ' . $periode->slug . '.pdf';
 
         return $pdf->download($nama_file);
     }

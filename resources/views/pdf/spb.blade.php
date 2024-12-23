@@ -41,7 +41,7 @@
 
 <body class="container">
     <div class="heading">
-        <h3>Surat Perjanjian Penerima Beastudi STT-NF <br> Semester Ganjil Tahun Akademik {{ date('Y') . '/' . date('Y') + 1 }}</h3>
+        <h3>Surat Perjanjian Penerima Beastudi STT-NF <br> Semester Ganjil Tahun Akademik {{ $periode->nama }}</h3>
     </div>
 
     <div class="detail">
@@ -80,12 +80,12 @@
                 a. IPS >= 3,0, IPK >= 3,0, dan nilai matakuliah min. C+ <br>
                 b. Presensi setiap mata kuliah hadir min. 13 kali pertemuan
             </li>
-            <li><strong>Mengisi SKPI</strong> (surat keterangan pendamping ijazah) selama semester ganjil tahun {{ date('Y') . '/' . date('Y') + 1 }} di <a href="https://siska.nurulfikri.ac.id">siska.nurulfikri.ac.id</a>. (PIC Kemas & Prodi)</li>
+            <li><strong>Mengisi SKPI</strong> (surat keterangan pendamping ijazah) selama semester ganjil tahun {{ $periode->nama }} di <a href="https://siska.nurulfikri.ac.id">siska.nurulfikri.ac.id</a>. (PIC Kemas & Prodi)</li>
             <li><strong>Membuat Laporan Pertanggung Jawaban Beastudi</strong> (draft terlampir menjelang akhir semester di grup beastudi)</li>
             @php
                 $monitoring = $mahasiswa->monitoring()
+                    ->where('periode_id', $periode->id)
                     ->where('semester', $semester)
-                    ->where('periode_id', $periode)
                     ->first();
             @endphp
 
@@ -116,7 +116,7 @@
 
     <div class="evaluasi">
         <p><strong>*Evaluasi</strong></p>
-        <p>Evaluasi dilakukan diakhir semester ganjil tahun akademik {{ date('Y') . '/' . date('Y') + 1 }} untuk menentukan apakah beasiswa semester selanjutnya tetap berlanjut atau tidak. Jika pada hasil evaluasi akhir semester ganjil tahun ajaran {{ date('Y') . '/' . date('Y') + 1 }} terdapat salah satu indikator kewajiban tidak memenuhi standar pada masing-masing komposisi penilaian, maka saya bersedia untuk menerima sangsi berupa Berita Acara Perkara dan mendapatkan Surat Peringatan sampai dengan pencabutan beasiswa.</p>
+        <p>Evaluasi dilakukan diakhir semester ganjil tahun akademik {{ $periode->nama }} untuk menentukan apakah beasiswa semester selanjutnya tetap berlanjut atau tidak. Jika pada hasil evaluasi akhir semester ganjil tahun ajaran {{ $periode->nama }} terdapat salah satu indikator kewajiban tidak memenuhi standar pada masing-masing komposisi penilaian, maka saya bersedia untuk menerima sangsi berupa Berita Acara Perkara dan mendapatkan Surat Peringatan sampai dengan pencabutan beasiswa.</p>
     </div>
 
     <div style="text-align:right;">Depok, {{ Carbon\Carbon::now()->isoFormat('D MMMM Y') }}</div>

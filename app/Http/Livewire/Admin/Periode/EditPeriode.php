@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Admin\Periode;
 
 use App\Models\Periode;
 use Livewire\Component;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class EditPeriode extends Component
@@ -18,6 +17,7 @@ class EditPeriode extends Component
             'nama' => [
                 'required',
                 'max:255',
+                'regex:/\//', // memastikan nama mengandung tanda "/"
                 Rule::unique('periode', 'nama')
                     ->ignore($this->periode_id)
             ],
@@ -26,7 +26,8 @@ class EditPeriode extends Component
 
     protected $messages = [
         'nama.required' => 'periode harus diisi',
-        'nama.unique' => 'periode sudah digunakan'
+        'nama.unique' => 'periode sudah digunakan',
+        'nama.regex' => 'format periode tidak sesuai',
     ];
 
     protected $listeners = [
@@ -52,7 +53,7 @@ class EditPeriode extends Component
             ->where('id', $this->periode_id)
             ->update([
                 'nama' => $this->nama,
-                'slug' => Str::slug($this->nama)
+                'slug' => str_replace('/', '-', $this->nama)
             ]);
 
         $this->emit('alert', 'Berhasil', 'Periode berhasil diubah', 'success');

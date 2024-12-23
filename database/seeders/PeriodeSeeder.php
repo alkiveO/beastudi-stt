@@ -12,12 +12,8 @@ class PeriodeSeeder extends Seeder
     public function run(): void
     {
         Periode::insert([
-            ['nama' => $nama = '2024 ganjil', 'slug' => Str::slug($nama)],
-            ['nama' => $nama = '2024 genap', 'slug' => Str::slug($nama)],
-            ['nama' => $nama = '2025 ganjil', 'slug' => Str::slug($nama)],
-            ['nama' => $nama = '2025 genap', 'slug' => Str::slug($nama)],
-            ['nama' => $nama = '2026 ganjil', 'slug' => Str::slug($nama)],
-            ['nama' => $nama = '2026 genap', 'slug' => Str::slug($nama)],
+            ['nama' => $nama = '2024/2025', 'slug' => '2024-2025'],
+            ['nama' => $nama = '2025/2026', 'slug' => '2025/2026'],
         ]);
     }
 }

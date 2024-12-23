@@ -36,7 +36,7 @@
 
 <body class="container">
     <div class="heading">
-        <h3>LAPORAN PERKEMBANGAN <br> AKADEMIK DAN NON AKADEMIK <br> PENERIMA BEASISWA <br> SEMESTER GENAP TAHUN AKADEMIK {{ date('Y') . '/' . date('Y')+1 }} </h3>
+        <h3>LAPORAN PERKEMBANGAN <br> AKADEMIK DAN NON AKADEMIK <br> PENERIMA BEASISWA <br> SEMESTER GENAP TAHUN AKADEMIK {{ $periode->nama }} </h3>
     </div>
 
     <div class="image">
@@ -83,8 +83,8 @@
 
     @php
         $monitoring = $mahasiswa->monitoring()
+            ->where('periode_id', $periode->id)
             ->where('semester', $semester)
-            ->where('periode_id', $periode)
             ->first();
     @endphp
 
@@ -165,7 +165,7 @@
     <div class="laporan_akademik">
         <p><strong>III. LAPORAN PRESTASI AKADEMIK</strong> (IPK Minimal 3,0)</p>
         <div style="padding-left:15px !important;text-align:justify;">
-            <strong>*) Melampirkan KHS Semester Genap TA {{ date('Y')-1 . '/' . date('Y') }} bisa download transkrip nilai dari ais.nurulfikri.ac.id (jika belum ada bisa di cantumkan khs semester sebelum nya)</strong>
+            <strong>*) Melampirkan KHS Semester Genap TA {{ $periode->nama }} bisa download transkrip nilai dari ais.nurulfikri.ac.id (jika belum ada bisa di cantumkan khs semester sebelum nya)</strong>
         </div>
     </div>
 

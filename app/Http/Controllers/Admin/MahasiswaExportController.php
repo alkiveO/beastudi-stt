@@ -13,5 +13,4 @@ class MahasiswaExportController extends Controller
     {
         return Excel::download(new ExportMahasiswa, 'Master_Data_Dashboard_Mahasiswa_Beastudi_STT_Terpadu_Nurul_Fikri.xlsx');
     }
-    
 }

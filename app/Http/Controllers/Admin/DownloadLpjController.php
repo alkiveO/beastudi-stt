@@ -19,11 +19,11 @@ class DownloadLpjController extends Controller
 
         $pdf = Pdf::loadView('pdf.lpj', [
             'mahasiswa' => $mahasiswa,
+            'periode' => $periode,
             'semester' => request()->semester,
-            'periode' => request()->periode,
         ]);
 
-        $nama_file = 'LPJ ' . $mahasiswa->nama . ' Semester ' . request()->semester . ' Periode ' . $periode->nama . '.pdf';
+        $nama_file = 'LPJ ' . $mahasiswa->nama . ' Semester ' . request()->semester . ' Periode ' . $periode->slug . '.pdf';
 
         return $pdf->download($nama_file);
     }
