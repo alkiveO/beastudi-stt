@@ -54,12 +54,6 @@
                 <td
                     style="font-weight: bold;
                     text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    Presentase
-                    Beastudi
-                </td>
-                <td
-                    style="font-weight: bold;
-                    text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
                     Jalur Beasiswa
                 </td>
                 <td
@@ -76,53 +70,47 @@
                 <td
                     style="font-weight: bold;
                     text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    nonik
+                    No NIK
                 </td>
                 <td
                     style="font-weight: bold;
                     text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    nokk
+                    No KK
                 </td>
                 <td
                     style="font-weight: bold;
                     text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    nik_kepala_keluarga
+                    NIK Kepala Keluarga
                 </td>
                 <td
                     style="font-weight: bold;
                     text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    nama_kepala_keluarga_sesuai_kk
-                </td>
-
-                <td
-                    style="font-weight: bold;
-                    text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    Status Evaluasi
+                    Nama Kepala Keluarga Sesuai KK
                 </td>
                 <td
                     style="font-weight: bold;
     text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    provinsi
+                    Provinsi
                 </td>
                 <td
                     style="font-weight: bold;
         text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    kabupaten
+                    Kabupaten
                 </td>
                 <td
                     style="font-weight: bold;
                 text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    kecamatan
+                    Kecamatan
                 </td>
                 <td
                     style="font-weight: bold;
             text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    kelurahan
+                    Kelurahan
                 </td>
                 <td
                     style="font-weight: bold;
 text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width: 130px;">
-                    kode_pos
+                    Kode POS
                 </td>
             </tr>
             @php $no = 1; @endphp
@@ -136,7 +124,7 @@ text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width:
                   </td>
                   <td style="text-align: center; border: 2px solid #000000; width: 90px;">
                     {{ $mahasiswa->nim }}
-                </td>  
+                </td>
                   <td style="text-align: center; border: 2px solid #000000; width: 90px;">
                         {{ $mahasiswa->nama }}
                     </td>
@@ -154,9 +142,6 @@ text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width:
                     </td>
                     <td style="text-align: center; border: 2px solid #000000; width: 130px;">
                         {{ $mahasiswa->rombel }}
-                    </td>
-                    <td style="text-align: center; border: 2px solid #000000; width: 100px;">
-                        {{ $mahasiswa->program_studi }}
                     </td>
                     <td style="text-align: center; border: 2px solid #000000; width: 130px;">
                         {{ $mahasiswa->jalur_beastudi }}
@@ -179,20 +164,17 @@ text-align: center; border: 2px solid #000000; background-color: #d1d1d1; width:
                     <td style="text-align: center; border: 2px solid #000000; width: 100px;">
                         {{ $mahasiswa->nama_kepala_keluarga }}
                     </td>
-                    <td style="text-align: center; border: 2px solid #000000; width: 100px;">
-                        {{ $mahasiswa->status }}
+                    <td style="text-align: center; border: 2px solid #000000; width: 130px;">
+                        {{ strtoupper($mahasiswa->provinsi) }}
                     </td>
                     <td style="text-align: center; border: 2px solid #000000; width: 130px;">
-                        {{ $mahasiswa->provinsi }}
+                        {{ strtoupper($mahasiswa->kota) }}
                     </td>
                     <td style="text-align: center; border: 2px solid #000000; width: 130px;">
-                        {{ $mahasiswa->kota }}
+                        {{ strtoupper($mahasiswa->kecamatan) }}
                     </td>
                     <td style="text-align: center; border: 2px solid #000000; width: 130px;">
-                        {{ $mahasiswa->kecamatan }}
-                    </td>
-                    <td style="text-align: center; border: 2px solid #000000; width: 130px;">
-                        {{ $mahasiswa->kelurahan }}
+                        {{ strtoupper($mahasiswa->kelurahan) }}
                     </td>
                     <td style="text-align: center; border: 2px solid #000000; width: 130px;">
                         {{ $mahasiswa->kode_pos }}
