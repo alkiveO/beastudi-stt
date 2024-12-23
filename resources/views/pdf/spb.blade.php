@@ -83,7 +83,7 @@
             <li><strong>Mengisi SKPI</strong> (surat keterangan pendamping ijazah) selama semester ganjil tahun {{ $periode->nama }} di <a href="https://siska.nurulfikri.ac.id">siska.nurulfikri.ac.id</a>. (PIC Kemas & Prodi)</li>
             <li><strong>Membuat Laporan Pertanggung Jawaban Beastudi</strong> (draft terlampir menjelang akhir semester di grup beastudi)</li>
             @php
-                $monitoring = $mahasiswa->monitoring()
+                $monitoring = $mahasiswa->monitorings()
                     ->where('periode_id', $periode->id)
                     ->where('semester', $semester)
                     ->first();

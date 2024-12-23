@@ -33,7 +33,7 @@ class ExportMahasiswa implements FromView, WithEvents
             ->orderBy('nama')
             ->get();
 
-        return view('admin.export_excel', compact(
+        return view('admin.exports.mahasiswa', compact(
             'mahasiswas'
         ));
     }

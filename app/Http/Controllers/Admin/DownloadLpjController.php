@@ -12,6 +12,7 @@ class DownloadLpjController extends Controller
     public function __invoke()
     {
         $mahasiswa = Mahasiswa::query()
+            ->with(['monitorings'])
             ->where('nim', request()->nim)
             ->first();
 

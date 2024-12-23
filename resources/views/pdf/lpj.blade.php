@@ -82,7 +82,7 @@
     <div class="page-break"></div>
 
     @php
-        $monitoring = $mahasiswa->monitoring()
+        $monitoring = $mahasiswa->monitorings()
             ->where('periode_id', $periode->id)
             ->where('semester', $semester)
             ->first();

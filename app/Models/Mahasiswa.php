@@ -18,8 +18,8 @@ class Mahasiswa extends Authenticatable
         return $this->hasOne(Mou::class, 'mhs_id', 'mhs_id');
     }
 
-    public function monitoring()
+    public function monitorings()
     {
-        return $this->hasOne(Monitoring::class, 'nim', 'nim');
+        return $this->hasMany(Monitoring::class, 'nim', 'nim');
     }
 }
