@@ -192,10 +192,10 @@ class CreateMonitoring extends Component
 
     public function store()
     {
-        if (! $this->monitoring) {
-            $this->rules['file_lpj'] = 'required|mimes:pdf|max:1024';
-        } else {
+        if ($this->monitoring && $this->monitoring->file_lpj) {
             $this->rules['file_lpj'] = 'nullable|mimes:pdf|max:1024';
+        } else {
+            $this->rules['file_lpj'] = 'required|mimes:pdf|max:1024';
         }
 
         $this->validate();

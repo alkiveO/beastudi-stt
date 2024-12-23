@@ -15,7 +15,6 @@ class ShowMonitoring extends Component
     public $semester_select;
     public $periode_select;
 
-    public $list_periode;
     public $mahasiswa;
     public $monitoring;
     public $program_studi_nama;
@@ -68,7 +67,6 @@ class ShowMonitoring extends Component
 
     public function mount($nim)
     {
-        $this->list_periode = Periode::all();
         $this->mahasiswa = Mahasiswa::query()
             ->where('nim', $nim)
             ->firstOrFail();
@@ -154,19 +152,23 @@ class ShowMonitoring extends Component
     {
         $this->validate();
 
-        $this->monitoring->update([
-            'nim' => $this->nim,
-            'semester' => $this->semester,
-            'tanggal_isi' => $this->tanggal_isi,
-            'ipk' => $this->ipk,
-            'ips' => $this->ips,
-            'pembimbing_akademik_id' => $this->pembimbing_akademik_id,
-            'periode_id' => $this->periode_id,
-            'kontribusi_khusus_id' => $this->kontribusi_khusus_id,
-            'deskripsi_capaian' => $this->deskripsi_capaian,
-            'deskripsi_kendala' => $this->deskripsi_kendala,
-            'deskripsi_rencana' => $this->deskripsi_rencana
-        ]);
+        Monitoring::updateOrCreate(
+            [
+                'nim' => $this->nim,
+                'semester' => $this->semester,
+                'periode_id' => $this->periode_id,
+            ],
+            [
+                'tanggal_isi' => $this->tanggal_isi,
+                'ipk' => $this->ipk,
+                'ips' => $this->ips,
+                'pembimbing_akademik_id' => $this->pembimbing_akademik_id,
+                'kontribusi_khusus_id' => $this->kontribusi_khusus_id,
+                'deskripsi_capaian' => $this->deskripsi_capaian,
+                'deskripsi_kendala' => $this->deskripsi_kendala,
+                'deskripsi_rencana' => $this->deskripsi_rencana
+            ]
+        );
 
         $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diubah', 'success');
     }
@@ -174,6 +176,7 @@ class ShowMonitoring extends Component
     public function render()
     {
         return view('livewire.admin.show-monitoring', [
+            'list_periode' => Periode::all(),
             'kontribusi_khusus' => KontribusiKhusus::all(),
             'pembimbing_akademik' => PembimbingAkademik::query()
                 ->where('program_studi', $this->program_studi_nama)

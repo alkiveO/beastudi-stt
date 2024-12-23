@@ -191,7 +191,7 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col-md-4">
-                                @if($monitoring)
+                                @if($monitoring && $monitoring->file_lpj)
                                     <label for="file" class="form-label text-dark">Unggah dokumen LPJ</label>
                                 @else
                                     <label for="file" class="form-label text-dark">Unggah dokumen LPJ <span class="text-danger">*</span></label>
