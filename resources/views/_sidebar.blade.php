@@ -15,6 +15,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.monitoring') }}" aria-expanded="false">
+                        <i class="material-icons">description</i>
+                        <span class="nav-text">Monitoring</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.redaksi') }}" aria-expanded="false">
                         <i class="material-icons">folder</i>
                         <span class="nav-text">Redaksi</span>

@@ -58,6 +58,8 @@ Route::middleware('auth')
         Route::get('download-spb', DownloadSpbController::class)->name('download-spb');
         Route::get('download-lpj', DownloadLpjController::class)->name('download-lpj');
 
+        Route::view('monitoring', 'admin.monitoring')->name('monitoring');
+
         Route::view('redaksi', 'admin.redaksi')->name('redaksi');
 
         Route::view('periode', 'admin.periode')->name('periode');
