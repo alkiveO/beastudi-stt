@@ -1,6 +1,6 @@
 services:
   beastudi:
-    image: nufian/apache2-fpm-8.3:1.0
+    image: nufian/apache2-fpm-8.3:1.0 
     container_name: beastudi
     restart: unless-stopped
     tty: true
