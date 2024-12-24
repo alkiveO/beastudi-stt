@@ -52,6 +52,8 @@ class ExportMonitoring implements FromView, WithEvents, WithColumnFormatting
 
     public function view(): View
     {
+        ini_set('max_execution_time', 600); // Waktu dalam detik
+
         $periode_id = $this->periode_id;
 
         $mahasiswas = Mahasiswa::query()
