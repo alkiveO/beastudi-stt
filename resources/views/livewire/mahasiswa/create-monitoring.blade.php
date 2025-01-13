@@ -185,8 +185,8 @@
 
                                     @foreach($arrPrestasi as $item)
                                     <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p>{{ $loop->iteration }}. {{ $item->nama }}</p>
-                                        <p><a href="{{ Storage::url($item->file) }}" target="_blank">Lihat Dokumen</a></p>
+                                        <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
+                                        <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
                                     </div>
                                     @endforeach
                                 @endif
@@ -247,7 +247,7 @@
                                     <h6>Dokumen yang telah di unggah</h6>
 
                                     <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p>{{ $monitoring->file_spb }}</p>
+                                        <p class="text-dark">{{ $monitoring->file_spb }}</p>
                                         <p><a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
                                     </div>
                                 @endif

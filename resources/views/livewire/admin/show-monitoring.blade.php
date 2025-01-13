@@ -165,31 +165,33 @@
                             <h5 class="mb-0">Bukti Dokumen</h5>
                         </div>
                         <div class="card-body">
+                            <!-- prestasi -->
                             <div class="row">
-                                @if($file_kegiatan)
+                                <div class="col-md-5">
+                                    <h5>Kegiatan lomba atau prestasi</h5>
+                                    @forelse($prestasi as $item)
                                     <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p>Dokumen Keikutsertaan Kegiatan</p>
-                                        <p><a href="{{ asset('storage/monitoring/file-kegiatan/' . $file_kegiatan) }}" target="__blank" class="text-dark">Lihat File</a></p>
+                                        <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
+                                        <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
                                     </div>
-                                @endif
-                                @if($file_internal_kampus)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p>Dokumen Keikutsertaan Internal Kampus</p>
-                                        <p><a href="{{ asset('storage/monitoring/file-internal-kampus/' . $file_internal_kampus) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                                    </div>
-                                @endif
-                                @if($file_prestasi)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p>Dokumen Prestasi</p>
-                                        <p><a href="{{ asset('storage/monitoring/file-prestasi/' . $file_prestasi) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                                    </div>
-                                @endif
-                                @if($file_lpj)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p>Dokumen LPJ</p>
-                                        <p><a href="{{ asset('storage/monitoring/file-lpj/' . $file_lpj) }}" target="__blank" class="text-dark">Lihat File</a></p>
-                                    </div>
-                                @endif
+                                    @empty
+                                        <p>Belum ada prestasi yang ditambahkan.</p>
+                                    @endforelse
+                                </div>
+                            </div>
+
+                            <!-- spb -->
+                            <div class="row mt-3">
+                                <div class="col-md-7">
+                                    <h5>Dokumen SPB</h5>
+
+                                    @if($file_spb)
+                                        <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                            <p class="text-dark">{{ $file_spb }}</p>
+                                            <p><a href="{{ $file_spb }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
 

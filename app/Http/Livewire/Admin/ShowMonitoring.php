@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\KontribusiKhusus;
 use App\Models\Periode;
 use Livewire\Component;
+use App\Models\Prestasi;
 use App\Models\Mahasiswa;
 use App\Models\Monitoring;
 use App\Models\ProgramStudi;
+use App\Models\KontribusiKhusus;
 use App\Models\PembimbingAkademik;
 
 class ShowMonitoring extends Component
@@ -17,6 +18,7 @@ class ShowMonitoring extends Component
 
     public $mahasiswa;
     public $monitoring;
+    public $prestasi;
     public $program_studi_nama;
 
     public $tanggal_isi;
@@ -30,10 +32,7 @@ class ShowMonitoring extends Component
     public $deskripsi_capaian;
     public $deskripsi_kendala;
     public $deskripsi_rencana;
-    public $file_kegiatan;
-    public $file_internal_kampus;
-    public $file_prestasi;
-    public $file_lpj;
+    public $file_spb;
 
     protected $rules = [
         'tanggal_isi' => 'required',
@@ -113,11 +112,9 @@ class ShowMonitoring extends Component
                 'deskripsi_capaian',
                 'deskripsi_kendala',
                 'deskripsi_rencana',
-                'file_kegiatan',
-                'file_internal_kampus',
-                'file_prestasi',
-                'file_lpj'
             ]);
+
+            $this->prestasi = [];
 
             $this->emit('clearSelect');
         }
@@ -133,10 +130,14 @@ class ShowMonitoring extends Component
             $this->deskripsi_capaian = $this->monitoring->deskripsi_capaian;
             $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
-            $this->file_kegiatan = $this->monitoring->file_kegiatan;
-            $this->file_internal_kampus = $this->monitoring->file_internal_kampus;
-            $this->file_prestasi = $this->monitoring->file_prestasi;
-            $this->file_lpj = $this->monitoring->file_lpj;
+            $this->file_spb = $this->monitoring->file_spb;
+
+            $this->prestasi = Prestasi::query()
+                ->where('nim', $this->mahasiswa->nim)
+                ->where('semester', $this->semester)
+                ->where('periode_id', $this->periode_id)
+                ->where('monitoring_id', $this->monitoring->id)
+                ->get();
 
             $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
             $this->emit('paSelect', $this->monitoring->pembimbing_akademik_id);
