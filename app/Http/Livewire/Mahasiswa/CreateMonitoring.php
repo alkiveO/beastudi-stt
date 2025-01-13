@@ -2,13 +2,14 @@
 
 namespace App\Http\Livewire\Mahasiswa;
 
-use App\Models\KontribusiKhusus;
+use App\Models\Periode;
 use Livewire\Component;
+use App\Models\Prestasi;
 use App\Models\Monitoring;
 use App\Models\ProgramStudi;
 use Livewire\WithFileUploads;
+use App\Models\KontribusiKhusus;
 use App\Models\PembimbingAkademik;
-use App\Models\Periode;
 use Illuminate\Support\Facades\Storage;
 
 class CreateMonitoring extends Component
@@ -19,10 +20,11 @@ class CreateMonitoring extends Component
     public $periode_select;
 
     public $monitoring;
-    public $program_studi_nama;
+    public $arrPrestasi;
 
     public $tanggal_isi;
     public $nim;
+    public $program_studi_nama;
     public $semester;
     public $ipk;
     public $ips;
@@ -32,10 +34,8 @@ class CreateMonitoring extends Component
     public $deskripsi_capaian;
     public $deskripsi_kendala;
     public $deskripsi_rencana;
-    public $file_kegiatan;
-    public $file_internal_kampus;
-    public $file_prestasi;
-    public $file_lpj;
+    public $file_spb;
+    public $prestasi = [];
 
     protected $rules = [
         'tanggal_isi' => 'required',
@@ -48,10 +48,7 @@ class CreateMonitoring extends Component
         'deskripsi_capaian' => 'nullable|max:500',
         'deskripsi_kendala' => 'nullable|max:500',
         'deskripsi_rencana' => 'nullable|max:500',
-        'file_kegiatan' => 'nullable|mimes:pdf|max:1024',
-        'file_internal_kampus' => 'nullable|mimes:pdf|max:1024',
-        'file_prestasi' => 'nullable|mimes:pdf|max:1024',
-        'file_lpj' => 'required|mimes:pdf|max:1024',
+        'file_spb' => 'nullable|mimes:pdf|max:1024',
     ];
 
     protected $messages = [
@@ -69,49 +66,11 @@ class CreateMonitoring extends Component
         'deskripsi_capaian.max' => 'deskripsi capaian maksimal 500 kata',
         'deskripsi_kendala.max' => 'deskripsi kendala maksimal 500 kata',
         'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
-        'file_kegiatan.mimes' => 'dokumen keikutsertaan kegiatan harus berupa .pdf',
-        'file_kegiatan.max' => 'dokumen keikutsertaan kegiatan maksimal 1 MB',
-        'file_internal_kampus.mimes' => 'dokumen keikutsertaan internal kampus harus berupa .pdf',
-        'file_internal_kampus.max' => 'dokumen keikutsertaan internal kampus maksimal 1 MB',
-        'file_prestasi.mimes' => 'dokumen prestasi harus berupa .pdf',
-        'file_prestasi.max' => 'dokumen prestasi maksimal 1 MB',
-        'file_lpj.required' => 'dokumen lpj harus diisi',
-        'file_lpj.mimes' => 'dokumen lpj harus berupa .pdf',
-        'file_lpj.max' => 'dokumen lpj maksimal 1 MB',
+        'file_spb.mimes' => 'dokumen spb harus berupa .pdf',
+        'file_spb.max' => 'dokumen spb maksimal 1 MB',
+        'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
+        'prestasi.*.file.max' => 'dokumen maksimal 1 MB',
     ];
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
-
-    public function updatedFileKegiatan()
-    {
-        $this->validate([
-            'file_kegiatan' => 'mimes:pdf|max:1024'
-        ]);
-    }
-
-    public function updatedFileInternalKampus()
-    {
-        $this->validate([
-            'file_internal_kampus' => 'mimes:pdf|max:1024'
-        ]);
-    }
-
-    public function updatedFilePrestasi()
-    {
-        $this->validate([
-            'file_prestasi' => 'mimes:pdf|max:1024'
-        ]);
-    }
-
-    public function updatedFileLpj()
-    {
-        $this->validate([
-            'file_lpj' => 'mimes:pdf|max:1024'
-        ]);
-    }
 
     public function mount()
     {
@@ -122,6 +81,46 @@ class CreateMonitoring extends Component
 
         $this->nim = $mahasiswa->nim;
         $this->program_studi_nama = $program_studi->nama;
+    }
+
+    public function tambahPrestasi()
+    {
+         $this->validate([
+            'prestasi.*.nama' => 'required',
+            'prestasi.*.file' => 'required|mimes:pdf|max:1024',
+        ], [
+            'prestasi.*.nama.required' => 'lomba atau prestasi harus diisi',
+            'prestasi.*.file.required' => 'dokumen harus harus diisi',
+            'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
+            'prestasi.*.file.max' => 'dokumen maksimal 1 MB.',
+        ]);
+
+        $this->prestasi[] = ['nama' => '', 'file' => ''];
+    }
+
+    public function hapusPrestasi($index)
+    {
+        unset($this->prestasi[$index]);
+
+        $this->prestasi = array_values($this->prestasi); // Reset indeks array
+    }
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+
+        if (preg_match('/prestasi\.\d+\.file/', $propertyName)) {
+            $this->validateOnly($propertyName, [
+                'prestasi.*.file' => 'nullable|mimes:pdf|max:1024',
+            ]);
+        }
+    }
+
+    public function updatedFileSpb()
+    {
+        $this->validate([
+            'file_spb' => 'mimes:pdf|max:1024'
+        ]);
     }
 
     public function updatedSemesterSelect($value)
@@ -164,11 +163,11 @@ class CreateMonitoring extends Component
                 'deskripsi_capaian',
                 'deskripsi_kendala',
                 'deskripsi_rencana',
-                'file_kegiatan',
-                'file_internal_kampus',
-                'file_prestasi',
-                'file_lpj'
+                'file_spb',
+                'prestasi',
             ]);
+
+            $this->arrPrestasi = [];
 
             $this->emit('clearSelect');
         }
@@ -185,6 +184,13 @@ class CreateMonitoring extends Component
             $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
 
+            $this->arrPrestasi = Prestasi::query()
+                ->where('nim', $this->nim)
+                ->where('semester', $this->semester)
+                ->where('periode_id', $this->periode_id)
+                ->where('monitoring_id', $this->monitoring->id)
+                ->get();
+
             $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
             $this->emit('paSelect', $this->monitoring->pembimbing_akademik_id);
         }
@@ -192,59 +198,24 @@ class CreateMonitoring extends Component
 
     public function store()
     {
-        if ($this->monitoring && $this->monitoring->file_lpj) {
-            $this->rules['file_lpj'] = 'nullable|mimes:pdf|max:1024';
+        if ($this->monitoring && $this->monitoring->file_spb) {
+            $this->rules['file_spb'] = 'nullable|mimes:pdf|max:1024';
         } else {
-            $this->rules['file_lpj'] = 'required|mimes:pdf|max:1024';
+            $this->rules['file_spb'] = 'required|mimes:pdf|max:1024';
+            $this->messages['file_spb.required'] = 'dokumen spb harus diisi';
         }
 
         $this->validate();
 
-        if ($this->file_kegiatan) {
-            $file_kegiatan_path = $this->file_kegiatan->store('monitoring/file-kegiatan', 'public');
+        if ($this->file_spb) {
+            $file_spb_path = $this->file_spb->store('monitoring/file-spb', 'public');
 
-            if ($this->monitoring && $this->monitoring->file_kegiatan) {
-                Storage::disk('public')->delete('monitoring/file-kegiatan/' . $this->monitoring->file_kegiatan);
+            if ($this->monitoring && $this->monitoring->file_spb) {
+                Storage::disk('public')->delete('monitoring/file-spb/' . $this->monitoring->file_spb);
             }
         }
 
-        if ($this->file_internal_kampus) {
-            $file_internal_kampus_path = $this->file_internal_kampus->store('monitoring/file-internal-kampus', 'public');
-
-            if ($this->monitoring && $this->monitoring->file_internal_kampus) {
-                Storage::disk('public')->delete('monitoring/file-internal-kampus/' . $this->monitoring->file_internal_kampus);
-            }
-        }
-
-        if ($this->file_prestasi) {
-            $file_prestasi_path = $this->file_prestasi->store('monitoring/file-prestasi', 'public');
-
-            if ($this->monitoring && $this->monitoring->file_prestasi) {
-                Storage::disk('public')->delete('monitoring/file-prestasi/' . $this->monitoring->file_prestasi);
-            }
-        }
-
-        if ($this->file_lpj) {
-            $file_lpj_path = $this->file_lpj->store('monitoring/file-lpj', 'public');
-
-            if ($this->monitoring && $this->monitoring->file_lpj) {
-                Storage::disk('public')->delete('monitoring/file-lpj/' . $this->monitoring->file_lpj);
-            }
-        }
-
-        $file_kegiatan = $this->file_kegiatan
-            ? basename($file_kegiatan_path)
-            : ($this->monitoring && $this->monitoring->file_kegiatan ? $this->monitoring->file_kegiatan : null);
-
-        $file_internal_kampus = $this->file_kegiatan
-            ? basename($file_internal_kampus_path)
-            : ($this->monitoring && $this->monitoring->file_internal_kampus ? $this->monitoring->file_internal_kampus : null);
-
-        $file_prestasi = $this->file_prestasi
-            ? basename($file_prestasi_path)
-            : ($this->monitoring && $this->monitoring->file_prestasi ? $this->monitoring->file_prestasi : null);
-
-        Monitoring::updateOrCreate(
+        $this->monitoring = Monitoring::updateOrCreate(
             ['nim' => $this->nim, 'semester' => $this->semester, 'periode_id' => $this->periode_id],
             [
                 'nim' => $this->nim,
@@ -258,16 +229,52 @@ class CreateMonitoring extends Component
                 'deskripsi_capaian' => $this->deskripsi_capaian,
                 'deskripsi_kendala' => $this->deskripsi_kendala,
                 'deskripsi_rencana' => $this->deskripsi_rencana,
-                'file_kegiatan' => $file_kegiatan,
-                'file_internal_kampus' => $file_internal_kampus,
-                'file_prestasi' => $file_prestasi,
-                'file_lpj' => $this->file_lpj ? basename($file_lpj_path) : $this->monitoring->file_lpj
+                'file_spb' => $this->file_spb ? basename($file_spb_path) : $this->monitoring->file_spb
             ]
         );
+
+        foreach ($this->prestasi as $item) {
+            if ($item['nama'] && $item['file']) {
+                $existingPrestasi = Prestasi::query()
+                    ->where('nim', $this->nim)
+                    ->where('nama', $item['nama'])
+                    ->where('semester', $this->semester)
+                    ->where('periode_id', $this->periode_id)
+                    ->first();
+
+                $file_prestasi_path = $item['file']->store('monitoring/file-prestasi', 'public');
+
+                if ($existingPrestasi && $existingPrestasi->file) {
+                    Storage::disk('public')->delete($existingPrestasi->file);
+                }
+
+                Prestasi::updateOrCreate(
+                    [
+                        'nim' => $this->nim,
+                        'nama' => $item['nama'],
+                        'semester' => $this->semester,
+                        'periode_id' => $this->periode_id,
+                    ],
+                    [
+                        'file' => $file_prestasi_path,
+                        'monitoring_id' => $this->monitoring->id,
+                    ]
+                );
+            }
+        }
+
+        $this->arrPrestasi = Prestasi::query()
+            ->where('nim', $this->nim)
+            ->where('semester', $this->semester)
+            ->where('periode_id', $this->periode_id)
+            ->where('monitoring_id', $this->monitoring->id)
+            ->get();
 
         $this->emit('alert', 'Berhasil', 'Laporan semester berhasil ditambahkan', 'success');
 
         $this->emit('resetFileUpload');
+
+        $this->reset(['file_spb', 'prestasi']);
     }
 
     public function render()

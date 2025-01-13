@@ -169,35 +169,100 @@
                     </div>
 
                     <div class="card-header">
-                        <h5 class="mb-0">Unggah Bukti Dokumen (format .pdf)</h5>
+                        <h5 class="mb-0">Unggah Bukti Dokumen</h5>
                     </div>
                     <div class="card-body">
+                        <!-- prestasi -->
                         <div class="row">
-                            <div class="col-md-4">
-                                <label for="file" class="form-label text-dark">Unggah dokumen keikutsertaan kegiatan</label>
-                                <input class="form-control" type="file" id="file" wire:model='file_kegiatan'>
-                                <div class="text-danger">@error('file_kegiatan') {{ $message }} @enderror</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="file" class="form-label text-dark">Unggah dokumen keikutsertaan internal kampus</label>
-                                <input class="form-control" type="file" id="file" wire:model='file_internal_kampus'>
-                                <div class="text-danger">@error('file_internal_kampus') {{ $message }} @enderror</div>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="file" class="form-label text-dark">Unggah dokumen prestasi</label>
-                                <input class="form-control" type="file" id="file" wire:model='file_prestasi'>
-                                <div class="text-danger">@error('file_prestasi') {{ $message }} @enderror</div>
+                            <div class="col-md-5">
+                                <h5>Tambah kegiatan lomba atau prestasi</h5>
+                                <p>Tambahkan lomba bila mengikuti lebih dari satu lomba atau prestasi serta
+                                    unggah sertifikat dalam bentuk file <strong>.PDF</strong>
+                                </p>
+
+                                @if(count($arrPrestasi) > 0)
+                                    <h6>Daftar Prestasi</h6>
+
+                                    @foreach($arrPrestasi as $item)
+                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                        <p>{{ $loop->iteration }}. {{ $item->nama }}</p>
+                                        <p><a href="{{ Storage::url($item->file) }}" target="_blank">Lihat Dokumen</a></p>
+                                    </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
+
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                @foreach ($prestasi as $index => $item)
+                                    <div class="row align-items-center mb-3">
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="Lomba atau prestasi"
+                                                wire:model.defer="prestasi.{{ $index }}.nama">
+                                            @error('prestasi.' . $index . '.nama')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="file"
+                                                class="form-control"
+                                                wire:model.defer="prestasi.{{ $index }}.file">
+                                            @error('prestasi.' . $index . '.file')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <button
+                                                class="btn btn-danger btn-sm"
+                                                wire:click.prevent="hapusPrestasi({{ $index }})">
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                <a
+                                    href=""
+                                    class="btn btn-sm btn-secondary"
+                                    wire:click.prevent="tambahPrestasi">
+                                    tambah kegiatan
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- spb -->
                         <div class="row mt-4">
-                            <div class="col-md-4">
-                                @if($monitoring && $monitoring->file_lpj)
-                                    <label for="file" class="form-label text-dark">Unggah dokumen LPJ</label>
-                                @else
-                                    <label for="file" class="form-label text-dark">Unggah dokumen LPJ <span class="text-danger">*</span></label>
+                            <div class="col-md-7">
+                                <h5>Unggah Dokumen SPB</h5>
+                                <p>Pastikan dokumen SPB diunggah dengan menggunakan aturan dokumen <br> yang sesuai dan
+                                 gambar pada dokumen tersebut harus jelas. <br> Unggah dalam bentuk <strong>.PDF</strong></p>
+
+                                  @if($monitoring && $monitoring->file_spb)
+                                    <h6>Dokumen yang telah di unggah</h6>
+
+                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                        <p>{{ $monitoring->file_spb }}</p>
+                                        <p><a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
+                                    </div>
                                 @endif
-                                <input class="form-control" type="file" id="file" wire:model='file_lpj'>
-                                <div class="text-danger">@error('file_lpj') {{ $message }} @enderror</div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-md-3">
+                                @if($monitoring && $monitoring->file_spb)
+                                    <label for="file" class="form-label text-dark">Unggah dokumen SPB</label>
+                                @else
+                                    <label for="file" class="form-label text-dark">Unggah dokumen SPB <span class="text-danger">*</span></label>
+                                @endif
+                                <input class="form-control" type="file" id="file" wire:model='file_spb'>
+                                <div class="text-danger">@error('file_spb') {{ $message }} @enderror</div>
                             </div>
                         </div>
                     </div>
