@@ -26,4 +26,9 @@ class Monitoring extends Model
     {
         return $this->belongsTo(KontribusiKhusus::class);
     }
+
+    public function prestasi()
+    {
+        return $this->hasMany(Prestasi::class);
+    }
 }

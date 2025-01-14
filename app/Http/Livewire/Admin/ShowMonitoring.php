@@ -132,12 +132,8 @@ class ShowMonitoring extends Component
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
             $this->file_spb = $this->monitoring->file_spb;
 
-            $this->prestasi = Prestasi::query()
-                ->where('nim', $this->mahasiswa->nim)
-                ->where('semester', $this->semester)
-                ->where('periode_id', $this->periode_id)
-                ->where('monitoring_id', $this->monitoring->id)
-                ->get();
+            $this->prestasi = $this->monitoring->prestasi;
+
 
             $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
             $this->emit('paSelect', $this->monitoring->pembimbing_akademik_id);

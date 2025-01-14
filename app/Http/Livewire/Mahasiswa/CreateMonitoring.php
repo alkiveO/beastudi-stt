@@ -263,12 +263,7 @@ class CreateMonitoring extends Component
             }
         }
 
-        $this->arrPrestasi = Prestasi::query()
-            ->where('nim', $this->nim)
-            ->where('semester', $this->semester)
-            ->where('periode_id', $this->periode_id)
-            ->where('monitoring_id', $this->monitoring->id)
-            ->get();
+        $this->arrPrestasi = $this->monitoring->prestasi;
 
         $this->emit('alert', 'Berhasil', 'Laporan semester berhasil ditambahkan', 'success');
 
