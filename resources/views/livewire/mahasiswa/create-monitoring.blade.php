@@ -239,8 +239,8 @@
                         <!-- spb -->
                         <div class="row mt-4">
                             <div class="col-md-7">
-                                <h5>Unggah Dokumen SPB</h5>
-                                <p>Pastikan dokumen SPB diunggah dengan menggunakan aturan dokumen <br> yang sesuai dan
+                                <h5>Unggah Dokumen SPK</h5>
+                                <p>Pastikan dokumen SPK diunggah dengan menggunakan aturan dokumen <br> yang sesuai dan
                                  gambar pada dokumen tersebut harus jelas. <br> Unggah dalam bentuk <strong>.PDF</strong></p>
 
                                   @if($monitoring && $monitoring->file_spb)
@@ -257,9 +257,9 @@
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 @if($monitoring && $monitoring->file_spb)
-                                    <label for="file" class="form-label text-dark">Unggah dokumen SPB</label>
+                                    <label for="file" class="form-label text-dark">Unggah dokumen SPK</label>
                                 @else
-                                    <label for="file" class="form-label text-dark">Unggah dokumen SPB <span class="text-danger">*</span></label>
+                                    <label for="file" class="form-label text-dark">Unggah dokumen SPK <span class="text-danger">*</span></label>
                                 @endif
                                 <input class="form-control" type="file" id="file" wire:model='file_spb'>
                                 <div class="text-danger">@error('file_spb') {{ $message }} @enderror</div>
