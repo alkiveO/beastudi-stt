@@ -13,6 +13,7 @@ use App\Models\Mahasiswa;
 use App\Models\ProgramStudi;
 use App\Models\JalurPrestasi;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class CreateDataDiri extends Component
 {
@@ -222,12 +223,18 @@ class CreateDataDiri extends Component
         $kecamatan = District::find($this->district_id);
         $kelurahan = Village::find($this->village_id);
 
-        $validate = collect($this->validate())
+        try {
+            $validate = collect($this->validate())
             ->except([
                 'agama_id', 'program_studi_id', 'jalur_prestasi_id',
                 'province_id', 'regency_id', 'district_id', 'village_id'
             ])
             ->toArray();
+
+        } catch (ValidationException $e) {
+            $this->emit('alert', 'Ooppss', $e->validator->errors()->all(), 'error');
+            return;
+        }
 
         Mahasiswa::updateOrCreate(
             ['nim' => $this->nim],

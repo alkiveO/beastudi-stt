@@ -97,7 +97,7 @@
 
 @endsection
 
-@push('js')
+@push('script')
 
 <script>
     (function($) {
@@ -115,13 +115,13 @@
                     const years = Object.keys(dataFromPHP);
 
                     // Prepare data for each dataset
-                    const sistemInformasiData = years.map(year => 
+                    const sistemInformasiData = years.map(year =>
                         dataFromPHP[year]['sistem informasi'] || 0
                     );
-                    const teknikInformatikaData = years.map(year => 
+                    const teknikInformatikaData = years.map(year =>
                         dataFromPHP[year]['teknik informatika'] || 0
                     );
-                    const bisnisDigitalData = years.map(year => 
+                    const bisnisDigitalData = years.map(year =>
                         dataFromPHP[year]['bisnis digital'] || 0
                     );
 

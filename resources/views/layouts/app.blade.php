@@ -161,9 +161,6 @@
 
     <!-- Chart ChartJS plugin files -->
     {{-- <script src="{{ asset('js/plugins-init/chartjs-init.js') }}"></script> --}}
-    @stack('js')
-
-    @livewireScripts
 
     <script>
         document.addEventListener('livewire:load', function () {
@@ -194,11 +191,22 @@
                 });
             });
 
-            Livewire.on('alert', (title, message, type) => {
-                Swal.fire(title, message, type);
+            Livewire.on('alert', (title, messages, type) => {
+                 if (Array.isArray(messages)) {
+                    messages = messages.map(msg => `<li class=text-danger>${msg}</li>`).join('');
+                    messages = `<ul style="text-align: left;">${messages}</ul>`;
+                }
+
+                 Swal.fire({
+                    title: title,
+                    html: messages, // Menggunakan `html` agar format list berfungsi
+                    icon: type
+                });
             });
         });
     </script>
+
+    @livewireScripts
 
     @stack('script')
 </body>

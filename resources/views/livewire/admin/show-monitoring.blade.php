@@ -183,12 +183,12 @@
                             <!-- spb -->
                             <div class="row mt-3">
                                 <div class="col-md-7">
-                                    <h5>Dokumen SPB</h5>
+                                    <h5>Dokumen SPK</h5>
 
                                     @if($file_spb)
                                         <div class="d-flex justify-content-between" style="padding-right:30%;">
                                             <p class="text-dark">{{ $file_spb }}</p>
-                                            <p><a href="{{ $file_spb }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
+                                            <p><a href="{{ asset('storage/monitoring/file-spb/' . $file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
                                         </div>
                                     @endif
                                 </div>

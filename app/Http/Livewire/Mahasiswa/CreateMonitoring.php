@@ -11,6 +11,7 @@ use Livewire\WithFileUploads;
 use App\Models\KontribusiKhusus;
 use App\Models\PembimbingAkademik;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class CreateMonitoring extends Component
 {
@@ -52,6 +53,7 @@ class CreateMonitoring extends Component
     ];
 
     protected $messages = [
+        'tanggal_isi.required' => 'tanggal harus diisi',
         'semester.required' => 'semester harus diisi',
         'ipk.required' => 'IPK harus diisi',
         'ipk.min' => 'IPK min / max 4 karakter',
@@ -198,14 +200,19 @@ class CreateMonitoring extends Component
 
     public function store()
     {
-        if ($this->monitoring && $this->monitoring->file_spb) {
-            $this->rules['file_spb'] = 'nullable|mimes:pdf|max:1024';
-        } else {
-            $this->rules['file_spb'] = 'required|mimes:pdf|max:1024';
-            $this->messages['file_spb.required'] = 'dokumen spb harus diisi';
-        }
+        try {
+            if ($this->monitoring && $this->monitoring->file_spb) {
+                $this->rules['file_spb'] = 'nullable|mimes:pdf|max:1024';
+            } else {
+                $this->rules['file_spb'] = 'required|mimes:pdf|max:1024';
+                $this->messages['file_spb.required'] = 'dokumen SPK harus diisi';
+            }
 
-        $this->validate();
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->emit('alert', 'Ooppss', $e->validator->errors()->all(), 'error');
+            return;
+        }
 
         if ($this->file_spb) {
             $file_spb_path = $this->file_spb->store('monitoring/file-spb', 'public');
