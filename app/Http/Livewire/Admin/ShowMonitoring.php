@@ -176,7 +176,8 @@ class ShowMonitoring extends Component
             'list_periode' => Periode::all(),
             'kontribusi_khusus' => KontribusiKhusus::all(),
             'pembimbing_akademik' => PembimbingAkademik::query()
-                ->where('program_studi', $this->program_studi_nama)
+                // ->where('program_studi', $this->program_studi_nama)
+                ->orderBy('nama', 'asc')
                 ->get(),
         ])
             ->extends('layouts.app');

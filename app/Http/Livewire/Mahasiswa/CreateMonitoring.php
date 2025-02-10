@@ -279,7 +279,8 @@ class CreateMonitoring extends Component
             'program_studi' => ProgramStudi::all(),
             'kontribusi_khusus' => KontribusiKhusus::all(),
             'pembimbing_akademik' => PembimbingAkademik::query()
-                ->where('program_studi', $this->program_studi_nama)
+                // ->where('program_studi', $this->program_studi_nama)
+                ->orderBy('nama', 'asc')
                 ->get(),
         ]);
     }
