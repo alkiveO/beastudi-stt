@@ -10,6 +10,7 @@ use App\Models\Monitoring;
 use App\Models\ProgramStudi;
 use App\Models\KontribusiKhusus;
 use App\Models\PembimbingAkademik;
+use Illuminate\Validation\ValidationException;
 
 class ShowMonitoring extends Component
 {
@@ -147,7 +148,12 @@ class ShowMonitoring extends Component
 
     public function update()
     {
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->emit('alert', 'Ooppss', $e->validator->errors()->all(), 'error');
+            return;
+        }
 
         Monitoring::updateOrCreate(
             [

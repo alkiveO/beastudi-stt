@@ -76,7 +76,8 @@ Route::view('camaba-beastudi', 'camaba-beastudi')->name('camaba-beastudi');
 Route::middleware('auth:mahasiswa')
     ->as('mahasiswa.')
     ->group(function() {
-        Route::get('/', DashboardController::class)->name('dashboard');
+        // Route::get('/', DashboardController::class)->name('dashboard');
+        Route::view('/', 'mahasiswa.dashboard')->name('dashboard');
 
         Route::view('data-diri', 'mahasiswa.data-diri')->name('data-diri');
         Route::view('laporan-semester', 'mahasiswa.monitoring')->name('monitoring');

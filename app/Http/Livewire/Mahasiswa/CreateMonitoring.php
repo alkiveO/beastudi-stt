@@ -68,8 +68,8 @@ class CreateMonitoring extends Component
         'deskripsi_capaian.max' => 'deskripsi capaian maksimal 500 kata',
         'deskripsi_kendala.max' => 'deskripsi kendala maksimal 500 kata',
         'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
-        'file_spb.mimes' => 'dokumen spb harus berupa .pdf',
-        'file_spb.max' => 'dokumen spb maksimal 1 MB',
+        'file_spb.mimes' => 'dokumen SPK harus berupa .pdf',
+        'file_spb.max' => 'dokumen SPK maksimal 1 MB',
         'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
         'prestasi.*.file.max' => 'dokumen maksimal 1 MB',
     ];
