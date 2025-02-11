@@ -8,7 +8,7 @@
         <div class="card-body">
             <p>Filter Semester dan Periode untuk melihat status monitoring dan beastudi.</p>
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester'>
                             <option hidden>Nothing Selected</option>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mt-2">
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode_id'>
                             <option hidden>Nothing Selected</option>
