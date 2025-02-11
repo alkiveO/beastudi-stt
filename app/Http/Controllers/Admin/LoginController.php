@@ -20,7 +20,7 @@ class LoginController extends Controller
             ->where('email', request()->email)
             ->first();
 
-        if ($user && Hash::check(request()->password, $user->password)) {
+        if ($user && $user->isAdmin() && Hash::check(request()->password, $user->password)) {
             Auth::guard('web')->login($user);
 
             return redirect()->intended(route('admin.dashboard'));
