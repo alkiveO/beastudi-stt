@@ -37,14 +37,14 @@
                                     <div class="media-body text-white">
                                         <span class="me-3">
                                             <a href="index.html" class="brand-logo">
-                                                <img src="{{ asset('images/logo/mhs1.svg') }}" width="50">
+                                                <img src="{{ asset('images/logo/mhs3.svg') }}" width="50">
                                             </a>
                                         </span>
-                                        <p class="mb-0 text-white">Mahasiswa</p>
-                                        <p class="mb-0 text-white">Beastudi Keluar</p>
+                                        <p class="mb-0 text-white">Mahasiswa Beastudi</p>
+                                        <p class="mb-0 text-white">Tidak Aktif</p>
                                     </div>
                                     <div class="media-body text-end">
-                                        <h1 class="text-white">{{ $countKeluar }}</h1>
+                                        <h1 class="text-white">{{ $countTidakAktif }}</h1>
                                     </div>
                                 </div>
                             </div>
@@ -57,14 +57,14 @@
                                     <div class="media-body text-white">
                                         <span class="me-3">
                                             <a href="index.html" class="brand-logo">
-                                                <img src="{{ asset('images/logo/mhs3.svg') }}" width="50">
+                                                <img src="{{ asset('images/logo/mhs1.svg') }}" width="50">
                                             </a>
                                         </span>
-                                        <p class="mb-0 text-white">Mahasiswa Beastudi</p>
-                                        <p class="mb-0 text-white">Tidak Aktif</p>
+                                        <p class="mb-0 text-white">Mahasiswa</p>
+                                        <p class="mb-0 text-white">Beastudi Keluar</p>
                                     </div>
                                     <div class="media-body text-end">
-                                        <h1 class="text-white">{{ $countTidakAktif }}</h1>
+                                        <h1 class="text-white">{{ $countKeluar }}</h1>
                                     </div>
                                 </div>
                             </div>

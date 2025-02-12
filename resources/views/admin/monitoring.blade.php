@@ -8,7 +8,7 @@
 
 <div class="container-fluid">
     <div class="col-xl-12">
-        <livewire:admin.download-monitoring>
+        <livewire:admin.list-monitoring>
     </div>
 </div>
 

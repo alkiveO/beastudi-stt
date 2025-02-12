@@ -12,6 +12,11 @@ class Monitoring extends Model
     protected $table = 'monitoring';
     protected $guarded = [];
 
+    public function periode()
+    {
+        return $this->belongsTo(Periode::class);
+    }
+
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
@@ -30,5 +35,18 @@ class Monitoring extends Model
     public function prestasi()
     {
         return $this->hasMany(Prestasi::class);
+    }
+
+    public function getFormatStatusBeastudiAttribute()
+    {
+        if ($this->status_beastudi === 'aman') {
+            return '<span class="badge badge-success" style="padding:8px; font-size:12px;">Aman</span>';
+        } elseif ($this->status_beastudi === 'evaluasi') {
+            return '<span class="badge badge-warning" style="padding:8px; font-size:12px;">Evaluasi</span>';
+        } elseif ($this->status_beastudi === 'keluar') {
+            return '<span class="badge badge-danger" style="padding:8px; font-size:12px;">Keluar</span>';
+        } else {
+            return '<span class="badge badge-secondary" style="padding:8px; font-size:12px;">Menunggu Update</span>';
+        }
     }
 }
