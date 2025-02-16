@@ -3,6 +3,14 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-3">
+                    <label class="form-label text-dark">NIM</label>
+                    <input type="text" class="form-control" wire:model.debounce.300='nim' autocomplete="off">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-dark">Nama Mahasiswa</label>
+                    <input type="text" class="form-control" wire:model.debounce.300='nama' autocomplete="off">
+                </div>
+                <div class="col-md-3">
                     <label class="form-label text-dark">Semester</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester'>

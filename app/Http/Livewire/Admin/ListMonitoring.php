@@ -8,10 +8,14 @@ use App\Models\Monitoring;
 
 class ListMonitoring extends Component
 {
+    public $nim;
+    public $nama;
     public $semester;
     public $periode;
 
     protected $queryString = [
+        'nim' => ['except' => ''],
+        'nama' => ['except' => ''],
         'semester' => ['except' => ''],
         'periode' => ['except' => ''],
     ];
@@ -35,9 +39,19 @@ class ListMonitoring extends Component
     public function render()
     {
         return view('livewire.admin.list-monitoring', [
-            'list_periode' => Periode::all(),
+            'list_periode' => Periode::latest()->get(),
             'monitoring' => Monitoring::query()
                 ->with('mahasiswa')
+                ->when($this->nim, function ($query) {
+                    $query->whereHas('mahasiswa', function ($query) {
+                        $query->where('nim', 'like', '%' . $this->nim . '%');
+                    });
+                })
+                ->when($this->nama, function ($query) {
+                    $query->whereHas('mahasiswa', function ($query) {
+                        $query->whereRaw('lower(nama) like ?', ['%' . strtolower($this->nama) . '%']);
+                    });
+                })
                 ->where('semester', $this->semester)
                 ->where('periode_id', $this->periode)
                 ->paginate(10),
