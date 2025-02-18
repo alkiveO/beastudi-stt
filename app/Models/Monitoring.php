@@ -14,22 +14,25 @@ class Monitoring extends Model
 
     public function periode()
     {
-        return $this->belongsTo(Periode::class);
+        return $this->belongsTo(Periode::class)->withDefault();
     }
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim', 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'nim', 'nim')
+            ->withDefault();
     }
 
     public function pembimbing_akademik()
     {
-        return $this->belongsTo(PembimbingAkademik::class);
+        return $this->belongsTo(PembimbingAkademik::class)
+            ->withDefault();
     }
 
     public function kontribusi_khusus()
     {
-        return $this->belongsTo(KontribusiKhusus::class);
+        return $this->belongsTo(KontribusiKhusus::class)
+            ->withDefault();
     }
 
     public function prestasi()
