@@ -8,6 +8,7 @@
         "php": "^8.1",
         "azishapidin/indoregion": "^3.0",
         "barryvdh/laravel-dompdf": "^3.0",
+        "grkamil/laravel-telegram-logging": "^1.12",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/fortify": "^1.21",
         "laravel/framework": "^10.10",
