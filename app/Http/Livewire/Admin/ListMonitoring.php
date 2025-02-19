@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Periode;
 use Livewire\Component;
 use App\Models\Monitoring;
+use Livewire\WithPagination;
 
 class ListMonitoring extends Component
 {
+    use WithPagination;
+
     public $nim;
     public $nama;
     public $semester;
