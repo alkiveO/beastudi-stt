@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Mahasiswa;
 
+use App\Models\KategoriPrestasi;
 use App\Models\Periode;
 use Livewire\Component;
 use App\Models\Prestasi;
@@ -70,8 +71,6 @@ class CreateMonitoring extends Component
         'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
         'file_spb.mimes' => 'dokumen SPK harus berupa .pdf',
         'file_spb.max' => 'dokumen SPK maksimal 1 MB',
-        'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
-        'prestasi.*.file.max' => 'dokumen maksimal 1 MB',
     ];
 
     public function mount()
@@ -97,7 +96,7 @@ class CreateMonitoring extends Component
             'prestasi.*.file.max' => 'dokumen maksimal 1 MB.',
         ]);
 
-        $this->prestasi[] = ['nama' => '', 'file' => ''];
+        $this->prestasi[] = ['nama' => '', 'kategori_prestasi_id' => null, 'file' => ''];
     }
 
     public function hapusPrestasi($index)
@@ -186,11 +185,11 @@ class CreateMonitoring extends Component
             $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
 
-            $this->arrPrestasi = Prestasi::query()
+            $this->arrPrestasi = $this->monitoring->prestasi()
+                ->with('kategori_prestasi')
                 ->where('nim', $this->nim)
                 ->where('semester', $this->semester)
                 ->where('periode_id', $this->periode_id)
-                ->where('monitoring_id', $this->monitoring->id)
                 ->get();
 
             $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
@@ -240,37 +239,26 @@ class CreateMonitoring extends Component
             ]
         );
 
-        foreach ($this->prestasi as $item) {
-            if ($item['nama'] && $item['file']) {
-                $existingPrestasi = Prestasi::query()
-                    ->where('nim', $this->nim)
-                    ->where('nama', $item['nama'])
-                    ->where('semester', $this->semester)
-                    ->where('periode_id', $this->periode_id)
-                    ->first();
+        foreach ($this->prestasi as $prestasi) {
+            $file_prestasi_path = $prestasi['file']->store('monitoring/file-prestasi', 'public');
 
-                $file_prestasi_path = $item['file']->store('monitoring/file-prestasi', 'public');
-
-                if ($existingPrestasi && $existingPrestasi->file) {
-                    Storage::disk('public')->delete($existingPrestasi->file);
-                }
-
-                Prestasi::updateOrCreate(
-                    [
-                        'nim' => $this->nim,
-                        'nama' => $item['nama'],
-                        'semester' => $this->semester,
-                        'periode_id' => $this->periode_id,
-                    ],
-                    [
-                        'file' => $file_prestasi_path,
-                        'monitoring_id' => $this->monitoring->id,
-                    ]
-                );
-            }
+            Prestasi::create([
+                'nim' => $this->nim,
+                'semester' => $this->semester,
+                'periode_id' => $this->periode_id,
+                'monitoring_id' => $this->monitoring->id,
+                'nama' => $prestasi['nama'],
+                'file' => $file_prestasi_path,
+                'kategori_prestasi_id' => $prestasi['kategori_prestasi_id'],
+            ]);
         }
 
-        $this->arrPrestasi = $this->monitoring->prestasi;
+        $this->arrPrestasi = $this->monitoring->prestasi()
+            ->with('kategori_prestasi')
+            ->where('nim', $this->nim)
+            ->where('semester', $this->semester)
+            ->where('periode_id', $this->periode_id)
+            ->get();
 
         $this->emit('alert', 'Berhasil', 'Laporan semester berhasil ditambahkan', 'success');
 
@@ -286,9 +274,9 @@ class CreateMonitoring extends Component
             'program_studi' => ProgramStudi::all(),
             'kontribusi_khusus' => KontribusiKhusus::all(),
             'pembimbing_akademik' => PembimbingAkademik::query()
-                // ->where('program_studi', $this->program_studi_nama)
                 ->orderBy('nama', 'asc')
                 ->get(),
+            'kategori_prestasi' => KategoriPrestasi::all()
         ]);
     }
 }

@@ -184,8 +184,9 @@
                                     <h6>Daftar Prestasi</h6>
 
                                     @foreach($arrPrestasi as $item)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                    <div class="d-flex justify-content-between">
                                         <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
+                                        <p class="text-dark">Kategori: {{ $item->kategori_prestasi->nama }}</p>
                                         <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
                                     </div>
                                     @endforeach
@@ -197,7 +198,7 @@
                             <div class="col-12">
                                 @foreach ($prestasi as $index => $item)
                                     <div class="row align-items-center mb-3">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <input
                                                 type="text"
                                                 class="form-control"
@@ -207,7 +208,17 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3 mb-2">
+                                            <select
+                                                class="form-control"
+                                                wire:model.defer="prestasi.{{ $index }}.kategori_prestasi_id">
+                                                <option value="">Pilih Kategori Prestasi</option>
+                                                @foreach($kategori_prestasi as $kategoriPrestasiItem)
+                                                    <option value="{{ $kategoriPrestasiItem->id }}">{{ $kategoriPrestasiItem->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
                                             <input
                                                 type="file"
                                                 class="form-control"

@@ -170,8 +170,9 @@
                                 <div class="col-md-5">
                                     <h5>Kegiatan lomba atau prestasi</h5>
                                     @forelse($prestasi as $item)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
+                                    <div class="d-flex justify-content-between">
                                         <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
+                                        <p class="text-dark">Kategori: {{ $item->kategori_prestasi->nama }}</p>
                                         <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
                                     </div>
                                     @empty

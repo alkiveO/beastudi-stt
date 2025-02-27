@@ -22,4 +22,9 @@ class Prestasi extends Model
     {
         return $this->belongsTo(Periode::class)->withDefault();
     }
+
+    public function kategori_prestasi()
+    {
+        return $this->belongsTo(KategoriPrestasi::class)->withDefault();
+    }
 }
