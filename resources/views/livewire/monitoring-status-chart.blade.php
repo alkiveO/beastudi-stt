@@ -1,8 +1,6 @@
 <div>
-    <div class="card">
-        <div class="card-body">
-            <canvas id="monitoringStatusChart" wire:ignore></canvas>
-        </div>
+    <div style="width: 100%; max-width: 600px; height: 400px;">
+        <canvas id="monitoringStatusChart" wire:ignore></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,19 +10,18 @@
             var chartData = @json($chartData);
 
             var monitoringStatusChart = new Chart(ctx, {
-                type: 'pie',
+                type: 'line',
                 data: {
                     labels: chartData.labels,
-                    datasets: [{
-                        label: 'Jumlah Mahasiswa',
-                        data: chartData.data,
-                        backgroundColor: chartData.colors,
-                        borderWidth: 1,
-                    }]
+                    datasets: chartData.datasets
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Semester' } },
+                        y: { title: { display: true, text: 'Jumlah Mahasiswa' }, beginAtZero: true }
+                    },
                     plugins: {
                         title: {
                             display: true,
@@ -32,19 +29,17 @@
                             font: { size: 16 }
                         },
                         legend: {
-                            position: 'bottom'
+                            position: 'top'
                         }
                     }
                 }
             });
 
-            Livewire.on('refreshmonitoringStatusChart', (chartData) => {
+            Livewire.on('refreshMonitoringStatusChart', (chartData) => {
                 monitoringStatusChart.data.labels = chartData.labels;
-                monitoringStatusChart.data.datasets[0].data = chartData.data;
-                monitoringStatusChart.data.datasets[0].backgroundColor = chartData.colors;
+                monitoringStatusChart.data.datasets = chartData.datasets;
                 monitoringStatusChart.update();
             });
         });
     </script>
-
 </div>

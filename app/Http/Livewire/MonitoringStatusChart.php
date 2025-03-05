@@ -36,25 +36,60 @@ class MonitoringStatusChart extends Component
         $tahunAngkatan = $tahunAngkatan ?? $this->tahunAngkatan;
         $tahunAjaran = $tahunAjaran ?? $this->tahunAjaran;
 
-        $monitoringData = Monitoring::query()
-            ->when($nim, fn($query) => $query->where('nim', $nim))
-            ->when($tahunAngkatan, fn($query) => $query->whereHas('mahasiswa', fn($q) => $q->where('tahun_masuk', $tahunAngkatan)))
-            ->when($tahunAjaran, fn($query) => $query->whereHas('periode', fn($q) => $q->where('id', $tahunAjaran)))
-            ->get();
+        // Ambil daftar semester dari tabel Monitoring berdasarkan tahun angkatan dan tahun ajaran
+        $semesters = Monitoring::query()
+            ->whereHas('mahasiswa', fn($q) => $q->where('tahun_masuk', $tahunAngkatan))
+            ->whereHas('periode', fn($q) => $q->where('id', $tahunAjaran))
+            ->groupBy('semester')
+            ->orderBy('semester')
+            ->pluck('semester');
 
         $statusCounts = [
-            'Aman' => $monitoringData->where('status_beastudi', 'aman')->count(),
-            'Evaluasi' => $monitoringData->where('status_beastudi', 'evaluasi')->count(),
-            'Keluar' => $monitoringData->where('status_beastudi', 'keluar')->count(),
+            'Aman' => [],
+            'Evaluasi' => [],
+            'Keluar' => [],
         ];
+
+        foreach ($semesters as $semester) {
+            foreach (array_keys($statusCounts) as $status) {
+                $count = Monitoring::query()
+                    ->whereHas('mahasiswa', fn($q) => $q->where('tahun_masuk', $tahunAngkatan))
+                    ->where('semester', $semester)
+                    ->where('status_beastudi', strtolower($status))
+                    ->count();
+
+                $statusCounts[$status][] = $count;
+            }
+        }
 
         $this->chartData = [
-            'labels' => array_keys($statusCounts),
-            'data' => array_values($statusCounts),
-            'colors' => ['#4CAF50', '#FF9800', '#F44336'],
+            'labels' => $semesters,
+            'datasets' => [
+                [
+                    'label' => 'Aman',
+                    'data' => $statusCounts['Aman'],
+                    'borderColor' => '#4CAF50',
+                    'backgroundColor' => 'rgba(76, 175, 80, 0.2)',
+                    'fill' => true
+                ],
+                [
+                    'label' => 'Evaluasi',
+                    'data' => $statusCounts['Evaluasi'],
+                    'borderColor' => '#FF9800',
+                    'backgroundColor' => 'rgba(255, 152, 0, 0.2)',
+                    'fill' => true
+                ],
+                [
+                    'label' => 'Keluar',
+                    'data' => $statusCounts['Keluar'],
+                    'borderColor' => '#F44336',
+                    'backgroundColor' => 'rgba(244, 67, 54, 0.2)',
+                    'fill' => true
+                ],
+            ],
         ];
 
-        $this->emit('refreshmonitoringStatusChart', $this->chartData);
+        $this->emit('refreshMonitoringStatusChart', $this->chartData);
     }
 
     public function render()

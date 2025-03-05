@@ -1,6 +1,6 @@
 <div>
     <div>
-        <canvas id="programStudiChart"></canvas>
+        <canvas id="programStudiChart" style="width: 100%; max-width: 600px; height: 400px;"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
