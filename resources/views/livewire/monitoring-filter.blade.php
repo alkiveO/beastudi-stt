@@ -11,7 +11,6 @@
              <div class="mb-4">
                 <label for="tahunAngkatan">Tahun Angkatan</label>
                 <select wire:model="tahunAngkatan" class="form-control">
-                    <option value="">Pilih Tahun Angkatan</option>
                     @foreach($daftarTahunAngkatan as $tahun)
                         <option value="{{ $tahun }}">{{ $tahun }}</option>
                     @endforeach

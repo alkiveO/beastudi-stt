@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use App\Models\Monitoring;
 use App\Models\Periode;
+use Livewire\Component;
+use App\Models\Mahasiswa;
+use App\Models\Monitoring;
 
 class MonitoringChart extends Component
 {
@@ -17,6 +18,13 @@ class MonitoringChart extends Component
 
     public function mount()
     {
+        $tahunMasuk = Mahasiswa::select('tahun_masuk')
+            ->groupBy('tahun_masuk')
+            ->orderByDesc('tahun_masuk')
+            ->pluck('tahun_masuk');
+
+        $this->tahunAngkatan = $tahunMasuk[0];
+
         $this->tahunAjaran = Periode::latest()->first()->id;
 
         $this->loadChartData();
@@ -31,6 +39,11 @@ class MonitoringChart extends Component
         $query = Monitoring::query()
             ->when($nim, function ($query) use ($nim) {
                 $query->where('nim', $nim);
+            })
+            ->when($tahunAngkatan, function ($query) use ($tahunAngkatan) {
+                $query->whereHas('mahasiswa', function ($query) use ($tahunAngkatan) {
+                    $query->where('tahun_masuk', $tahunAngkatan);
+                });
             })
             ->when($tahunAjaran, function ($query) use ($tahunAjaran) {
                 $query->whereHas('periode', function ($query) use ($tahunAjaran) {

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Periode;
 use Livewire\Component;
+use App\Models\Mahasiswa;
 use App\Models\Monitoring;
 
 class MonitoringStatusChart extends Component
@@ -17,6 +18,13 @@ class MonitoringStatusChart extends Component
 
     public function mount()
     {
+        $tahunMasuk = Mahasiswa::select('tahun_masuk')
+            ->groupBy('tahun_masuk')
+            ->orderByDesc('tahun_masuk')
+            ->pluck('tahun_masuk');
+
+        $this->tahunAngkatan = $tahunMasuk[0];
+
         $this->tahunAjaran = Periode::latest()->first()->id;
 
         $this->loadChartData();

@@ -30,6 +30,7 @@ class MonitoringFilter extends Component
         return view('livewire.monitoring-filter', [
             'daftarTahunAngkatan' => Mahasiswa::selectRaw('tahun_masuk')
                 ->distinct()
+                ->orderByDesc('tahun_masuk')
                 ->pluck('tahun_masuk'),
             'daftarTahunAjaran' => Periode::latest()->get()
         ]);
