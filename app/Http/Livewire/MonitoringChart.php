@@ -23,9 +23,9 @@ class MonitoringChart extends Component
             ->orderByDesc('tahun_masuk')
             ->pluck('tahun_masuk');
 
-        $this->tahunAngkatan = $tahunMasuk[0];
-
-        $this->tahunAjaran = Periode::latest()->first()->id;
+        $this->nim = request()->query('nim', null);
+        $this->tahunAngkatan = request()->query('angkatan', $tahunMasuk->first());
+        $this->tahunAjaran = request()->query('periode_id', Periode::latest()->first()->id ?? null);
 
         $this->loadChartData();
     }

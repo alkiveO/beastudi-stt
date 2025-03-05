@@ -24,31 +24,30 @@ class PrestasiChart extends Component
             ->orderByDesc('tahun_masuk')
             ->pluck('tahun_masuk');
 
-        $this->tahunAngkatan = $tahunMasuk[0];
-
-        $this->tahunAjaran = Periode::latest()->first()->id;
+        $this->nim = request()->query('nim', null);
+        $this->tahunAngkatan = request()->query('angkatan', $tahunMasuk->first());
+        $this->tahunAjaran = request()->query('periode_id', Periode::latest()->first()->id ?? null);
 
         $this->loadChartData();
     }
 
     public function loadChartData($nim = null, $tahunAngkatan = null, $tahunAjaran = null)
     {
-        // Update nilai properti jika ada parameter baru
-        $this->nim = $nim ?? $this->nim;
-        $this->tahunAngkatan = $tahunAngkatan ?? $this->tahunAngkatan;
-        $this->tahunAjaran = $tahunAjaran ?? $this->tahunAjaran;
+        $nim = $nim ?? $this->nim;
+        $tahunAngkatan = $tahunAngkatan ?? $this->tahunAngkatan;
+        $tahunAjaran = $tahunAjaran ?? $this->tahunAjaran;
 
         $prestasiData = Prestasi::query()
-            ->when($this->nim, function ($query) {
-                return $query->where('nim', $this->nim);
+            ->when($nim, function ($query) use ($nim) {
+                return $query->where('nim', $nim);
             })
-            ->when($this->tahunAngkatan, function ($query) {
-                return $query->whereHas('mahasiswa', function ($q) {
-                    $q->where('tahun_masuk', $this->tahunAngkatan);
+            ->when($tahunAngkatan, function ($query) use ($tahunAngkatan) {
+                return $query->whereHas('mahasiswa', function ($q) use ($tahunAngkatan) {
+                    $q->where('tahun_masuk', $tahunAngkatan);
                 });
             })
-            ->when($this->tahunAjaran, function ($query) {
-                return $query->where('periode_id', $this->tahunAjaran);
+            ->when($tahunAjaran, function ($query) use ($tahunAjaran) {
+                return $query->where('periode_id', $tahunAjaran);
             })
             ->get();
 
