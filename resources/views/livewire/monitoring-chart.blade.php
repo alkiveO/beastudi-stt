@@ -37,6 +37,15 @@
                                 borderWidth: 2,
                                 fill: false,
                                 tension: 0.3
+                            },
+                            {
+                                label: 'Jumlah Mahasiswa',
+                                data: chartData.jumlahMahasiswa,
+                                borderColor: '#FFB300',
+                                borderWidth: 2,
+                                fill: false,
+                                tension: 0.3,
+                                yAxisID: 'y1' // Gunakan sumbu y tambahan
                             }
                         ]
                     },
@@ -66,6 +75,14 @@
                                 title: {
                                     display: true,
                                     text: 'Nilai IPK / IPS'
+                                },
+                                beginAtZero: true
+                            },
+                            y1: { // Sumbu y tambahan untuk jumlah mahasiswa
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: 'Jumlah Mahasiswa'
                                 },
                                 beginAtZero: true
                             }

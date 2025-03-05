@@ -24,38 +24,37 @@ class MonitoringChart extends Component
 
     public function loadChartData($nim = null, $tahunAngkatan = null, $tahunAjaran = null)
     {
-        // Gunakan nilai default jika tidak ada parameter
         $nim = $nim ?? $this->nim;
         $tahunAngkatan = $tahunAngkatan ?? $this->tahunAngkatan;
         $tahunAjaran = $tahunAjaran ?? $this->tahunAjaran;
 
-        // Query dengan filter
-        $query = Monitoring::query();
-
-        if ($nim) {
-            $query->where('nim', $nim);
-        }
-
-        if ($tahunAjaran) {
-            $query->whereHas('periode', function ($q) use ($tahunAjaran) {
-                $q->where('id', $tahunAjaran);
+        $query = Monitoring::query()
+            ->when($nim, function ($query) use ($nim) {
+                $query->where('nim', $nim);
+            })
+            ->when($tahunAjaran, function ($query) use ($tahunAjaran) {
+                $query->whereHas('periode', function ($query) use ($tahunAjaran) {
+                    $query->where('id', $tahunAjaran);
+                });
             });
-        }
 
-        // Ambil data monitoring
         $data = $query->select('semester', 'ipk', 'ips')
             ->orderBy('semester')
             ->get()
-            ->keyBy('semester');
+            ->groupBy('semester');
 
         // Daftar semester 1 - 8
         $semesters = range(1, 8);
         $ipkData = [];
         $ipsData = [];
+        $jumlahMahasiswa = [];
 
         foreach ($semesters as $semester) {
-            $ipkData[] = $data[$semester]->ipk ?? null;
-            $ipsData[] = $data[$semester]->ips ?? null;
+            $semesterData = $data[$semester] ?? collect();
+
+            $ipkData[] = $semesterData->avg('ipk') ?? null;
+            $ipsData[] = $semesterData->avg('ips') ?? null;
+            $jumlahMahasiswa[] = $semesterData->count(); // Hitung jumlah mahasiswa di semester ini
         }
 
         // Simpan data baru
@@ -63,6 +62,7 @@ class MonitoringChart extends Component
             'semesters' => $semesters,
             'ipk' => $ipkData,
             'ips' => $ipsData,
+            'jumlahMahasiswa' => $jumlahMahasiswa,
         ];
 
         $this->emit('refreshMonitoringChart', $this->chartData);
