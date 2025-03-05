@@ -46,6 +46,7 @@ class PrestasiChart extends Component
 
         $semesters = range(1, 8);
         $kategoriPrestasi = KategoriPrestasi::pluck('nama', 'id');
+        $kategoriPrestasi["null"] = "Tanpa Kategori";
 
         $data = [];
         foreach ($semesters as $semester) {
@@ -53,7 +54,7 @@ class PrestasiChart extends Component
             foreach ($kategoriPrestasi as $id => $kategori) {
                 $data[$semester][$id] = $prestasiData
                     ->where('semester', $semester)
-                    ->where('kategori_prestasi_id', $id)
+                    ->where('kategori_prestasi_id', $id === "null" ? null : $id)
                     ->count();
             }
         }
