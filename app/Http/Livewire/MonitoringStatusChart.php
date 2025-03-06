@@ -54,6 +54,7 @@ class MonitoringStatusChart extends Component
             foreach (array_keys($statusCounts) as $status) {
                 $count = Monitoring::query()
                     ->whereHas('mahasiswa', fn($q) => $q->where('tahun_masuk', $tahunAngkatan))
+                    ->whereHas('periode', fn($q) => $q->where('id', $tahunAjaran))
                     ->where('semester', $semester)
                     ->where('status_beastudi', strtolower($status))
                     ->count();
