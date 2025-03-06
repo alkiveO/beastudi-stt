@@ -71,9 +71,9 @@
                     scales: {
                         y: {
                             beginAtZero: true, // Ensure the scale starts at zero
-                            max: 100, // Force y-axis to go up to 100
+                            max: 1000, // Force y-axis to go up to 1000
                             ticks: {
-                                stepSize: 10 // Ensure y-axis increments by 10
+                                stepSize: 100 // Ensure y-axis increments by 100
                             },
                             title: {
                                 display: true,
