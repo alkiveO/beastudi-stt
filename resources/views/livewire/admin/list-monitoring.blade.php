@@ -98,14 +98,14 @@
     @push('script')
     <script>
         $('#semester-select').on('changed.bs.select', function () {
-                var selectedSemester = $(this).val();
-                @this.set('semester', selectedSemester);
-            });
+            var selectedSemester = $(this).val();
+            @this.set('semester', selectedSemester);
+        });
 
-            $('#periode-select').on('changed.bs.select', function () {
-                var selectedPeriode = $(this).val();
-                @this.set('periode', selectedPeriode);
-            });
+        $('#periode-select').on('changed.bs.select', function () {
+            var selectedPeriode = $(this).val();
+            @this.set('periode', selectedPeriode);
+        });
     </script>
     @endpush
 </div>

@@ -26,6 +26,12 @@
                         <span class="nav-text">Redaksi</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.prestasi') }}" aria-expanded="false">
+                        <i class="material-icons">emoji_events</i>
+                        <span class="nav-text">Prestasi</span>
+                    </a>
+                </li>
                 <li class="">
                     <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                         <i class="material-icons">settings</i>

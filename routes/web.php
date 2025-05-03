@@ -59,8 +59,8 @@ Route::middleware('auth')
         Route::get('download-lpj', DownloadLpjController::class)->name('download-lpj');
 
         Route::view('monitoring', 'admin.monitoring')->name('monitoring');
-
         Route::view('redaksi', 'admin.redaksi')->name('redaksi');
+        Route::view('prestasi', 'admin.prestasi')->name('prestasi');
 
         Route::view('periode', 'admin.periode')->name('periode');
         Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
