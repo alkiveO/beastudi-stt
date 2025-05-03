@@ -43,7 +43,7 @@ class ListPrestasi extends Component
                     'nama' => "Lainnya"
                 ]),
             'prestasi' => Prestasi::query()
-                ->with(['periode', 'kategori_prestasi'])
+                ->with(['mahasiswa', 'periode', 'kategori_prestasi'])
                 ->when($this->kategori_prestasi !== null && $this->kategori_prestasi != -1, function ($query) {
                     if ($this->kategori_prestasi == 0) {
                         $query->whereNull('kategori_prestasi_id');

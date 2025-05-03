@@ -34,6 +34,7 @@
                             <th style="color:white !important;">Nama Mahasiswa</th>
                             <th style="color:white !important;">Semester</th>
                             <th style="color:white !important;">Periode</th>
+                            <th style="color:white !important;">Nama Lomba</th>
                             <th style="color:white !important;">Kategori Lomba</th>
                         </tr>
                     </thead>
@@ -42,9 +43,10 @@
                         @foreach($prestasi as $prestasiItem)
                             <tr>
                                 <td>{{ $prestasiItem->nim }}</td>
-                                <td>{{ $prestasiItem->nama }}</td>
+                                <td>{{ $prestasiItem->mahasiswa->nama }}</td>
                                 <td>{{ $prestasiItem->semester }}</td>
                                 <td>{{ $prestasiItem->periode->nama }}</td>
+                                <td>{{ $prestasiItem->nama }}</td>
                                 <td>{{ $prestasiItem->kategori_prestasi->nama ?? 'Lainnya' }}</td>
                             </tr>
                         @endforeach

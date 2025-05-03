@@ -17,7 +17,7 @@ class PrestasiExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $query = Prestasi::query()->with(['periode', 'kategori_prestasi']);
+        $query = Prestasi::query()->with(['mahasiswa', 'periode', 'kategori_prestasi']);
 
         if ($this->kategori_prestasi != -1) {
             if ($this->kategori_prestasi == 0) {
@@ -30,9 +30,10 @@ class PrestasiExport implements FromCollection, WithHeadings
         return $query->get()->map(function ($item) {
             return [
                 'NIM' => $item->nim,
-                'Nama Mahasiswa' => $item->nama,
+                'Nama Mahasiswa' => $item->mahasiswa->nama,
                 'Semester' => $item->semester,
                 'Periode' => $item->periode->nama,
+                'Nama Lomba' => $item->nama,
                 'Kategori Lomba' => $item->kategori_prestasi->nama ?? 'Lainnya',
             ];
         });
@@ -40,7 +41,7 @@ class PrestasiExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ['NIM', 'Nama Mahasiswa', 'Semester', 'Periode', 'Kategori Lomba'];
+        return ['NIM', 'Nama Mahasiswa', 'Semester', 'Periode', 'Nama Lomba', 'Kategori Lomba'];
     }
 }
 
