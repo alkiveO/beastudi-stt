@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="form-label text-dark">Kategori Lomba</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="kategori-prestasi-select" class="default-select form-control wide" wire:model.debounce.300='kategori_prestasi'>
@@ -19,7 +19,14 @@
                     </div>
                 </div>
             </div>
-            <div class="table-responsive mt-4">
+            <div class="row mt-2">
+                    <div class="col-12 d-flex justify-content-end">
+                    <button class="btn btn-md btn-success" wire:click="exportExcel">
+                        <i class="fa fa-download"></i> Download Excel
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive mt-2">
                 <table class="table table-bordered">
                     <thead style="background:#FF4747;">
                         <tr>

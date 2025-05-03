@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Admin;
 
-use App\Models\KategoriPrestasi;
-use App\Models\Prestasi;
 use Livewire\Component;
+use App\Models\Prestasi;
 use Livewire\WithPagination;
+use App\Exports\PrestasiExport;
+use App\Models\KategoriPrestasi;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListPrestasi extends Component
 {
@@ -20,6 +22,11 @@ class ListPrestasi extends Component
     public function updatedKategoriPrestasi($value)
     {
         $this->kategori_prestasi = $value;
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new PrestasiExport($this->kategori_prestasi), 'Data Prestasi.xlsx');
     }
 
     public function render()
