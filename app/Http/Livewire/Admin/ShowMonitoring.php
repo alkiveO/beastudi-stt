@@ -35,6 +35,8 @@ class ShowMonitoring extends Component
     public $deskripsi_rencana;
     public $file_spb;
 
+    protected $listeners = ['kategoriUpdated' => 'refreshPrestasi'];
+
     protected $rules = [
         'tanggal_isi' => 'required',
         'semester' => 'required',
@@ -75,6 +77,16 @@ class ShowMonitoring extends Component
             ->first();
 
         $this->program_studi_nama = $program_studi->nama;
+    }
+
+    public function refreshPrestasi($prestasiId)
+    {
+        $this->prestasi = $this->prestasi->map(function($item) use ($prestasiId) {
+            if ($item->id == $prestasiId) {
+                return $item->fresh(['kategori_prestasi']);
+            }
+            return $item;
+        });
     }
 
     public function updatedSemesterSelect($value)

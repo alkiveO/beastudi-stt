@@ -172,7 +172,10 @@
                                     @forelse($prestasi as $item)
                                     <div class="d-flex justify-content-between">
                                         <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
-                                        <p class="text-dark">Kategori: {{ $item->kategori_prestasi->nama }}</p>
+                                        <livewire:admin.edit-prestasi-kategori
+                                            :prestasiId="$item->id"
+                                            :key="'edit-kategori-'.$item->id"
+                                        />
                                         <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
                                     </div>
                                     @empty
