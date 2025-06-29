@@ -19,6 +19,10 @@ class ListPrestasi extends Component
         'kategori_prestasi' => ['except' => ''],
     ];
 
+    protected $listeners = [
+        'refreshPage' => '$refresh'
+    ];
+
     public function updatedKategoriPrestasi($value)
     {
         $this->kategori_prestasi = $value;

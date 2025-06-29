@@ -1,4 +1,8 @@
 <div>
+    <div>
+        @include('partials.modal-edit-prestasi')
+    </div>
+
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -36,6 +40,7 @@
                             <th style="color:white !important;">Periode</th>
                             <th style="color:white !important;">Nama Lomba</th>
                             <th style="color:white !important;">Kategori Lomba</th>
+                            <th style="color:white !important;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="text-black">
@@ -48,6 +53,9 @@
                                 <td>{{ $prestasiItem->periode->nama }}</td>
                                 <td>{{ $prestasiItem->nama }}</td>
                                 <td>{{ $prestasiItem->kategori_prestasi->nama ?? 'Lainnya' }}</td>
+                                <td>
+                                    <a href="javascript:void(0);" wire:click='$emit("showEditPrestasiModal", {{ $prestasiItem }})'>Edit</a>
+                                </td>
                             </tr>
                         @endforeach
                     @endif
@@ -73,6 +81,16 @@
             var kategoriPrestasi = $(this).val();
             @this.set('kategori_prestasi', kategoriPrestasi);
         });
+
+        Livewire.on('showEditPrestasiModal', (prestasi) => {
+            $('#editPrestasiModal').modal('show')
+
+            Livewire.emit('setEditPrestasi', prestasi)
+        })
+
+        Livewire.on('closeModalPrestasi', () => {
+            $('#editPrestasiModal').modal('hide')
+        })
     </script>
     @endpush
 </div>
