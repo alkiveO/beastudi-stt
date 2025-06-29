@@ -1,7 +1,5 @@
 <div>
-    <a href="#" wire:click.prevent="openModal" class="text-dark">
-        {{ $kategoriNama ?? 'Tidak ada kategori' }}
-    </a>
+    <a href="#" wire:click.prevent="openModal" class="text-white btn btn-sm btn-info">Edit</a>
 
     @if($showModal)
         <div class="modal fade show" style="display: block;" tabindex="-1" role="dialog">
