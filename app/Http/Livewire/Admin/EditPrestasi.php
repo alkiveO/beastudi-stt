@@ -21,6 +21,16 @@ class EditPrestasi extends Component
         'setEditPrestasi'
     ];
 
+    protected $rules = [
+        'nim' => 'required',
+        'nama' => 'required'
+    ];
+
+    protected $messages = [
+        'nim.required' => 'NIM harus diisi',
+        'nama.required' => 'Nama Lomba harus diisi',
+    ];
+
     public function setEditPrestasi($prestasi)
     {
         $this->prestasi = $prestasi;
@@ -44,6 +54,10 @@ class EditPrestasi extends Component
 
     public function updated($key, $value)
     {
+        if ($key === 'nim' || $key === 'nama') {
+            $this->validateOnly($key);
+        }
+
         if ($key === 'semester') {
             $this->semester = $value;
         }
@@ -57,6 +71,8 @@ class EditPrestasi extends Component
 
     public function update()
     {
+        $this->validate();
+
         Prestasi::find($this->prestasi['id'])
             ->update([
                 'nim' => $this->nim,
