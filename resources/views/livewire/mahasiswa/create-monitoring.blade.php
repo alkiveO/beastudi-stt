@@ -250,13 +250,10 @@
                         <!-- spb -->
                         <div class="row mt-4">
                             <div class="col-md-7">
-                                <h5>Unggah Dokumen SPK</h5>
-                                <p>Pastikan dokumen SPK diunggah dengan menggunakan aturan dokumen <br> yang sesuai dan
-                                 gambar pada dokumen tersebut harus jelas. <br> Unggah dalam bentuk <strong>.PDF</strong></p>
-
+                                <h5>Unggah Dokumen SPK dan LPJ</h5>
+                                <p>Pastikan dokumen LPJ & SPK diunggah dengan menggunakan aturan dokumen yang sesuai dan gambar pada dokumen tersebut harus jelas. Unggah dalam bentuk <strong>.PDF</strong> dengan ukuran maksimum. 2MB</p>
                                   @if($monitoring && $monitoring->file_spb)
                                     <h6>Dokumen yang telah di unggah</h6>
-
                                     <div class="d-flex justify-content-between" style="padding-right:30%;">
                                         <p class="text-dark">{{ $monitoring->file_spb }}</p>
                                         <p><a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
@@ -268,9 +265,9 @@
                         <div class="row mt-3">
                             <div class="col-md-3">
                                 @if($monitoring && $monitoring->file_spb)
-                                    <label for="file" class="form-label text-dark">Unggah dokumen SPK</label>
+                                    <label for="file" class="form-label text-dark">Unggah dokumen SPK dan LPJ</label>
                                 @else
-                                    <label for="file" class="form-label text-dark">Unggah dokumen SPK <span class="text-danger">*</span></label>
+                                    <label for="file" class="form-label text-dark">Unggah dokumen SPK dan LPJ <span class="text-danger">*</span></label>
                                 @endif
                                 <input class="form-control" type="file" id="file" wire:model='file_spb'>
                                 <div class="text-danger">@error('file_spb') {{ $message }} @enderror</div>
