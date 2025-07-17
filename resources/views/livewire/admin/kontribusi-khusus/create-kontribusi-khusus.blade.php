@@ -24,7 +24,7 @@
 
             <div class="form-group mt-2">
                 <label for="pic" class="form-label text-dark">
-                    PIC
+                    Nama PIC
                 </label>
                 <input type="text" class="form-control" id="pic" autocomplete="off" wire:model.debounce='pic'>
                 <div class="text-danger">@error('pic') {{ $message }} @enderror</div>

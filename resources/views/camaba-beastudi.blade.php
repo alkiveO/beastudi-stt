@@ -64,7 +64,7 @@
                             <p class="fs-2 fw-bold lh-sm mt-4 text-gray">Sistem Informasi Unggah <br> Dokumen Perjanjian
                                 Beastudi</p>
                             <hr>
-                            <p class="fs-4 text-gray">Pastikan calon mahasiswa baru memeriksa berkas dengan seksama dan
+                            <p class="fs-4 text-gray">Periksa kembali berkas administrasi yang akan diupload secara seksama dan
                                 sesuai dengan aturan format yang diberikan.</p>
                             <p class="fs-4 text-gray">Pastikan sebelum mengunggah dokumen untuk:</p>
                                 <ul class="unorder-list px-3 fs-4 text-gray">
