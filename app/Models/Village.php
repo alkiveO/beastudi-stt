@@ -26,6 +26,8 @@ class Village extends Model
      * @var string
      */
     protected $table = 'villages';
+    protected $guarded = [];
+    public $timestamps = false;
 
     /**
      * The attributes that should be hidden for arrays.

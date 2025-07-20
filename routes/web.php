@@ -16,6 +16,7 @@ use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\Mahasiswa\DataDiriController;
 use App\Http\Controllers\Mahasiswa\LogoutController;
 use App\Http\Controllers\Mahasiswa\MonitoringController;
+use App\Http\Livewire\Admin\ListWilayah;
 use App\Http\Livewire\Admin\ShowMasterData;
 use App\Http\Livewire\Admin\ShowMonitoring;
 
@@ -65,6 +66,7 @@ Route::middleware('auth')
         Route::view('periode', 'admin.periode')->name('periode');
         Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
         Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')->name('kontribusi-khusus');
+        Route::get('wilayah', ListWilayah::class)->name('wilayah');
 
         Route::post('logout', AdminLogoutController::class)->name('logout');
     });
