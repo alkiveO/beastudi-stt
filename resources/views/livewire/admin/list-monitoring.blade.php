@@ -98,32 +98,24 @@
                         </tr>
                     </thead>
                     <tbody class="text-black">
-                        @foreach($mahasiswa as $mahasiswaItem)
-                            @foreach($mahasiswaItem->monitorings as $monitoring)
-                                <tr>
-                                    <td>{{ $mahasiswaItem->nim }}</td>
-                                    <td>{{ $mahasiswaItem->nama }}</td>
-                                    <td>{{ $mahasiswaItem->jenis_kelamin }}</td>
-                                    <td>{{ ucwords($mahasiswaItem->program_studi) }}</td>
-                                    <td>{{ ucwords($mahasiswaItem->jalur_beastudi) }}</td>
-                                    <td>{{ $mahasiswaItem->tahun_masuk }}</td>
-                                    <td>{{ $monitoring->semester ?? '-' }}</td>
-                                    <td>{{ $monitoring->periode->nama ?? '-' }}</td>
-                                    <td>
-                                        @isset($monitoring->status_beastudi)
-                                            {!! $monitoring->format_status_beastudi !!}
-                                        @else
-                                            <span class="badge badge-secondary" style="padding:8px; font-size:12px;">Menunggu Update</span>
-                                        @endisset
-                                    </td>
-                                </tr>
-                            @endforeach
+                        @foreach($monitorings as $monitoring)
+                            <tr>
+                                <td>{{ $monitoring->mahasiswa->nim }}</td>
+                                <td>{{ $monitoring->mahasiswa->nama }}</td>
+                                <td>{{ $monitoring->mahasiswa->jenis_kelamin }}</td>
+                                <td>{{ ucwords($monitoring->mahasiswa->program_studi) }}</td>
+                                <td>{{ ucwords($monitoring->mahasiswa->jalur_beastudi) }}</td>
+                                <td>{{ $monitoring->mahasiswa->tahun_masuk }}</td>
+                                <td>{{ $monitoring->semester ?? '-' }}</td>
+                                <td>{{ $monitoring->periode->nama ?? '-' }}</td>
+                                <td>{!! $monitoring->format_status_beastudi !!}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
 
                 <div class="mt-4">
-                    {{ $mahasiswa->links('vendor.livewire.bootstrap') }}
+                    {{ $monitorings->links('vendor.livewire.bootstrap') }}
                 </div>
             </div>
         </div>

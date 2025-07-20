@@ -7,7 +7,6 @@ use Livewire\Component;
 use App\Models\Monitoring;
 use Livewire\WithPagination;
 use App\Exports\ExportMonitoring;
-use App\Models\Mahasiswa;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ListMonitoring extends Component
@@ -47,26 +46,26 @@ class ListMonitoring extends Component
     {
         return view('livewire.admin.list-monitoring', [
             'list_periode' => Periode::latest()->get(),
-            'mahasiswa' => Mahasiswa::query()
-                ->with([
-                    'monitorings' => function ($q) {
-                        if ($this->semester) {
-                            $q->where('semester', $this->semester);
-                        }
-                        if ($this->periode) {
-                            $q->where('periode_id', $this->periode);
-                        }
-                        if ($this->status_beastudi) {
-                            $q->where('status_beastudi', $this->status_beastudi);
-                        }
-                    },
-                    'monitorings.periode'
-                ])
+            'monitorings' => Monitoring::query()
+                ->with('mahasiswa')
                 ->when($this->nim, function ($query) {
-                    $query->where('nim', 'like', '%' . $this->nim . '%');
+                    $query->whereHas('mahasiswa', function ($query) {
+                        $query->where('nim', 'like', '%' . $this->nim . '%');
+                    });
                 })
                 ->when($this->nama, function ($query) {
-                    $query->whereRaw('lower(nama) like ?', ['%' . strtolower($this->nama) . '%']);
+                    $query->whereHas('mahasiswa', function ($query) {
+                        $query->whereRaw('lower(nama) like ?', ['%' . strtolower($this->nama) . '%']);
+                    });
+                })
+                ->when($this->semester, function ($query) {
+                    $query->where('semester', $this->semester);
+                })
+                ->when($this->periode, function ($query) {
+                    $query->where('periode_id', $this->periode);
+                })
+                ->when($this->status_beastudi, function ($query) {
+                    $query->where('status_beastudi', $this->status_beastudi);
                 })
                 ->paginate(10),
         ]);
