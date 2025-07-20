@@ -35,7 +35,7 @@
                     <label class="form-label text-dark">Semester</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester'>
-                            <option hidden>Nothing Selected</option>
+                            <option>Nothing Selected</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -56,7 +56,7 @@
                     <label class="form-label text-dark">Periode</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode'>
-                            <option hidden>Nothing Selected</option>
+                            <option>Nothing Selected</option>
                             @foreach($list_periode as $periode)
                             <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
                             @endforeach
@@ -98,27 +98,27 @@
                         </tr>
                     </thead>
                     <tbody class="text-black">
-                    @if($monitoring && $monitoring->count())
-                        @foreach($monitoring as $monitoringItem)
+                    @if($mahasiswa && $mahasiswa->count())
+                        @foreach($mahasiswa as $mahasiswaItem)
                             <tr>
-                                <td>{{ $monitoringItem->mahasiswa->nim }}</td>
-                                <td>{{ $monitoringItem->mahasiswa->nama }}</td>
-                                <td>{{ $monitoringItem->mahasiswa->jenis_kelamin }}</td>
-                                <td>{{ ucwords($monitoringItem->mahasiswa->program_studi) }}</td>
-                                <td>{{ ucwords($monitoringItem->mahasiswa->jalur_beastudi) }}</td>
-                                <td>{{ $monitoringItem->mahasiswa->tahun_masuk }}</td>
-                                <td>{{ $monitoringItem->semester }}</td>
-                                <td>{{ $monitoringItem->periode->nama }}</td>
-                                <td>{!! $monitoringItem->format_status_beastudi !!}</td>
+                                <td>{{ $mahasiswaItem->nim }}</td>
+                                <td>{{ $mahasiswaItem->nama }}</td>
+                                <td>{{ $mahasiswaItem->jenis_kelamin }}</td>
+                                <td>{{ ucwords($mahasiswaItem->program_studi) }}</td>
+                                <td>{{ ucwords($mahasiswaItem->jalur_beastudi) }}</td>
+                                <td>{{ $mahasiswaItem->tahun_masuk }}</td>
+                                <td>{{ $mahasiswaItem->monitorings[0]['semester'] }}</td>
+                                <td>{{ $mahasiswaItem->monitorings[0]['periode']['nama'] }}</td>
+                                <td>{!! $mahasiswaItem->monitorings['0']['format_status_beastudi'] !!}</td>
                             </tr>
                         @endforeach
                     @endif
                     </tbody>
                 </table>
 
-                @if($monitoring && $monitoring->count())
+                @if($mahasiswa && $mahasiswa->count())
                 <div class="mt-4">
-                    {{ $monitoring->links('vendor.livewire.bootstrap') }}
+                    {{ $mahasiswa->links('vendor.livewire.bootstrap') }}
                 </div>
                 @else
                 <div class="mt-4">
