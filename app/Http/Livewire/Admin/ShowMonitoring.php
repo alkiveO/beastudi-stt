@@ -34,6 +34,7 @@ class ShowMonitoring extends Component
     public $deskripsi_kendala;
     public $deskripsi_rencana;
     public $file_spb;
+    public $file_lpj;
 
     protected $listeners = ['kategoriUpdated' => 'refreshPrestasi'];
 
@@ -144,6 +145,7 @@ class ShowMonitoring extends Component
             $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
             $this->file_spb = $this->monitoring->file_spb;
+            $this->file_lpj = $this->monitoring->file_lpj;
 
             $this->prestasi = $this->monitoring->prestasi()
                 ->with('kategori_prestasi')
