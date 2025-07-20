@@ -12,13 +12,6 @@ use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
 class ExportMonitoring implements FromView, WithEvents, WithColumnFormatting
 {
-    private $periode_id;
-
-    public function __construct($periode_id)
-    {
-        $this->periode_id = $periode_id;
-    }
-
     public function columnFormats(): array
     {
         return [
@@ -54,15 +47,12 @@ class ExportMonitoring implements FromView, WithEvents, WithColumnFormatting
     {
         ini_set('max_execution_time', 600); // Waktu dalam detik
 
-        $periode_id = $this->periode_id;
-
         $mahasiswas = Mahasiswa::query()
             ->with(['monitorings'])
             ->orderBy('nama')
             ->get();
 
         return view('admin.exports.monitoring', compact(
-            'periode_id',
             'mahasiswas'
         ));
     }

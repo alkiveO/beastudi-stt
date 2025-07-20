@@ -6,6 +6,8 @@ use App\Models\Periode;
 use Livewire\Component;
 use App\Models\Monitoring;
 use Livewire\WithPagination;
+use App\Exports\ExportMonitoring;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ListMonitoring extends Component
 {
@@ -39,6 +41,11 @@ class ListMonitoring extends Component
     public function updatedPeriode($value)
     {
         $this->periode = $value;
+    }
+
+    public function download()
+    {
+        return Excel::download(new ExportMonitoring(), 'Monitoring Beastudi.xlsx');
     }
 
     public function render()

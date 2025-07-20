@@ -71,6 +71,19 @@
             </div>
             <div class="table-responsive mt-4">
                 <table class="table table-bordered">
+                    <div wire:loading wire:target="download">
+                        <button class="btn btn-success btn-block btn-sm mb-1" disabled>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Proses download...
+                        </button>
+                    </div>
+
+                    <div wire:loading.remove wire:target="download">
+                        <button class="btn btn-success btn-block btn-sm mb-1" wire:click="download">
+                            Download
+                        </button>
+                    </div>
+
                     <thead style="background:#FF4747;">
                         <tr>
                             <th style="color:white !important;">NIM</th>
