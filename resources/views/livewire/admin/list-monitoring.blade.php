@@ -35,7 +35,7 @@
                     <label class="form-label text-dark">Semester</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester'>
-                            <option>Nothing Selected</option>
+                            <option value>Nothing Selected</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -56,7 +56,7 @@
                     <label class="form-label text-dark">Periode</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                         <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode'>
-                            <option>Nothing Selected</option>
+                            <option value>Nothing Selected</option>
                             @foreach($list_periode as $periode)
                             <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
                             @endforeach
@@ -70,20 +70,20 @@
                 </div>
             </div>
             <div class="table-responsive mt-4">
+                <div wire:loading wire:target="download">
+                    <button class="btn btn-success btn-block btn-sm mb-1" disabled>
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Proses download...
+                    </button>
+                </div>
+
+                <div wire:loading.remove wire:target="download">
+                    <button class="btn btn-success btn-block btn-sm mb-1" wire:click="download">
+                        Download
+                    </button>
+                </div>
+
                 <table class="table table-bordered">
-                    <div wire:loading wire:target="download">
-                        <button class="btn btn-success btn-block btn-sm mb-1" disabled>
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Proses download...
-                        </button>
-                    </div>
-
-                    <div wire:loading.remove wire:target="download">
-                        <button class="btn btn-success btn-block btn-sm mb-1" wire:click="download">
-                            Download
-                        </button>
-                    </div>
-
                     <thead style="background:#FF4747;">
                         <tr>
                             <th style="color:white !important;">NIM</th>
@@ -99,23 +99,25 @@
                     </thead>
                     <tbody class="text-black">
                         @foreach($mahasiswa as $mahasiswaItem)
-                            <tr>
-                                <td>{{ $mahasiswaItem->nim }}</td>
-                                <td>{{ $mahasiswaItem->nama }}</td>
-                                <td>{{ $mahasiswaItem->jenis_kelamin }}</td>
-                                <td>{{ ucwords($mahasiswaItem->program_studi) }}</td>
-                                <td>{{ ucwords($mahasiswaItem->jalur_beastudi) }}</td>
-                                <td>{{ $mahasiswaItem->tahun_masuk }}</td>
-                                <td>{{ optional($mahasiswaItem->monitorings->first())->semester ?? '-' }}</td>
-                                <td>{{ optional($mahasiswaItem->monitorings->first())->periode->nama ?? '-' }}</td>
-                                <td>
-                                    @isset($mahasiswaItem->monitorings->first()->status_beastudi)
-                                        {!! $mahasiswaItem->monitorings->first()->format_status_beastudi !!}
-                                    @else
-                                        <span class="badge badge-secondary" style="padding:8px; font-size:12px;">Menunggu Update</span>
-                                    @endisset
-                                </td>
-                            </tr>
+                            @foreach($mahasiswaItem->monitorings as $monitoring)
+                                <tr>
+                                    <td>{{ $mahasiswaItem->nim }}</td>
+                                    <td>{{ $mahasiswaItem->nama }}</td>
+                                    <td>{{ $mahasiswaItem->jenis_kelamin }}</td>
+                                    <td>{{ ucwords($mahasiswaItem->program_studi) }}</td>
+                                    <td>{{ ucwords($mahasiswaItem->jalur_beastudi) }}</td>
+                                    <td>{{ $mahasiswaItem->tahun_masuk }}</td>
+                                    <td>{{ $monitoring->semester ?? '-' }}</td>
+                                    <td>{{ $monitoring->periode->nama ?? '-' }}</td>
+                                    <td>
+                                        @isset($monitoring->status_beastudi)
+                                            {!! $monitoring->format_status_beastudi !!}
+                                        @else
+                                            <span class="badge badge-secondary" style="padding:8px; font-size:12px;">Menunggu Update</span>
+                                        @endisset
+                                    </td>
+                                </tr>
+                            @endforeach
                         @endforeach
                     </tbody>
                 </table>

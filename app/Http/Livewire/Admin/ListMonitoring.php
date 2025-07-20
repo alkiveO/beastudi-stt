@@ -28,12 +28,6 @@ class ListMonitoring extends Component
         'status_beastudi' => ['except' => ''],
     ];
 
-    // public function mount()
-    // {
-    //     $this->semester = 1;
-    //     $this->periode = Periode::latest()->first()->id;
-    // }
-
     public function updatedSemester($value)
     {
         $this->semester = $value;
@@ -54,27 +48,25 @@ class ListMonitoring extends Component
         return view('livewire.admin.list-monitoring', [
             'list_periode' => Periode::latest()->get(),
             'mahasiswa' => Mahasiswa::query()
-                ->with('monitorings.periode')
+                ->with([
+                    'monitorings' => function ($q) {
+                        if ($this->semester) {
+                            $q->where('semester', $this->semester);
+                        }
+                        if ($this->periode) {
+                            $q->where('periode_id', $this->periode);
+                        }
+                        if ($this->status_beastudi) {
+                            $q->where('status_beastudi', $this->status_beastudi);
+                        }
+                    },
+                    'monitorings.periode'
+                ])
                 ->when($this->nim, function ($query) {
                     $query->where('nim', 'like', '%' . $this->nim . '%');
                 })
                 ->when($this->nama, function ($query) {
                     $query->whereRaw('lower(nama) like ?', ['%' . strtolower($this->nama) . '%']);
-                })
-                ->when($this->semester, function ($query) {
-                    $query->whereHas('monitorings', function($query) {
-                        $query->where('semester', $this->semester);
-                    });
-                })
-                ->when($this->periode, function ($query) {
-                    $query->whereHas('monitorings', function($query) {
-                        $query->where('periode_id', $this->periode);
-                    });
-                })
-                ->when($this->status_beastudi, function ($query) {
-                    $query->whereHas('monitorings', function($query) {
-                        $query->where('status_beastudi', $this->status_beastudi);
-                    });
                 })
                 ->paginate(10),
         ]);
