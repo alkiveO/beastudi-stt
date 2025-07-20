@@ -98,7 +98,6 @@
                         </tr>
                     </thead>
                     <tbody class="text-black">
-                    @if($mahasiswa && $mahasiswa->count())
                         @foreach($mahasiswa as $mahasiswaItem)
                             <tr>
                                 <td>{{ $mahasiswaItem->nim }}</td>
@@ -109,22 +108,15 @@
                                 <td>{{ $mahasiswaItem->tahun_masuk }}</td>
                                 <td>{{ $mahasiswaItem->monitorings[0]['semester'] }}</td>
                                 <td>{{ $mahasiswaItem->monitorings[0]['periode']['nama'] }}</td>
-                                <td>{!! $mahasiswaItem->monitorings['0']['format_status_beastudi'] !!}</td>
+                                <td>{!! $mahasiswaItem->monitorings[0]['format_status_beastudi'] !!}</td>
                             </tr>
                         @endforeach
-                    @endif
                     </tbody>
                 </table>
 
-                @if($mahasiswa && $mahasiswa->count())
                 <div class="mt-4">
                     {{ $mahasiswa->links('vendor.livewire.bootstrap') }}
                 </div>
-                @else
-                <div class="mt-4">
-                    <p class="text-center">Data Monitoring tidak ditemukan</p>
-                </div>
-                @endif
             </div>
         </div>
     </div>
