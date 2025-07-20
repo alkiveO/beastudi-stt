@@ -1,6 +1,27 @@
 <div>
     <div class="card">
         <div class="card-body">
+            <div class="mb-3">
+                <div class="d-flex justify-content-center">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link {{ $status_beastudi === 'evaluasi' ? 'active' : '' }}" wire:click.prevent="$set('status_beastudi', 'evaluasi')">
+                                <i class="fa fa-exclamation-circle text-warning"></i> Evaluasi
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link {{ $status_beastudi === 'aman' ? 'active' : '' }}" wire:click.prevent="$set('status_beastudi', 'aman')">
+                                <i class="fa fa-check-circle text-success"></i> Aman
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link {{ $status_beastudi === 'keluar' ? 'active' : '' }}" wire:click.prevent="$set('status_beastudi', 'keluar')">
+                                <i class="fa fa-times-circle text-danger"></i> Keluar
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3">
                     <label class="form-label text-dark">NIM</label>

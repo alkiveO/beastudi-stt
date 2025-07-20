@@ -15,12 +15,14 @@ class ListMonitoring extends Component
     public $nama;
     public $semester;
     public $periode;
+    public $status_beastudi;
 
     protected $queryString = [
         'nim' => ['except' => ''],
         'nama' => ['except' => ''],
         'semester' => ['except' => ''],
         'periode' => ['except' => ''],
+        'status_beastudi' => ['except' => ''],
     ];
 
     public function mount()
@@ -54,6 +56,9 @@ class ListMonitoring extends Component
                     $query->whereHas('mahasiswa', function ($query) {
                         $query->whereRaw('lower(nama) like ?', ['%' . strtolower($this->nama) . '%']);
                     });
+                })
+                ->when($this->status_beastudi, function ($query) {
+                    $query->where('status_beastudi', $this->status_beastudi);
                 })
                 ->where('semester', $this->semester)
                 ->where('periode_id', $this->periode)
