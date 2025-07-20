@@ -106,9 +106,15 @@
                                 <td>{{ ucwords($mahasiswaItem->program_studi) }}</td>
                                 <td>{{ ucwords($mahasiswaItem->jalur_beastudi) }}</td>
                                 <td>{{ $mahasiswaItem->tahun_masuk }}</td>
-                                <td>{{ $mahasiswaItem->monitorings[0]['semester'] }}</td>
-                                <td>{{ $mahasiswaItem->monitorings[0]['periode']['nama'] }}</td>
-                                <td>{!! $mahasiswaItem->monitorings[0]['format_status_beastudi'] !!}</td>
+                                <td>{{ optional($mahasiswaItem->monitorings->first())->semester ?? '-' }}</td>
+                                <td>{{ optional($mahasiswaItem->monitorings->first())->periode->nama ?? '-' }}</td>
+                                <td>
+                                    @isset($mahasiswaItem->monitorings->first()->status_beastudi)
+                                        {!! $mahasiswaItem->monitorings->first()->format_status_beastudi !!}
+                                    @else
+                                        <span class="badge badge-secondary" style="padding:8px; font-size:12px;">Menunggu Update</span>
+                                    @endisset
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
