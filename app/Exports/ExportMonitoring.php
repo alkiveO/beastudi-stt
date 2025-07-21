@@ -49,6 +49,7 @@ class ExportMonitoring implements FromView, WithEvents, WithColumnFormatting
 
         $mahasiswas = Mahasiswa::query()
             ->with(['monitorings'])
+            ->whereHas('monitorings')
             ->orderBy('nama')
             ->get();
 
