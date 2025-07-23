@@ -20,11 +20,6 @@ use App\Http\Livewire\Admin\ListWilayah;
 use App\Http\Livewire\Admin\ShowMasterData;
 use App\Http\Livewire\Admin\ShowMonitoring;
 
-
-Route::get('p', function() {
-    return env('APP_ENV');
-});
-
 Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
 Route::get('kelurahan', KelurahanController::class);

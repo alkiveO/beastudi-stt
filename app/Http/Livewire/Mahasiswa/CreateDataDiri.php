@@ -17,7 +17,7 @@ use Illuminate\Validation\ValidationException;
 
 class CreateDataDiri extends Component
 {
-    public $nim;
+    public $mhs_id;
     public $nama;
     public $tahun_masuk;
     public $program_studi_id;
@@ -41,12 +41,7 @@ class CreateDataDiri extends Component
     public function rules()
     {
         return [
-            'nim' => [
-                'required',
-                'max:20',
-                Rule::unique('mahasiswa', 'nim')
-                    ->ignore($this->nim, 'nim')
-            ],
+            'mhs_id' => 'string',
             'nama' => 'required|max:255',
             'tahun_masuk' => 'required|min:4|max:4',
             'program_studi_id' => 'required|exists:program_studi,id',
@@ -69,9 +64,6 @@ class CreateDataDiri extends Component
     }
 
     protected $messages = [
-        'nim.required' => 'nomor induk mahasiswa harus diisi',
-        'nim.max' => 'nomor induk mahasiswa maksimal 20 karakter',
-        'nim.unique' => 'nomor induk mahasiswa sudah digunakan',
         'nama.required' => 'nama mahasiswa harus diisi',
         'nama.max' => 'nama mahasiswa maksimal 255 karakter',
         'tahun_masuk.required' => 'tahun angkatan masuk harus diisi',
@@ -153,8 +145,8 @@ class CreateDataDiri extends Component
         $this->program_studi_id = $program_studi?->id;
         $this->jalur_prestasi_id = $jalur_beastudi?->id;
 
+        $this->mhs_id = $mahasiswa->mhs_id;
         $this->nama = $mahasiswa->nama;
-        $this->nim = $mahasiswa->nim;
         $this->alamat = $mahasiswa->alamat;
         $this->no_kk = $mahasiswa->no_kk;
         $this->no_ktp = $mahasiswa->no_ktp;
@@ -237,7 +229,7 @@ class CreateDataDiri extends Component
         }
 
         Mahasiswa::updateOrCreate(
-            ['nim' => $this->nim],
+            ['mhs_id' => $this->mhs_id],
             array_merge(
                 $validate,
                 [

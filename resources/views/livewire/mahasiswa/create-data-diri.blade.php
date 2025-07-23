@@ -62,17 +62,6 @@
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3 custom-form">
-                            <label for="nim" class="form-label text-dark">
-                                Nomor Induk Mahasiswa
-                            </label>
-                            <input type="number" class="form-control" id="nim" autocomplete="off" wire:model.debounce='nim'>
-                            <span class="required">@error('nim') {{ $message }} @enderror</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="mb-3 custom-form">
                             <label for="tanggal_lahir" class="form-label text-dark">
                                 Tanggal dan Tahun Lahir
                             </label>
@@ -80,6 +69,8 @@
                             <span class="required">@error('tanggal_lahir') {{ $message }} @enderror</span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3 custom-form">
                             <label class="form-label text-dark">Agama</label>
