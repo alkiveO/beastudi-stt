@@ -1,9 +1,15 @@
 <div>
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">
-                Halo Mahasiswa Beastudi Nurul Fikri 🤗
-            </h3>
+        <div class="card-header d-flex justify-content-between align-items-start">
+            <div>
+                <h2 class="card-title">
+                    Halo Mahasiswa Beastudi Nurul Fikri 🤗
+                </h2>
+                <div class="mt-1" style="font-size: 15px;">
+                    <strong>NIM:</strong> {{ auth()->guard('mahasiswa')->user()->nim }} <br>
+                    <strong>Email:</strong> {{ auth()->guard('mahasiswa')->user()->email }}
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="row">
