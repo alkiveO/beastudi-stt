@@ -71,12 +71,24 @@
                                 <td>{{ $mahasiswa->tahun_masuk }}</td>
                                 <td>{{ $mahasiswa->jenis_kelamin }}</td>
                                 <td>
-                                    <a href="{{ route('admin.master-data.show', $mahasiswa->mhs_id) }}">Detail</a>
+                                    <a href="{{ route('admin.master-data.show', $mahasiswa->mhs_id) }}" title="Detail">
+                                        <span class="material-icons">visibility</span>
+                                    </a>
+
                                     @if($mahasiswa->nim)
-                                        <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}"> | Monitoring | </a>
-                                        <a href="#" id="download-spb" data-nim="{{ $mahasiswa->nim }}">Download SPB | </a>
-                                        <a href="#" id="download-lpj" data-nim="{{ $mahasiswa->nim }}">Download LPJ</a>
+                                        <a href="{{ route('admin.monitoring.show', $mahasiswa->nim) }}" title="Monitoring">
+                                            <span class="material-icons">monitor_heart</span>
+                                        </a>
+                                        <a href="#" id="download-spb" data-nim="{{ $mahasiswa->nim }}" title="Download SPB">
+                                            <span class="material-icons">description</span>
+                                        </a>
+                                        <a href="#" id="download-lpj" data-nim="{{ $mahasiswa->nim }}" title="Download LPJ">
+                                            <span class="material-icons">description</span>
+                                        </a>
                                     @endif
+                                    <a href="#" wire:click.prevent="$emit('showDeleteModal', {{ $mahasiswa->id }}, '{{ $mahasiswa->nama }}')" title="Hapus">
+                                        <span class="material-icons">delete</span>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -89,6 +101,9 @@
             </div>
         </div>
     </div>
+
+    <!-- modal delete master-data -->
+    @livewire('admin.delete-master-data')
 
     @push('script')
         <script>
@@ -119,6 +134,17 @@
 
                 $('#downloadLpjModal').modal('show')
             })
+
+            window.addEventListener('show-delete-modal', () => {
+                const modal = new bootstrap.Modal(document.getElementById('modal-delete-mahasiswa'));
+                modal.show();
+            });
+
+            window.addEventListener('hide-delete-modal', () => {
+                const modalEl = document.getElementById('modal-delete-mahasiswa');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                modal.hide();
+            });
         </script>
     @endpush
 </div>
