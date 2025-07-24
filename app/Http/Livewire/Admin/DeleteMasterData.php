@@ -8,13 +8,15 @@ use App\Models\Mahasiswa;
 class DeleteMasterData extends Component
 {
     public $mhs_id;
+    public $nim;
     public $nama;
 
     protected $listeners = ['showDeleteModal' => 'openModal'];
 
-    public function openModal($id, $nama)
+    public function openModal($id, $nim, $nama)
     {
         $this->mhs_id = $id;
+        $this->nim = $nim;
         $this->nama = $nama;
         $this->dispatchBrowserEvent('show-delete-modal');
     }

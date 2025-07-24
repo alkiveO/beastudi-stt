@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="card-body">
-        Yakin ingin menghapus data <strong>{{ $nama }}</strong>?
+        Yakin ingin menghapus data <strong> {{ $nim }} {{ $nama }}</strong>?
       </div>
        <div class="card-footer" style="border: none;">
         <div>

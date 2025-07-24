@@ -86,7 +86,7 @@
                                             <span class="material-icons">description</span>
                                         </a>
                                     @endif
-                                    <a href="#" wire:click.prevent="$emit('showDeleteModal', {{ $mahasiswa->id }}, '{{ $mahasiswa->nama }}')" title="Hapus">
+                                    <a href="#" wire:click.prevent="$emit('showDeleteModal', {{ $mahasiswa->id }}, '{{ $mahasiswa->nim }}', '{{ $mahasiswa->nama }}')" title="Hapus">
                                         <span class="material-icons">delete</span>
                                     </a>
                                 </td>
