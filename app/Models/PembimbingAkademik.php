@@ -11,4 +11,5 @@ class PembimbingAkademik extends Model
 
     protected $table = 'pembimbing_akademik';
     protected $guarded = [];
+    public $timestamps = false;
 }

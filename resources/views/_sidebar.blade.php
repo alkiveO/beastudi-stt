@@ -42,6 +42,7 @@
 						<li><a href="{{ route('admin.periode') }}">Periode</a></li>
 						<li><a href="{{ route('admin.jalur-beastudi') }}">Jalur Beastudi</a></li>
 						<li><a href="{{ route('admin.kontribusi-khusus') }}">Kontribusi Khusus</a></li>
+						<li><a href="{{ route('admin.pembimbing-akademik') }}">Pembimbing Akademik</a></li>
 					</ul>
 					</li>
                 <li>
