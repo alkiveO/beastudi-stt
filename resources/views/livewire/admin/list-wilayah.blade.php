@@ -37,32 +37,34 @@
             </div>
 
             <div class="card">
-                <div class="table-responsive">
-                    @if($villages->count())
-                        <table class="table table-bordered">
-                            <thead style="background:#FF4747;">
-                                <tr>
-                                    <th style="color:white !important;">ID</th>
-                                    <th style="color:white !important;">Nama Desa/Kelurahan</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($villages as $village)
+                <div class="card-body">
+                    <div class="table-responsive">
+                        @if($villages->count())
+                            <table class="table table-bordered">
+                                <thead style="background:#FF4747;">
                                     <tr>
-                                        <td>{{ $village->id }}</td>
-                                        <td>{{ $village->name }}</td>
+                                        <th style="color:white !important;">ID</th>
+                                        <th style="color:white !important;">Nama Desa/Kelurahan</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="p-1">
-                            <button class="btn btn-primary btn-block btn-sm" data-bs-toggle="modal" data-bs-target="#addWilayah">
-                                Tambah Wilayah
-                            </button>
-                        </div>
-                    @else
-                        <p class="text-center mt-4">Data desa/kelurahan tidak ditemukan atau belum dipilih.</p>
-                    @endif
+                                </thead>
+                                <tbody>
+                                    @foreach($villages as $village)
+                                        <tr>
+                                            <td>{{ $village->id }}</td>
+                                            <td>{{ $village->name }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="p-1">
+                                <button class="btn btn-primary btn-block btn-sm" data-bs-toggle="modal" data-bs-target="#addWilayah">
+                                    Tambah Wilayah
+                                </button>
+                            </div>
+                        @else
+                            <p class="text-center mt-4">Data desa/kelurahan tidak ditemukan atau belum dipilih.</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
