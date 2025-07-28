@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <p class="fs-5 text-gray">
-                        {!! $redaksi_login_page?->deskripsi !!}
+                        {!! nl2br(Str::linkify(e($redaksi_login_page?->deskripsi))) !!}
                     </p>
                 </div>
             </div>
