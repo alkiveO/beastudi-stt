@@ -220,10 +220,14 @@ class CreateMonitoring extends Component
         try {
             if ($this->monitoring && $this->monitoring->file_spb) {
                 $this->rules['file_spb'] = 'nullable|mimes:pdf|max:2024';
-                $this->rules['file_lpj'] = 'nullable|mimes:pdf|max:2024';
             } else {
                 $this->rules['file_spb'] = 'required|mimes:pdf|max:2024';
                 $this->messages['file_spb.required'] = 'dokumen SPK harus diisi';
+            }
+
+            if ($this->monitoring && $this->monitoring->file_lpj) {
+                 $this->rules['file_lpj'] = 'nullable|mimes:pdf|max:2024';
+            } else {
                 $this->rules['file_lpj'] = 'required|mimes:pdf|max:2024';
                 $this->messages['file_lpj.required'] = 'dokumen LPJ harus diisi';
             }
