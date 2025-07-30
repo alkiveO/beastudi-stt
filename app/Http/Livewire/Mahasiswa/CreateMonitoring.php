@@ -53,6 +53,8 @@ class CreateMonitoring extends Component
         'deskripsi_rencana' => 'nullable|max:500',
         'file_spb' => 'nullable|mimes:pdf|max:2024',
         'file_lpj' => 'nullable|mimes:pdf|max:2024',
+        'prestasi.*.nama' => 'required',
+        'prestasi.*.file' => 'required|mimes:pdf|max:2024',
     ];
 
     protected $messages = [
@@ -75,6 +77,10 @@ class CreateMonitoring extends Component
         'file_lpj.mimes' => 'dokumen LPJ harus berupa .pdf',
         'file_spb.max' => 'dokumen SPK maksimal 2 MB',
         'file_lpj.max' => 'dokumen LPJ maksimal 2 MB',
+        'prestasi.*.nama.required' => 'lomba atau prestasi harus diisi',
+        'prestasi.*.file.required' => 'dokumen harus diisi',
+        'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
+        'prestasi.*.file.max' => 'dokumen maksimal 2 MB.',
     ];
 
     public function mount()
@@ -95,7 +101,7 @@ class CreateMonitoring extends Component
             'prestasi.*.file' => 'required|mimes:pdf|max:2024',
         ], [
             'prestasi.*.nama.required' => 'lomba atau prestasi harus diisi',
-            'prestasi.*.file.required' => 'dokumen harus harus diisi',
+            'prestasi.*.file.required' => 'dokumen harus diisi',
             'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
             'prestasi.*.file.max' => 'dokumen maksimal 2 MB.',
         ]);
