@@ -51,8 +51,8 @@ class CreateMonitoring extends Component
         'deskripsi_capaian' => 'nullable|max:500',
         'deskripsi_kendala' => 'nullable|max:500',
         'deskripsi_rencana' => 'nullable|max:500',
-        'file_spb' => 'nullable|mimes:pdf|max:2024',
-        'file_lpj' => 'nullable|mimes:pdf|max:2024',
+        'file_spb' => 'required|mimes:pdf|max:2024',
+        'file_lpj' => 'required|mimes:pdf|max:2024',
         'prestasi.*.nama' => 'required',
         'prestasi.*.file' => 'required|mimes:pdf|max:2024',
     ];
@@ -73,6 +73,8 @@ class CreateMonitoring extends Component
         'deskripsi_capaian.max' => 'deskripsi capaian maksimal 500 kata',
         'deskripsi_kendala.max' => 'deskripsi kendala maksimal 500 kata',
         'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
+        'file_spb.required' => 'dokumen SPK harus diisi',
+        'file_lpj.required' => 'dokumen LPJ harus diisi',
         'file_spb.mimes' => 'dokumen SPK harus berupa .pdf',
         'file_lpj.mimes' => 'dokumen LPJ harus berupa .pdf',
         'file_spb.max' => 'dokumen SPK maksimal 2 MB',
@@ -218,18 +220,16 @@ class CreateMonitoring extends Component
     public function store()
     {
         try {
-            if ($this->monitoring && $this->monitoring->file_spb) {
+            if ($this->file_spb || ($this->monitoring && $this->monitoring->file_spb)) {
                 $this->rules['file_spb'] = 'nullable|mimes:pdf|max:2024';
             } else {
                 $this->rules['file_spb'] = 'required|mimes:pdf|max:2024';
-                $this->messages['file_spb.required'] = 'dokumen SPK harus diisi';
             }
 
-            if ($this->monitoring && $this->monitoring->file_lpj) {
+            if ($this->file_lpj || ($this->monitoring && $this->monitoring->file_lpj)) {
                  $this->rules['file_lpj'] = 'nullable|mimes:pdf|max:2024';
             } else {
                 $this->rules['file_lpj'] = 'required|mimes:pdf|max:2024';
-                $this->messages['file_lpj.required'] = 'dokumen LPJ harus diisi';
             }
 
             $this->validate();
