@@ -17,15 +17,15 @@ class EditKontribusiKhusus extends Component
     protected $rules = [
         'nama' => 'required',
         'pic' => 'required',
-        'telp_pic' => 'required|min:9|max:13'
+        'telp_pic' => 'required|min:3|max:20'
     ];
 
     protected $messages = [
         'nama.required' => 'kontribusi khusus harus diisi',
         'pic.required' => 'pic harus diisi',
         'telp_pic.required' => 'nomor handphone pic harus diisi',
-        'telp_pic.min' => 'nomor handphone pic minimal 9 karakter',
-        'telp_pic.max' => 'nomor handphone pic maksimal 13 karakter',
+        'telp_pic.min' => 'nomor handphone / ID Telegram pic minimal 3 karakter',
+        'telp_pic.max' => 'nomor handphone / ID Telegram pic maksimal 20 karakter',
     ];
 
     protected $listeners = [

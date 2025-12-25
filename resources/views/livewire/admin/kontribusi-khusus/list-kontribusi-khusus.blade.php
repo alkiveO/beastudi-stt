@@ -16,7 +16,7 @@
                             <th style="color:white !important;">#</th>
                             <th style="color:white !important;">Kontribusi Khusus</th>
                             <th style="color:white !important;">Nama PIC</th>
-                            <th style="color:white !important;">Telephone PIC</th>
+                            <th style="color:white !important;">Telephone /ID Telegram PIC</th>
                             <th style="color:white !important;">Aksi</th>
                         </tr>
                     </thead>

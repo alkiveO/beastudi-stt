@@ -32,9 +32,9 @@
 
             <div class="form-group mt-2">
                 <label for="telp_pic" class="form-label text-dark">
-                    Nomor Handphone PIC
+                    Nomor Handphone /ID Telegram PIC
                 </label>
-                <input type="number" class="form-control" id="telp_pic" autocomplete="off" wire:model.debounce='telp_pic'>
+                <input type="text" class="form-control" id="telp_pic" autocomplete="off" wire:model.debounce='telp_pic'>
                 <div class="text-danger">@error('telp_pic') {{ $message }} @enderror</div>
             </div>
         </div>
