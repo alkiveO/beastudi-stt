@@ -13,6 +13,8 @@ use App\Models\KontribusiKhusus;
 use App\Models\PembimbingAkademik;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use App\Models\PengMonitoring;
+
 
 class CreateMonitoring extends Component
 {
@@ -20,6 +22,8 @@ class CreateMonitoring extends Component
 
     public $semester_select;
     public $periode_select;
+    public $isMonitoringActive = false;
+
 
     public $monitoring;
     public $arrPrestasi;
@@ -91,6 +95,8 @@ class CreateMonitoring extends Component
         $program_studi = ProgramStudi::query()
             ->where('nama', 'like', '%' . $mahasiswa->program_studi . '%')
             ->first();
+$config = PengMonitoring::first();
+$this->isMonitoringActive = $config ? $config->is_active : false;
 
         $this->nim = $mahasiswa->nim;
         $this->program_studi_nama = $program_studi->nama;

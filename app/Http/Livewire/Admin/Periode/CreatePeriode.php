@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 class CreatePeriode extends Component
 {
     public $nama;
+     public $jenis_semester;
 
     public function rules()
     {
@@ -19,6 +20,10 @@ class CreatePeriode extends Component
                 'regex:/\//', // memastikan nama mengandung tanda "/"
                 Rule::unique('periode', 'nama')
             ],
+            'jenis_semester' => [
+                'required',
+                Rule::in(['ganjil', 'genap']) 
+            ],
         ];
     }
 
@@ -26,6 +31,8 @@ class CreatePeriode extends Component
         'nama.required' => 'periode harus diisi',
         'nama.unique' => 'periode sudah digunakan',
         'nama.regex' => 'format periode tidak sesuai',
+         'jenis_semester.required' => 'Jenis semester harus dipilih',
+        'jenis_semester.in' => 'Jenis semester tidak valid',
 
     ];
 
@@ -40,7 +47,8 @@ class CreatePeriode extends Component
 
         Periode::create([
             'nama' => $this->nama,
-            'slug' => str_replace('/', '-', $this->nama)
+            'slug' => str_replace('/', '-', $this->nama),
+             'jenis_semester' => $this->jenis_semester,
         ]);
 
         $this->emit('alert', 'Berhasil', 'Periode berhasil ditambahkan', 'success');

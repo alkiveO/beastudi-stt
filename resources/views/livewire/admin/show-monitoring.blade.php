@@ -33,7 +33,7 @@
                                 <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode_id'>
                                     <option hidden>Nothing Selected</option>
                                     @foreach($list_periode as $periode)
-                                    <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
+                                    <option value="{{ $periode->id }}">{{ $periode->nama }} | {{$periode->jenis_semester}}</option>
                                     @endforeach
                                 </select>
                                 <div class="dropdown-menu">

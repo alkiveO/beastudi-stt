@@ -10,6 +10,7 @@ class EditPeriode extends Component
 {
     public $periode_id;
     public $nama;
+    public $jenis_semester; 
 
     public function rules()
     {
@@ -21,6 +22,10 @@ class EditPeriode extends Component
                 Rule::unique('periode', 'nama')
                     ->ignore($this->periode_id)
             ],
+            'jenis_semester' => [
+                'required',
+                Rule::in(['ganjil', 'genap']) // 
+            ],
         ];
     }
 
@@ -28,6 +33,8 @@ class EditPeriode extends Component
         'nama.required' => 'periode harus diisi',
         'nama.unique' => 'periode sudah digunakan',
         'nama.regex' => 'format periode tidak sesuai',
+        'jenis_semester.required' => 'Jenis semester harus dipilih',
+        'jenis_semester.in' => 'Jenis semester tidak valid',
     ];
 
     protected $listeners = [
@@ -43,6 +50,7 @@ class EditPeriode extends Component
     {
         $this->periode_id = $periode['id'];
         $this->nama = $periode['nama'];
+        $this->jenis_semester = $periode['jenis_semester']; 
     }
 
     public function update()
@@ -53,7 +61,8 @@ class EditPeriode extends Component
             ->where('id', $this->periode_id)
             ->update([
                 'nama' => $this->nama,
-                'slug' => str_replace('/', '-', $this->nama)
+                'slug' => str_replace('/', '-', $this->nama),
+                'jenis_semester' => $this->jenis_semester,
             ]);
 
         $this->emit('alert', 'Berhasil', 'Periode berhasil diubah', 'success');

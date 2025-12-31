@@ -58,11 +58,11 @@ return [
             'ignore_exceptions' => false,
         ],
 
-        'telegram' => [
-            'driver' => 'custom',
-            'via'    => Logger\TelegramLogger::class,
-            'level'  => 'debug',
-        ],
+        // 'telegram' => [
+        //     'driver' => 'custom',
+        //     'via'    => Logger\TelegramLogger::class,
+        //     'level'  => 'debug',
+        // ],
 
         'single' => [
             'driver' => 'single',

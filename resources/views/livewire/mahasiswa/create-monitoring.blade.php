@@ -5,7 +5,13 @@
                 <div class="col-md-3">
                     <label class="form-label text-dark">Semester</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
-                        <select id="semester-select" class="default-select form-control wide" wire:model.debounce.300='semester'>
+                       <select
+                            id="semester-select"
+                            class="default-select form-control wide"
+                            wire:model.debounce.300="semester"
+                            {{ !$isMonitoringActive ? 'disabled' : '' }}
+                        >
+
                             <option hidden>Nothing Selected</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -26,10 +32,16 @@
                 <div class="col-md-3">
                     <label class="form-label text-dark">Periode</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
-                        <select id="periode-select" class="default-select form-control wide" wire:model.debounce.300='periode_id'>
+                        <select
+                            id="periode-select"
+                            class="default-select form-control wide"
+                            wire:model.debounce.300="periode_id"
+                            {{ !$isMonitoringActive ? 'disabled' : '' }}
+                        >
+
                             <option hidden>Nothing Selected</option>
                             @foreach($list_periode as $periode)
-                            <option value="{{ $periode->id }}">{{ $periode->nama }}</option>
+                            <option value="{{ $periode->id }}">{{ $periode->nama }} | {{$periode->jenis_semester}}</option>
                             @endforeach
                         </select>
                         <div class="dropdown-menu">
@@ -42,7 +54,12 @@
             </div>
         </div>
 
-        @if($semester && $periode_id)
+       @if(!$isMonitoringActive)
+    <div class="alert alert-warning text-center">
+        <strong>Pengumpulan laporan belum dibuka</strong>
+    </div>
+@elseif($semester && $periode_id)
+
             <form wire:submit.prevent="store" enctype="multipart/form-data">
                 <div class="card">
                     <div class="card-header">
