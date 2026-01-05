@@ -70,7 +70,7 @@ Route::middleware('auth')
         Route::get('wilayah', ListWilayah::class)->name('wilayah');
         Route::resource('documents', DocumentController::class)->except(['show', 'edit', 'update']);
         Route::get('pembimbing-akademik', ListPembimbingAkademik::class)->name('pembimbing-akademik');
-        Route::view('pengaturan-monitoring', 'admin.pengMonitoring')->name('pengaturan-monitoring');
+        Route::view('pengaturan-monitoring', 'admin.PengMonitoring')->name('pengaturan-monitoring');
         Route::post('logout', AdminLogoutController::class)->name('logout');
     });
 
