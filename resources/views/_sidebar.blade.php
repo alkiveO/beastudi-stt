@@ -39,6 +39,8 @@
                     </a>
 					<ul aria-expanded="false" class="mm-collapse" style="height: 16px;">
                         <li><a href="{{ route('admin.pengaturan-monitoring') }}">Deadline</a></li>
+                        <li><a href="{{ route('admin.documents.index') }}">Dokumen</a></li>
+
 						<li><a href="{{ route('admin.wilayah') }}">Wilayah</a></li>
 						<li><a href="{{ route('admin.periode') }}">Periode</a></li>
 						<li><a href="{{ route('admin.jalur-beastudi') }}">Jalur Beastudi</a></li>
@@ -71,6 +73,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('mahasiswa.data-diri') }}" aria-expanded="false">
+                        <i class="material-icons">assignment</i>
+                        <span class="nav-text">Data Diri</span>
+                    </a>
+                </li>
+                                <li>
                     <a href="{{ route('mahasiswa.data-diri') }}" aria-expanded="false">
                         <i class="material-icons">assignment</i>
                         <span class="nav-text">Data Diri</span>

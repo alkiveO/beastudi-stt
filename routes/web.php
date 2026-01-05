@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\DownloadLpjController;
 use App\Http\Controllers\Admin\DownloadSpbController;
 use App\Http\Controllers\Admin\MahasiswaExportController;
+use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\Admin\LogoutController as AdminLogoutController;
 use App\Http\Controllers\CamabaController;
@@ -26,6 +27,9 @@ Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
 Route::get('kelurahan', KelurahanController::class);
 
+Route::get('/phpinfo', function () {
+    phpinfo();
+});
 
 
 // auth
@@ -64,6 +68,7 @@ Route::middleware('auth')
         Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
         Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')->name('kontribusi-khusus');
         Route::get('wilayah', ListWilayah::class)->name('wilayah');
+        Route::resource('documents', DocumentController::class)->except(['show', 'edit', 'update']);
         Route::get('pembimbing-akademik', ListPembimbingAkademik::class)->name('pembimbing-akademik');
  Route::view(
             'pengaturan-monitoring',

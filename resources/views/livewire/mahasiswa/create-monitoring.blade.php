@@ -264,26 +264,90 @@
                             </div>
                         </div>
 
-                        <!-- spb & lpj-->
-                        <div class="row mt-4">
-                            <div class="col-md-7">
-                                <h5>Unggah Dokumen SPK dan LPJ</h5>
-                                <p>Pastikan dokumen SPK & LPJ diunggah dengan menggunakan aturan dokumen yang sesuai dan gambar pada dokumen tersebut harus jelas. Unggah dalam bentuk <strong>.PDF</strong> dengan ukuran maksimum 2MB</p>
-                                <h6>Dokumen yang telah di unggah</h6>
-                                @if($monitoring && $monitoring->file_spb)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p class="text-dark">SPK</p>
-                                        <p><a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
-                                    </div>
-                                @endif
-                                @if($monitoring && $monitoring->file_lpj)
-                                    <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                        <p class="text-dark">LPJ</p>
-                                        <p><a href="{{ asset('storage/monitoring/file-lpj/' . $monitoring->file_lpj) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+                    <!-- spb & lpj-->
+<div class="row mt-4">
+    <div class="col-md-7">
+        <h5>Unggah Dokumen SPK dan LPJ</h5>
+        <p>
+            Pastikan dokumen SPK & LPJ diunggah dengan menggunakan aturan dokumen
+            yang sesuai dan gambar pada dokumen tersebut harus jelas.
+            Unggah dalam bentuk <strong>.PDF</strong> dengan ukuran maksimum 2MB
+        </p>
+
+        <h6>Dokumen yang telah di unggah</h6>
+
+        {{-- ================= EXISTING: SPK ================= --}}
+        @if($monitoring && $monitoring->file_spb)
+            <div class="d-flex justify-content-between align-items-center"
+                 style="padding-right:30%;">
+                <span class="text-dark">SPK</span>
+
+                <div class="d-flex gap-2">
+                    <a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-primary">
+                        Lihat
+                    </a>
+
+                    <a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}"
+                       download
+                       class="btn btn-sm btn-outline-success">
+                        Download
+                    </a>
+                </div>
+            </div>
+        @endif
+
+        {{-- ================= EXISTING: LPJ ================= --}}
+        @if($monitoring && $monitoring->file_lpj)
+            <div class="d-flex justify-content-between align-items-center"
+                 style="padding-right:30%;">
+                <span class="text-dark">LPJ</span>
+
+                <div class="d-flex gap-2">
+                    <a href="{{ asset('storage/monitoring/file-lpj/' . $monitoring->file_lpj) }}"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-primary">
+                        Lihat
+                    </a>
+
+                    <a href="{{ asset('storage/monitoring/file-lpj/' . $monitoring->file_lpj) }}"
+                       download
+                       class="btn btn-sm btn-outline-success">
+                        Download
+                    </a>
+                </div>
+            </div>
+        @endif
+
+        {{-- ================= TAMBAHAN: DOKUMEN DARI TABEL documents ================= --}}
+        @if(isset($documents) && $documents->count())
+            <hr>
+            <h6>Dokumen Referensi</h6>
+
+            @foreach($documents as $doc)
+                <div class="d-flex justify-content-between align-items-center mb-2"
+                     style="padding-right:30%;">
+                    <span class="text-dark">
+                        {{ $doc->judul }}
+                    </span>
+
+                    <div class="d-flex gap-2">
+
+<a href="{{ Storage::url($doc->file) }}"
+   download
+   class="btn btn-sm btn-outline-success">
+   Download
+</a>
+
+                    </div>
+                </div>
+            @endforeach
+        @endif
+
+    </div>
+</div>
+
 
                         <div class="row mt-3">
                             <div class="col-md-3">

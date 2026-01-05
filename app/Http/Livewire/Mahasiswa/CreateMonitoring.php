@@ -14,6 +14,8 @@ use App\Models\PembimbingAkademik;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use App\Models\PengMonitoring;
+use App\Models\Documents;
+
 
 
 class CreateMonitoring extends Component
@@ -27,6 +29,7 @@ class CreateMonitoring extends Component
 
     public $monitoring;
     public $arrPrestasi;
+public $documents;
 
     public $tanggal_isi;
     public $nim;
@@ -100,6 +103,10 @@ $this->isMonitoringActive = $config ? $config->is_active : false;
 
         $this->nim = $mahasiswa->nim;
         $this->program_studi_nama = $program_studi->nama;
+        $this->documents = Documents::query()
+        ->where('is_publish', 1)
+        ->orderBy('created_at', 'desc')
+        ->get();
     }
 
     public function tambahPrestasi()
@@ -316,7 +323,8 @@ $this->isMonitoringActive = $config ? $config->is_active : false;
             'pembimbing_akademik' => PembimbingAkademik::query()
                 ->orderBy('nama', 'asc')
                 ->get(),
-            'kategori_prestasi' => KategoriPrestasi::all()
+            'kategori_prestasi' => KategoriPrestasi::all(),
+                    'documents' => $this->documents,
         ]);
     }
 }
