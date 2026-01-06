@@ -1,6 +1,11 @@
 <div>
     <div class="card">
         <div class="card-body">
+            {{-- PENGATURAN PENGUMPULAN --}}
+<div class="mb-3">
+    @livewire('admin.pengaturan-monitoring')
+</div>
+
             <div class="mb-3">
                 <div class="d-flex justify-content-center">
                     <ul class="nav nav-tabs">

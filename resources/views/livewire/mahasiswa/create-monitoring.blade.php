@@ -1,6 +1,30 @@
 <div>
     <div class="card">
         <div class="card-body">
+      {{-- ================= INFO PENGUMPULAN ================= --}}
+<div class="alert 
+    {{ $isMonitoringActive ? 'alert-info' : 'alert-warning' }}
+    d-flex justify-content-between align-items-center">
+
+    <div>
+        @if($isMonitoringActive)
+            <i class="fa fa-lock-open me-1"></i>
+        @else
+            <i class="fa fa-lock me-1"></i>
+        @endif
+
+        {{ $statusMonitoringText }}
+
+        {{-- JAM & TANGGAL TUTUP --}}
+        @if($tanggalTutupMonitoring)
+            <div class="small text-muted mt-1">
+                <i class="fa fa-clock me-1"></i>
+                Ditutup pada <strong>{{ $tanggalTutupMonitoring }}</strong>
+            </div>
+        @endif
+    </div>
+</div>
+
             <div class="row">
                 <div class="col-md-3">
                     <label class="form-label text-dark">Semester</label>
@@ -29,36 +53,51 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label text-dark">Periode</label>
-                    <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
-                        <select
-                            id="periode-select"
-                            class="default-select form-control wide"
-                            wire:model.debounce.300="periode_id"
-                            {{ !$isMonitoringActive ? 'disabled' : '' }}
-                        >
+<div class="col-md-3">
+    <label class="form-label text-dark">Periode</label>
 
-                            <option hidden>Nothing Selected</option>
-                            @foreach($list_periode as $periode)
-                            <option value="{{ $periode->id }}">{{ $periode->nama }} | {{$periode->jenis_semester}}</option>
-                            @endforeach
-                        </select>
-                        <div class="dropdown-menu">
-                            <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
-                                <ul class="dropdown-menu inner show" role="presentation"></ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-       @if(!$isMonitoringActive)
-    <div class="alert alert-warning text-center">
-        <strong>Pengumpulan laporan belum dibuka</strong>
+    <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
+        <select
+            id="periode-select"
+            class="default-select form-control wide"
+            wire:model.debounce.300="periode_id"
+            {{ !$isMonitoringActive ? 'disabled' : '' }}
+        >
+            <option hidden>Nothing Selected</option>
+            @foreach($list_periode as $periode)
+                <option value="{{ $periode->id }}">
+                    {{ $periode->nama }} | {{ $periode->jenis_semester }}
+                </option>
+            @endforeach
+        </select>
     </div>
-@elseif($semester && $periode_id)
+
+    {{-- 🔔 INFO STATUS --}}
+    @if($semester && $periode_id)
+
+        @if($isMonitoringActive)
+            <small class="text-warning d-block mt-1">
+                <i class="fa fa-clock me-1"></i>
+                {{ $statusMonitoringText }}
+
+                @if($tanggalTutupMonitoring)
+                    <br>
+                    <span class="text-muted">
+                        Ditutup pada {{ $tanggalTutupMonitoring }}
+                    </span>
+                @endif
+            </small>
+        @else
+            <small class="text-danger d-block mt-1">
+                <i class="fa fa-lock me-1"></i>
+                {{ $statusMonitoringText }}
+            </small>
+        @endif
+
+    
+</div>
+
+
 
             <form wire:submit.prevent="store" enctype="multipart/form-data">
                 <div class="card">

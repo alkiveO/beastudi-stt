@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use App\Models\PengMonitoring;
 use App\Models\Documents;
+use Carbon\Carbon;
 
 
 
@@ -24,9 +25,10 @@ class CreateMonitoring extends Component
 
     public $semester_select;
     public $periode_select;
-    public $isMonitoringActive = false;
-
-
+  public $isMonitoringActive = false;
+public $statusMonitoringText = '';
+public $sisaHariMonitoring = null;
+public $tanggalTutupMonitoring = null;
     public $monitoring;
     public $arrPrestasi;
 public $documents;
@@ -99,7 +101,54 @@ public $documents;
             ->where('nama', 'like', '%' . $mahasiswa->program_studi . '%')
             ->first();
 $config = PengMonitoring::first();
-$this->isMonitoringActive = $config ? $config->is_active : false;
+
+if (!$config || !$config->tanggal_buka) {
+    // ⛔ BELUM DISET
+    $this->isMonitoringActive = false;
+    $this->statusMonitoringText = 'Pengumpulan belum dibuka';
+    return;
+}
+
+$now   = Carbon::now();
+$buka  = Carbon::parse($config->tanggal_buka);
+$tutup = $config->tanggal_tutup
+            ? Carbon::parse($config->tanggal_tutup)
+            : null;
+
+// ⏳ BELUM DIBUKA
+if ($now->lt($buka)) {
+    $this->isMonitoringActive = false;
+    $this->statusMonitoringText =
+        'Pengumpulan akan dibuka pada ' . $buka->translatedFormat('d F Y');
+    return;
+}
+
+// 🔒 SUDAH DITUTUP
+if ($tutup && $now->gt($tutup)) {
+    $this->isMonitoringActive = false;
+    $this->statusMonitoringText =
+        'Pengumpulan sudah ditutup pada ' . $tutup->translatedFormat('d F Y');
+    return;
+}
+
+// ✅ SEDANG AKTIF
+$this->isMonitoringActive = true;
+
+if ($tutup) {
+    $this->tanggalTutupMonitoring = $tutup->translatedFormat('d F Y H:i');
+    $this->sisaHariMonitoring = $now->diffInDays($tutup, false);
+
+    $this->statusMonitoringText =
+        $this->sisaHariMonitoring > 0
+            ? "Pengumpulan ditutup {$this->sisaHariMonitoring} hari lagi"
+            : "Hari terakhir pengumpulan (hingga {$this->tanggalTutupMonitoring})";
+}
+else {
+    $this->statusMonitoringText = 'Pengumpulan sedang dibuka';
+}
+
+
+
 
         $this->nim = $mahasiswa->nim;
         $this->program_studi_nama = $program_studi->nama;
@@ -232,6 +281,15 @@ $this->isMonitoringActive = $config ? $config->is_active : false;
 
     public function store()
     {
+        if (! $this->isMonitoringActive) {
+    $this->emit('alert',
+        'Pengumpulan Ditutup',
+        'Anda tidak dapat mengirim laporan karena pengumpulan sudah ditutup.',
+        'warning'
+    );
+    return;
+}
+
         try {
             if ($this->file_spb || ($this->monitoring && $this->monitoring->file_spb)) {
                 $this->rules['file_spb'] = 'nullable|mimes:pdf|max:2024';
