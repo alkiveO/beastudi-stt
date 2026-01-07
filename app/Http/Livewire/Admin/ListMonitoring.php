@@ -39,10 +39,14 @@ public function reloadPengaturan()
     $this->loadPengaturanMonitoring();
 }
 
- public function mount()
-    {
-        $this->loadPengaturanMonitoring();
-    }
+public function mount()
+{
+    $this->semester = $this->semester ? (string) $this->semester : null;
+    $this->periode  = $this->periode ? (string) $this->periode : null;
+
+    $this->loadPengaturanMonitoring();
+}
+
 
     /**
      * Ambil status pengumpulan
@@ -69,17 +73,43 @@ public function reloadPengaturan()
         );
 }
 
-    public function updatedSemester($value)
-    {
-        $this->semester = $value;
-        $this->resetPage();
-    }
+    // public function updatedSemester($value)
+    // {
+    //     $this->semester = $value;
+    //     $this->resetPage();
+    // }
 
-    public function updatedPeriode($value)
-    {
-        $this->periode = $value;
+    // public function updatedPeriode($value)
+    // {
+    //     $this->periode = $value;
+    //     $this->resetPage();
+    // }
+public function updated($property)
+{
+    if (in_array($property, [
+        'nim',
+        'nama',
+        'semester',
+        'periode',
+        'status_beastudi',
+    ])) {
         $this->resetPage();
     }
+}
+
+public function resetFilter()
+{
+    $this->nim = null;
+    $this->nama = null;
+    $this->semester = null;
+    $this->periode = null;
+    $this->status_beastudi = null;
+
+    $this->resetPage();
+
+    // 🔥 trigger event ke JS (khusus reset selectpicker)
+    $this->dispatchBrowserEvent('reset-filter-ui');
+}
 
     
 
@@ -103,36 +133,69 @@ public function reloadPengaturan()
         );
     }
 
+    // public function render()
+    // {
+    //     return view('livewire.admin.list-monitoring', [
+    //         'list_periode' => Periode::latest()->get(),
+    //         'pengumpulanAktif' => $this->pengumpulanAktif,
+    //         'monitorings' => Monitoring::query()
+    //             ->with('mahasiswa', 'periode')
+    //             ->when($this->nim, function ($query) {
+    //                 $query->whereHas('mahasiswa', function ($q) {
+    //                     $q->where('nim', 'like', '%' . $this->nim . '%');
+    //                 });
+    //             })
+    //             ->when($this->nama, function ($query) {
+    //                 $query->whereHas('mahasiswa', function ($q) {
+    //                     $q->whereRaw('LOWER(nama) LIKE ?', [
+    //                         '%' . strtolower($this->nama) . '%'
+    //                     ]);
+    //                 });
+    //             })
+    //             ->when($this->semester, fn ($q) =>
+    //                 $q->where('semester', $this->semester)
+    //             )
+    //             ->when($this->periode, fn ($q) =>
+    //                 $q->where('periode_id', $this->periode)
+    //             )
+    //             ->when($this->status_beastudi, fn ($q) =>
+    //                 $q->where('status_beastudi', $this->status_beastudi)
+    //             )
+    //             ->latest()
+    //             ->paginate(10),
+    //     ]);
+    // }
     public function render()
-    {
-        return view('livewire.admin.list-monitoring', [
-            'list_periode' => Periode::latest()->get(),
-            'pengumpulanAktif' => $this->pengumpulanAktif,
-            'monitorings' => Monitoring::query()
-                ->with('mahasiswa', 'periode')
-                ->when($this->nim, function ($query) {
-                    $query->whereHas('mahasiswa', function ($q) {
-                        $q->where('nim', 'like', '%' . $this->nim . '%');
-                    });
-                })
-                ->when($this->nama, function ($query) {
-                    $query->whereHas('mahasiswa', function ($q) {
-                        $q->whereRaw('LOWER(nama) LIKE ?', [
-                            '%' . strtolower($this->nama) . '%'
-                        ]);
-                    });
-                })
-                ->when($this->semester, fn ($q) =>
-                    $q->where('semester', $this->semester)
-                )
-                ->when($this->periode, fn ($q) =>
-                    $q->where('periode_id', $this->periode)
-                )
-                ->when($this->status_beastudi, fn ($q) =>
-                    $q->where('status_beastudi', $this->status_beastudi)
-                )
-                ->latest()
-                ->paginate(10),
-        ]);
-    }
+{
+    $monitorings = Monitoring::query()
+        ->with(['mahasiswa', 'periode'])
+        ->when($this->nim, fn ($q) =>
+            $q->whereHas('mahasiswa', fn ($m) =>
+                $m->where('nim', 'like', "%{$this->nim}%")
+            )
+        )
+        ->when($this->nama, fn ($q) =>
+            $q->whereHas('mahasiswa', fn ($m) =>
+                $m->whereRaw('LOWER(nama) LIKE ?', ['%' . strtolower($this->nama) . '%'])
+            )
+        )
+        ->when($this->semester, fn ($q) =>
+            $q->where('semester', $this->semester)
+        )
+        ->when($this->periode, fn ($q) =>
+            $q->where('periode_id', $this->periode)
+        )
+        ->when($this->status_beastudi, fn ($q) =>
+            $q->where('status_beastudi', $this->status_beastudi)
+        )
+        ->latest()
+        ->paginate(10);
+
+    return view('livewire.admin.list-monitoring', [
+        'monitorings' => $monitorings,
+        'list_periode' => Periode::latest()->get(),
+        'pengumpulanAktif' => $this->pengumpulanAktif,
+    ]);
+}
+
 }

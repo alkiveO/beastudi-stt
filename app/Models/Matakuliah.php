@@ -26,4 +26,10 @@ class Matakuliah extends Model
         'nama_mk',
         'sks',
     ];
+
+    public function krs()
+{
+    return $this->hasMany(Krs::class, 'matakuliah_id');
+}
+
 }

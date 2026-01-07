@@ -22,6 +22,7 @@ use App\Http\Livewire\Admin\PengaturanMonitoring;
 use App\Http\Livewire\Admin\ListWilayah;
 use App\Http\Livewire\Admin\ShowMasterData;
 use App\Http\Livewire\Admin\ShowMonitoring;
+use App\Http\Controllers\Admin\MatakuliahController;
 
 Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
@@ -54,6 +55,13 @@ Route::middleware('auth')
         Route::view('master-data', 'admin.master-data')->name('master-data');
         Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)->name('master-data.show');
         Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)->name('index');
+        
+
+Route::get('/matakuliah', [MatakuliahController::class, 'index']);
+Route::get('/matakuliah/{id}', [MatakuliahController::class, 'show']);
+Route::post('/matakuliah/{id}/mahasiswa', [MatakuliahController::class, 'storeMahasiswa']);
+Route::post('/matakuliah', [MatakuliahController::class, 'store']);
+
 
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
 
