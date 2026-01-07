@@ -27,7 +27,10 @@ class Krs extends Model
      * RELATIONS
      * =====================
      */
-
+public function presensi()
+    {
+        return $this->hasOne(Presensi::class, 'krs_id');
+    }
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');

@@ -38,6 +38,7 @@
                         <span class="nav-text">Pengaturan</span>
                     </a>
 					<ul aria-expanded="false" class="mm-collapse" style="height: 16px;">
+                                                <li><a href="{{ url('admin/matakuliah') }}">Matakuliah</a></li>
                         <li><a href="{{ route('admin.documents.index') }}">Dokumen</a></li>
 						<li><a href="{{ route('admin.wilayah') }}">Wilayah</a></li>
 						<li><a href="{{ route('admin.periode') }}">Periode</a></li>

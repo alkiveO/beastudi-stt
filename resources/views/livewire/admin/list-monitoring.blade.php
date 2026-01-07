@@ -125,6 +125,7 @@
                             <th class="text-white">Semester</th>
                             <th class="text-white">Periode</th>
                             <th class="text-white">Status</th>
+                            <th class="text-white text-center" width="120">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="text-black">
@@ -139,10 +140,35 @@
                                 <td>{{ $monitoring->semester ?? '-' }}</td>
                                 <td>{{ $monitoring->periode->nama ?? '-' }}</td>
                                 <td>{!! $monitoring->format_status_beastudi !!}</td>
+             <td class="text-center">
+    <button
+        class="btn btn-sm btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#modalPresensi"
+        wire:click="$emit('openPresensi', {{ $monitoring->id }})">
+        <i class="fa fa-check"></i> Presensi
+    </button>
+</td>
+
+
                             </tr>
+                        
+
                         @endforeach
                     </tbody>
                 </table>
+<div wire:ignore.self class="modal fade" id="modalPresensi" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <livewire:admin.presensi-mahasiswa
+                :key="'presensi-modal'"
+            />
+        </div>
+    </div>
+</div>
+
+
+
 
                 <div class="mt-4">
                     {{ $monitorings->links('vendor.livewire.bootstrap') }}
