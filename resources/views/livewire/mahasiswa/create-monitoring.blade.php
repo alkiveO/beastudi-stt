@@ -26,7 +26,9 @@
 </div>
 
             <div class="row">
+                
                 <div class="col-md-3">
+                    
                     <label class="form-label text-dark">Semester</label>
                     <div class="dropdown bootstrap-select default-select form-control wide" wire:ignore>
                        <select
@@ -97,6 +99,24 @@
     
 </div>
 
+{{-- ================= INFO WAKTU INPUT ================= --}}
+@if($monitoring)
+    <div class="alert alert-light border small mb-3">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div>
+                <i class="fa fa-calendar-plus me-1 text-success"></i>
+                <strong>Dibuat:</strong>
+                {{ $monitoring->created_at->translatedFormat('d F Y H:i') }}
+            </div>
+
+            <div>
+                <i class="fa fa-calendar-check me-1 text-primary"></i>
+                <strong>Terakhir Diperbarui:</strong>
+                {{ $monitoring->updated_at->translatedFormat('d F Y H:i') }}
+            </div>
+        </div>
+    </div>
+@endif
 
 
             <form wire:submit.prevent="store" enctype="multipart/form-data">

@@ -49,7 +49,24 @@
                 <div>
                     @include('partials.modal-update-status-monitoring')
                 </div>
+{{-- ================= INFO WAKTU INPUT ================= --}}
+@if($monitoring)
+    <div class="alert alert-light border small mb-3">
+        <div class="d-flex justify-content-between flex-wrap">
+            <div>
+                <i class="fa fa-calendar-plus me-1 text-success"></i>
+                <strong>Dibuat:</strong>
+                {{ $monitoring->created_at->translatedFormat('d F Y H:i') }}
+            </div>
 
+            <div>
+                <i class="fa fa-calendar-check me-1 text-primary"></i>
+                <strong>Terakhir Diperbarui:</strong>
+                {{ $monitoring->updated_at->translatedFormat('d F Y H:i') }}
+            </div>
+        </div>
+    </div>
+@endif
                 @if($semester && $periode_id)
                     <form wire:submit.prevent='update'>
                         <div class="card-header">

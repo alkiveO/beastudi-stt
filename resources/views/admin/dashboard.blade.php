@@ -39,7 +39,12 @@
                     <div class="col-md-6">
                         @livewire('jalur-beastudi-chart')
                     </div>
+                     <div class="col-md-6">
+        @livewire('admin.evaluasi-chart')
+    </div>
                 </div>
+
+              
 
             </div>
         </div>
