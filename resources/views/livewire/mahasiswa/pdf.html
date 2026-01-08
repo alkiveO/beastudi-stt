@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Surat Peringatan Evaluasi Beastudi</title>
+
+    <style>
+        body {
+            font-family: "Times New Roman", serif;
+            font-size: 12pt;
+            line-height: 1.6;
+            margin: 40px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin: 0;
+        }
+
+        h3 {
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .data-table {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .data-table td {
+            padding: 2px 4px;
+            vertical-align: top;
+        }
+
+        .list {
+            margin-left: 20px;
+        }
+
+        .list li {
+            margin-bottom: 4px;
+        }
+
+        .signature {
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .signature td {
+            width: 50%;
+            text-align: center;
+            vertical-align: top;
+        }
+
+        .line {
+            border-bottom: 1px solid #000;
+            margin-top: 60px;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        .footer {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===================== -->
+    <!-- SURAT PERINGATAN -->
+    <!-- ===================== -->
+    <h3>SURAT PERINGATAN<br>SEBAGAI HASIL EVALUASI BEASTUDI TAHAP I</h3>
+
+    <div class="section">
+        Mahasiswa beastudi dengan data sebagai berikut:
+        <table class="data-table">
+            <tr>
+                <td width="120">Nama</td>
+                <td>: {{ nama }}</td>
+            </tr>
+            <tr>
+                <td>NIM</td>
+                <td>: {{ nim }}</td>
+            </tr>
+            <tr>
+                <td>Program Studi</td>
+                <td>: {{ program_studi }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        Diberikan peringatan karena tidak melaksanakan kewajiban penerima Beastudi, yaitu:
+        <ol class="list">
+            <li>Persentase presensi mata kuliah kurang dari ketentuan:
+                <ol>
+                    <li>Basis Data ({{ hadir_bd }}/16)</li>
+                    <li>Statistika dan Probabilitas ({{ hadir_stat }}/16)</li>
+                    <li>Keamanan Informasi ({{ hadir_keamanan }}/16)</li>
+                    <li>Bahasa Inggris I ({{ hadir_inggris }}/16)</li>
+                </ol>
+            </li>
+            <li>Indeks Prestasi Semester (IPS): {{ ips }}</li>
+            <li>Indeks Prestasi Kumulatif (IPK): {{ ipk }}</li>
+            <li>Laporan LPJ Beastudi: Tidak Melaporkan</li>
+        </ol>
+    </div>
+
+    <div class="section">
+        Jika ke depannya masih tidak memenuhi kewajiban, maka dapat diputus beasiswanya.
+        Demikian peringatan ini disampaikan.
+    </div>
+
+    <div class="footer">
+        Depok, {{ tanggal_surat }}
+    </div>
+
+    <table class="signature">
+        <tr>
+            <td>
+                Ketua Asrama Beastudi
+                <div class="line"></div>
+                <strong>{{ nama_ketua }}</strong><br>
+                {{ jabatan_ketua }}
+            </td>
+        </tr>
+    </table>
+
+    <!-- ===================== -->
+    <!-- PAGE BREAK -->
+    <!-- ===================== -->
+    <div class="page-break"></div>
+
+    <!-- ===================== -->
+    <!-- SURAT KOMITMEN -->
+    <!-- ===================== -->
+    <h3>SURAT PERNYATAAN KOMITMEN<br>MEMPERBAIKI DIRI</h3>
+
+    <div class="section">
+        Saya, mahasiswa beastudi dengan data sebagai berikut:
+        <table class="data-table">
+            <tr>
+                <td width="120">Nama</td>
+                <td>: {{ nama }}</td>
+            </tr>
+            <tr>
+                <td>NIM</td>
+                <td>: {{ nim }}</td>
+            </tr>
+            <tr>
+                <td>Program Studi</td>
+                <td>: {{ program_studi }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        Dengan ini menyatakan sanggup memperbaiki diri dan melaksanakan seluruh kewajiban sebagai
+        penerima Beastudi. Apabila di kemudian hari saya tidak memenuhi ketentuan, maka saya siap
+        menerima sanksi sesuai peraturan yang berlaku.
+    </div>
+
+    <div class="footer">
+        Depok, {{ tanggal_surat }}
+    </div>
+
+    <table class="signature">
+        <tr>
+            <td>
+                Mengetahui,<br>
+                Orang Tua / Wali
+                <div class="line"></div>
+            </td>
+            <td>
+                Yang Menyatakan,<br>
+                Mahasiswa
+                <div class="line"></div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -148,6 +148,18 @@
         wire:click="$emit('openPresensi', {{ $monitoring->id }})">
         <i class="fa fa-check"></i> Presensi
     </button>
+
+   @if($monitoring->status_beastudi !== 'aman')
+        <button
+            class="btn btn-sm btn-warning mt-1"
+            data-bs-toggle="modal"
+            data-bs-target="#modalEvaluasi"
+            wire:click="$emit('openEvaluasi', {{ $monitoring->id }})">
+            <i class="fa fa-clipboard"></i> Evaluasi
+        </button>
+    @endif
+
+
 </td>
 
 
@@ -166,6 +178,15 @@
         </div>
     </div>
 </div>
+
+<div wire:ignore.self class="modal fade" id="modalEvaluasi" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            @livewire('admin.evaluasi-mahasiswa')
+        </div>
+    </div>
+</div>
+
 
 
 

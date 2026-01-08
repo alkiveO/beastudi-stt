@@ -56,6 +56,34 @@ public function saveAllPresensi()
     ]);
 }
 
+   public function removeKrs($krsId)
+{
+    $krs = Krs::where('id', $krsId)
+        ->where('mahasiswa_id', $this->monitoring->mahasiswa->id)
+        ->where('periode_id', $this->monitoring->periode_id)
+        ->firstOrFail();
+
+    // hapus presensi dulu (jika ada)
+    Presensi::where('krs_id', $krs->id)->delete();
+
+    // hapus KRS
+    $krs->delete();
+
+    // refresh list KRS
+    $this->listKrs = Krs::with('matakuliah')
+        ->where('mahasiswa_id', $this->monitoring->mahasiswa->id)
+        ->where('periode_id', $this->monitoring->periode_id)
+        ->get();
+
+    // 🔥 PERBAIKAN DI SINI
+    unset($this->presensi[$krsId]);
+
+    $this->dispatchBrowserEvent('swal', [
+        'icon'  => 'success',
+        'title' => 'Dihapus',
+        'text'  => 'Mahasiswa berhasil dikeluarkan dari matakuliah ini',
+    ]);
+}
 
     public function render()
     {

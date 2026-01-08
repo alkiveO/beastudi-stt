@@ -22,6 +22,13 @@ class Monitoring extends Model
         return $this->belongsTo(Mahasiswa::class, 'nim', 'nim')
             ->withDefault();
     }
+ 
+
+public function evaluasi()
+{
+    return $this->hasMany(Evaluasi::class);
+}
+
 
     public function pembimbing_akademik()
     {

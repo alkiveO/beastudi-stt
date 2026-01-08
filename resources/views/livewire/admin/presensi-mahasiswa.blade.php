@@ -24,6 +24,7 @@
                 <tr>
                     <th>Mata Kuliah</th>
                     <th width="160">Kehadiran</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +37,13 @@
                                    max="16"
                                    class="form-control form-control-sm"
                                    wire:model.defer="presensi.{{ $krs->id }}">
+                        </td>
+                        <td>
+                              <button class="btn btn-danger"
+                                wire:click="removeKrs({{ $krs->id }})"
+                                onclick="return confirm('Yakin mahasiswa ini tidak mengambil matakuliah ini?')">
+                            <i class="fa fa-trash"></i>
+                        </button>
                         </td>
                     </tr>
                 @empty

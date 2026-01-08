@@ -56,7 +56,33 @@
                     <div class="row mt-4">
                         <h4 class="mb-3">Informasi Mahasiswa</h4>
                         <p class="fs-5 text-black">Status Monitoring: <span class="{{ $textTypeMonitoring }}">{{ $pesanMonitoring ?? '-' }}</span> </p>
-                        <p class="fs-5 text-black">Status Beastudi: <span class="{{ $textTypeBeastudi }}">{{ $pesanBeastudi ?? '-' }}</span> </p>
+                       <p class="fs-5 text-black">
+    Status Beastudi:
+    <span class="{{ $textTypeBeastudi }}">
+        {{ $pesanBeastudi ?? '-' }}
+    </span>
+
+    @if(!empty($jenisSp))
+        <br>
+        <small class="text-danger fw-semibold">
+           Status SP : {{ $jenisSp }}
+        </small>
+        <br>
+        <small class="text-muted">
+           Keterangan Evaluasi : {{ $keteranganEvaluasi }}
+        </small>
+        <div class="mt-3">
+            <a href="{{ route('mahasiswa.surat-peringatan', $monitoring->id) }}"
+               target="_blank"
+               class="btn btn-sm btn-outline-danger">
+                <i class="fa fa-file-pdf"></i>
+                Cetak Surat Evaluasi
+            </a>
+        </div>
+    @endif
+</p>
+
+
                     </div>
                 </div>
                 <div class="col-md-6">

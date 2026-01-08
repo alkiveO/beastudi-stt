@@ -14,6 +14,7 @@ use App\Http\Controllers\Mahasiswa\DashboardController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
+use App\Http\Controllers\SuratPeringatanController;
 use App\Http\Controllers\Mahasiswa\DataDiriController;
 use App\Http\Controllers\Mahasiswa\LogoutController;
 use App\Http\Controllers\Mahasiswa\MonitoringController;
@@ -96,4 +97,8 @@ Route::middleware('auth:mahasiswa')
         Route::view('laporan-semester', 'mahasiswa.monitoring')->name('monitoring');
 
         Route::post('logout', LogoutController::class)->name('logout');
+       Route::get(
+            'surat-peringatan/{monitoring}',
+            [SuratPeringatanController::class, 'cetak']
+        )->name('surat-peringatan');
     });

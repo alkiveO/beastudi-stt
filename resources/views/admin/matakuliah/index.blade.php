@@ -21,43 +21,64 @@
                 </button>
             </div>
 
-            {{-- CARD BODY --}}
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="5%" class="text-center">No</th>
-                                <th>Kode MK</th>
-                                <th>Nama Matakuliah</th>
-                                <th width="10%" class="text-center">SKS</th>
-                                <th width="15%" class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($matakuliah as $item)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $item->kode_mk }}</td>
-                                    <td>{{ $item->nama_mk }}</td>
-                                    <td class="text-center">{{ $item->sks }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ url('admin/matakuliah/'.$item->id) }}"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Detail
-                                        </a>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
-                                        Data matakuliah belum tersedia
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+          {{-- CARD BODY --}}
+<div class="card-body">
+
+    {{-- SEARCH --}}
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <input type="text"
+                   id="searchInput"
+                   class="form-control"
+                   placeholder="Cari kode / nama matakuliah...">
+        </div>
+    </div>
+
+    {{-- TABLE --}}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle mb-0"
+               id="matakuliahTable">
+            <thead class="table-light">
+                <tr>
+                    <th width="5%" class="text-center">No</th>
+                    <th>Kode MK</th>
+                    <th>Nama Matakuliah</th>
+                    <th width="10%" class="text-center">SKS</th>
+                    <th width="15%" class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($matakuliah as $item)
+                    <tr>
+                        <td class="text-center">{{ $loop->iteration }} </td>
+                        <td>{{ $item->kode_mk }}</td>
+                        <td>{{ $item->nama_mk }}</td>
+                        <td class="text-center">{{ $item->sks }}</td>
+                        <td class="text-center">
+                            <a href="{{ url('admin/matakuliah/'.$item->id) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            Data matakuliah belum tersedia
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{-- PAGINATION --}}
+    <div class="mt-3 d-flex justify-content-center">
+        <ul class="pagination" id="pagination"></ul>
+    </div>
+
+</div>
+
             </div>
 
         </div>
@@ -127,4 +148,75 @@
         </form>
     </div>
 </div>
+@push('script')
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const table = document.getElementById('matakuliahTable');
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+    const searchInput = document.getElementById('searchInput');
+    const pagination = document.getElementById('pagination');
+
+    const rowsPerPage = 10;
+    let currentPage = 1;
+    let filteredRows = rows;
+
+    function renderTable() {
+        table.querySelector('tbody').innerHTML = '';
+
+        const start = (currentPage - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+
+        filteredRows.slice(start, end).forEach(row => {
+            table.querySelector('tbody').appendChild(row);
+        });
+    }
+
+    function renderPagination() {
+        pagination.innerHTML = '';
+        const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+
+            const a = document.createElement('a');
+            a.className = 'page-link';
+            a.href = '#';
+            a.innerText = i;
+
+            a.addEventListener('click', function (e) {
+                e.preventDefault();
+                currentPage = i;
+                renderTable();
+                renderPagination();
+            });
+
+            li.appendChild(a);
+            pagination.appendChild(li);
+        }
+    }
+
+    function applySearch() {
+        const keyword = searchInput.value.toLowerCase();
+
+        filteredRows = rows.filter(row => {
+            return row.innerText.toLowerCase().includes(keyword);
+        });
+
+        currentPage = 1;
+        renderTable();
+        renderPagination();
+    }
+
+    searchInput.addEventListener('input', applySearch);
+
+    // init
+    renderTable();
+    renderPagination();
+});
+</script>
+
+@endpush
 @endsection

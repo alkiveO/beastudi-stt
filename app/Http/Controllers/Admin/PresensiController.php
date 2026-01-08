@@ -67,6 +67,8 @@ class PresensiController extends Controller
         $this->emitUp('monitoringUpdated');
     }
 
+
+
     public function render()
     {
         return view('livewire.admin.presensi-mahasiswa');
