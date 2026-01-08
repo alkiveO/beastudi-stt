@@ -15,20 +15,50 @@ class RedirectIfAuthenticated
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
-    {
-        $guards = empty($guards) ? [null] : $guards;
+    // public function handle(Request $request, Closure $next, string ...$guards): Response
+    // {
+    //     $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check() && $guard == 'web') {
+    //     foreach ($guards as $guard) {
+    //         if (Auth::guard($guard)->check() && $guard == 'web') {
+    //             return redirect()->route('admin.dashboard');
+    //         }
+
+    //         if (Auth::guard($guard)->check() && $guard == 'mahasiswa') {
+    //             return redirect()->route('mahasiswa.dashboard');
+    //         }
+    //     }
+
+    //     return $next($request);
+    // }
+    public function handle(Request $request, Closure $next, string ...$guards): Response
+{
+    $guards = empty($guards) ? [null] : $guards;
+
+    foreach ($guards as $guard) {
+
+        if (Auth::guard($guard)->check()) {
+
+            $user = Auth::guard($guard)->user();
+
+            // ===== ADMIN =====
+            if ($guard === 'web' && $user->role === 'admin') {
                 return redirect()->route('admin.dashboard');
             }
 
-            if (Auth::guard($guard)->check() && $guard == 'mahasiswa') {
+            // ===== KEMAS =====
+            if ($guard === 'web' && $user->role === 'kemas') {
+                return redirect()->route('kemas.dashboard');
+            }
+
+            // ===== MAHASISWA =====
+            if ($guard === 'mahasiswa') {
                 return redirect()->route('mahasiswa.dashboard');
             }
         }
-
-        return $next($request);
     }
+
+    return $next($request);
+}
+
 }

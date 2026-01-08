@@ -10,6 +10,7 @@ use Livewire\WithPagination;
 use App\Exports\ExportMonitoring;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 class ListMonitoring extends Component
 {
     use WithPagination;
@@ -117,21 +118,67 @@ public function resetFilter()
      * DOWNLOAD (DIBLOK JIKA DITUTUP)
      */
     public function download()
-    {
-        if (!$this->pengumpulanAktif) {
-            $this->dispatchBrowserEvent('alert', [
-                'title' => 'Pengumpulan Ditutup',
-                'text'  => 'Pengumpulan laporan sudah ditutup.',
-                'icon'  => 'warning',
-            ]);
-            return;
-        }
+{
+    Log::info('[DOWNLOAD] Tombol download diklik', [
+        'user_id' => auth()->id(),
+        'pengumpulanAktif' => $this->pengumpulanAktif,
+        'filters' => [
+            'nim' => $this->nim,
+            'nama' => $this->nama,
+            'semester' => $this->semester,
+            'periode' => $this->periode,
+            'status_beastudi' => $this->status_beastudi,
+        ],
+        'time' => now()->toDateTimeString(),
+    ]);
+
+    if (!$this->pengumpulanAktif) {
+
+        Log::warning('[DOWNLOAD] Diblokir karena pengumpulan ditutup', [
+            'time' => now()->toDateTimeString(),
+        ]);
+
+        $this->dispatchBrowserEvent('alert', [
+            'title' => 'Pengumpulan Ditutup',
+            'text'  => 'Pengumpulan laporan sudah ditutup.',
+            'icon'  => 'warning',
+        ]);
+
+        return;
+    }
+
+    try {
+
+        Log::info('[DOWNLOAD] Proses Excel::download dimulai');
 
         return Excel::download(
-            new ExportMonitoring(),
+            new ExportMonitoring([
+                'nim' => $this->nim,
+                'nama' => $this->nama,
+                'semester' => $this->semester,
+                'periode' => $this->periode,
+                'status_beastudi' => $this->status_beastudi,
+            ]),
             'Monitoring Beastudi.xlsx'
         );
+
+    } catch (\Throwable $e) {
+
+        Log::error('[DOWNLOAD] Gagal export Excel', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+        ]);
+
+        $this->dispatchBrowserEvent('alert', [
+            'title' => 'Gagal Download',
+            'text'  => 'Terjadi kesalahan saat membuat file Excel.',
+            'icon'  => 'error',
+        ]);
+
+        return;
     }
+}
 
     // public function render()
     // {

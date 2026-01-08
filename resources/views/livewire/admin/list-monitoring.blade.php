@@ -237,6 +237,15 @@ document.addEventListener('livewire:load', function () {
 </script>
 @endpush
 
+@push('script')
+
+<script>
+window.addEventListener('download-excel', event => {
+    window.location.href = event.detail.url;
+});
+</script>
+@endpush
+
 
 
 </div>

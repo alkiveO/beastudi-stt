@@ -57,6 +57,20 @@ Route::middleware('auth')
         Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)->name('master-data.show');
         Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)->name('index');
         
+Route::get('/monitoring/export', function () {
+
+    return Excel::download(
+        new \App\Exports\ExportMonitoring([
+            'nim' => request('nim'),
+            'nama' => request('nama'),
+            'semester' => request('semester'),
+            'periode' => request('periode'),
+            'status_beastudi' => request('status_beastudi'),
+        ]),
+        'Monitoring Beastudi.xlsx'
+    );
+
+})->name('monitoring.export');
 
 Route::get('/matakuliah', [MatakuliahController::class, 'index']);
 Route::get('/matakuliah/{id}', [MatakuliahController::class, 'show']);
@@ -102,3 +116,14 @@ Route::middleware('auth:mahasiswa')
             [SuratPeringatanController::class, 'cetak']
         )->name('surat-peringatan');
     });
+
+    Route::middleware(['auth', 'role:kemas'])
+    ->prefix('kemas')
+    ->as('kemas.')
+    ->group(function () {
+
+        Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
+        Route::view('prestasi', 'admin.prestasi')->name('prestasi');
+        Route::post('logout', AdminLogoutController::class)->name('logout');
+    });
+
