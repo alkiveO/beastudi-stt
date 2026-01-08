@@ -16,6 +16,7 @@ class EvaluasiMahasiswa extends Component
     public $jenis_sp;
     public $keterangan;
     public $tanggal;
+     public $kontribusi = 'Memenuhi';
 
     // history evaluasi
     public $historyEvaluasi = [];
@@ -23,7 +24,7 @@ class EvaluasiMahasiswa extends Component
     /**
      * Dipanggil saat klik tombol Evaluasi
      */
-    public function openEvaluasi($monitoringId)
+   public function openEvaluasi($monitoringId)
     {
         $this->monitoring = Monitoring::with(['mahasiswa', 'periode'])
             ->findOrFail($monitoringId);
@@ -35,7 +36,13 @@ class EvaluasiMahasiswa extends Component
             ->get();
 
         // reset form
-        $this->reset(['jenis_sp', 'keterangan']);
+        $this->reset([
+            'jenis_sp',
+            'keterangan',
+            'kontribusi',
+        ]);
+
+        $this->kontribusi = 'Memenuhi';
         $this->tanggal = now()->format('Y-m-d');
     }
 
@@ -47,6 +54,7 @@ class EvaluasiMahasiswa extends Component
         $this->validate([
             'jenis_sp'   => 'required',
             'keterangan' => 'required',
+            'kontribusi' => 'required|in:Memenuhi,Tidak',
             'tanggal'    => 'required|date',
         ]);
 
@@ -55,6 +63,7 @@ class EvaluasiMahasiswa extends Component
             'monitoring_id' => $this->monitoring->id,
             'jenis_sp'      => $this->jenis_sp,
             'keterangan'    => $this->keterangan,
+            'kontribusi'    => $this->kontribusi,
             'tanggal'       => $this->tanggal,
         ]);
 
@@ -64,7 +73,9 @@ class EvaluasiMahasiswa extends Component
             ->orderBy('tanggal', 'asc')
             ->get();
 
-        $this->reset(['jenis_sp', 'keterangan']);
+        // reset form
+        $this->reset(['jenis_sp', 'keterangan', 'kontribusi']);
+        $this->kontribusi = 'Memenuhi';
         $this->tanggal = now()->format('Y-m-d');
 
         $this->dispatchBrowserEvent('swal', [

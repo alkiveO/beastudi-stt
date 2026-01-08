@@ -8,13 +8,14 @@ use App\Models\Monitoring;
 use App\Models\Evaluasi;
 use App\Models\Krs;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class SuratPeringatanController extends Controller
 {
     public function cetak($monitoringId)
     {
         $mahasiswa = Auth::guard('mahasiswa')->user();
-
+Carbon::setLocale('id');
         /**
          * =========================
          * 1. VALIDASI MONITORING
@@ -60,6 +61,8 @@ class SuratPeringatanController extends Controller
          */
         $data = [
             'nama'        => $monitoring->mahasiswa->nama,
+            'ipk'           => $monitoring->ipk,
+            'ips'       => $monitoring->ips,
             'nim'         => $monitoring->mahasiswa->nim,
             'program_studi' => $monitoring->mahasiswa->program_studi,
             'semester'    => $monitoring->semester,
@@ -68,8 +71,10 @@ class SuratPeringatanController extends Controller
             'jenis_sp'    => $evaluasi->jenis_sp,
             'keterangan'  => $evaluasi->keterangan,
             'tanggal_surat' => $evaluasi->tanggal,
+            'lpj' => $monitoring->file_lpj,
 
             'presensi'    => $presensi,
+            'kontribusi' => $evaluasi->kontribusi,
 
             'nama_ketua'  => 'Ketua Satker Beastudi',
         ];
@@ -80,8 +85,9 @@ class SuratPeringatanController extends Controller
          * 5. GENERATE PDF
          * =========================
          */
-        $pdf = Pdf::loadView('mahasiswa.surat-peringatan', $data)
-            ->setPaper('A4');
+   $pdf = Pdf::loadView('mahasiswa.surat-peringatan', $data)
+    ->setPaper('A4', 'portrait');
+
 
         return $pdf->stream(
             'Surat_Peringatan_' . $mahasiswa->nim . '.pdf'

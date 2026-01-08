@@ -22,6 +22,7 @@ class Evaluasi extends Model
         'krs_id',
         'jenis_sp',
         'keterangan',
+        'kontribusi',
         'tanggal',
     ];
 

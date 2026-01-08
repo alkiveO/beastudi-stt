@@ -12,7 +12,8 @@
     </div>
 
     {{-- BODY --}}
-    <div class="modal-body">
+<div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+
 
         {{-- INFO MAHASISWA --}}
         <div class="mb-3">
@@ -32,9 +33,10 @@
                         <th>Periode</th>
                         <th>Semester</th>
                         <th>SP</th>
+                        <th>Kontribusi</th>
                         <th>Keterangan</th>
                         <th>Tanggal</th>
-                        <th>Aksi</th>
+                        <th width="80">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,20 +49,27 @@
                                     {{ $item->jenis_sp }}
                                 </span>
                             </td>
+                            <td>
+                                @if($item->kontribusi === 'Tidak')
+                                    <span class="badge bg-danger">Tidak</span>
+                                @else
+                                    <span class="badge bg-success">Memenuhi</span>
+                                @endif
+                            </td>
                             <td>{{ $item->keterangan }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
-                             <td class="text-center">
-                            <button
-                                class="btn btn-sm btn-danger"
-                                wire:click="deleteEvaluasi({{ $item->id }})"
-                                onclick="return confirm('Yakin ingin menghapus history SP ini?')">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
+                            <td class="text-center">
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    wire:click="deleteEvaluasi({{ $item->id }})"
+                                    onclick="return confirm('Yakin ingin menghapus history SP ini?')">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted">
+                            <td colspan="7" class="text-center text-muted">
                                 Belum ada evaluasi
                             </td>
                         </tr>
@@ -73,6 +82,7 @@
         <div class="border-top pt-3">
             <h6 class="fw-bold">Tambah Evaluasi</h6>
 
+            {{-- JENIS SP --}}
             <div class="mb-3">
                 <label>Jenis SP</label>
                 <select class="form-control" wire:model="jenis_sp">
@@ -81,17 +91,28 @@
                     <option value="SP2">SP 2</option>
                     <option value="SP3">SP 3</option>
                     <option value="SP Terakhir">SP Terakhir</option>
-
                 </select>
                 @error('jenis_sp') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
+            {{-- KONTRIBUSI --}}
+            <div class="mb-3">
+                <label>Penilaian Kontribusi</label>
+                <select class="form-control" wire:model="kontribusi">
+                    <option value="Memenuhi">Memenuhi</option>
+                    <option value="Tidak">Tidak</option>
+                </select>
+                @error('kontribusi') <small class="text-danger">{{ $message }}</small> @enderror
+            </div>
+
+            {{-- KETERANGAN --}}
             <div class="mb-3">
                 <label>Keterangan</label>
                 <textarea class="form-control" wire:model.defer="keterangan"></textarea>
                 @error('keterangan') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
+            {{-- TANGGAL --}}
             <div class="mb-3">
                 <label>Tanggal</label>
                 <input type="date" class="form-control" wire:model="tanggal">
