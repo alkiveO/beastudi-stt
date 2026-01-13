@@ -110,17 +110,23 @@
 
                 </div>
 
-                <div wire:loading.remove wire:target="download">
-                    <button class="btn btn-success btn-sm mb-2" wire:click="download">
-                        Download
-                    </button>
-                </div>
-                  <button
-    class="btn btn-primary btn-sm"
-    data-bs-toggle="modal"
-    data-bs-target="#modalImportPresensi">
-    <i class="fa fa-upload"></i> Import Excel
-</button>
+<div class="d-flex gap-2 mb-2">
+
+    <div wire:loading.remove wire:target="download">
+        <button class="btn btn-success btn-sm" wire:click="download">
+            <i class="fa fa-download"></i> Download
+        </button>
+    </div>
+
+    <button
+        class="btn btn-primary btn-sm"
+        data-bs-toggle="modal"
+        data-bs-target="#modalImportPresensi">
+        <i class="fa fa-upload"></i> Import Excel
+    </button>
+
+</div>
+
 
                 <table class="table table-bordered">
                     <thead style="background:#FF4747;">
