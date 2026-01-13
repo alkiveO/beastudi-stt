@@ -285,7 +285,9 @@ class ShowMasterData extends Component
 
         $this->nim = $this->nim_mhs;
 
-        $this->emit('alert', 'Berhasil', 'Data mahasiswa berhasil diubah', 'success');
+           $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diperbarui', 'success');
+
+$this->emit('redirectToMasterData');
     }
 
     public function render()

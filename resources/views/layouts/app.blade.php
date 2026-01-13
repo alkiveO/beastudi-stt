@@ -191,6 +191,12 @@
                 });
             });
 
+             Livewire.on('redirectToMasterData', () => {
+        setTimeout(() => {
+            window.location.href = "{{ route('admin.master-data') }}";
+        }, 1500); // kasih jeda biar alert kelihatan
+    });
+
             Livewire.on('alert', (title, messages, type) => {
                  if (Array.isArray(messages)) {
                     messages = messages.map(msg => `<li class=text-danger>${msg}</li>`).join('');

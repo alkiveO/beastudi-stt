@@ -5,8 +5,17 @@
         <div class="container-fluid">
             <div class="col-xl-12">
                 <div class="card">
+                    
                     <div class="card-header">
+                        
                         <h5 class="mb-0">Informasi Data Diri</h5>
+                        <a href="{{ route('admin.master-data') }}"
+       class="btn btn-light btn-sm me-2"
+       title="Kembali ke Master Data">
+        <i class="material-icons" style="vertical-align: middle;">
+            arrow_back
+        </i>
+    </a>
                     </div>
                     <div class="card-body">
                         <div class="row">

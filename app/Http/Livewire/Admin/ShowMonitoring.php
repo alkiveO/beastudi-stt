@@ -191,7 +191,11 @@ class ShowMonitoring extends Component
             ]
         );
 
-        $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diubah', 'success');
+        // $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diubah', 'success');
+       $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diperbarui', 'success');
+
+$this->emit('redirectToMasterData');
+
     }
 
     public function render()

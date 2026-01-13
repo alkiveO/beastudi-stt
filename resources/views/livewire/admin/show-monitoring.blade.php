@@ -1,10 +1,17 @@
 <div>
     @section('title_dashboard', 'Detail Monitoring: ' .$mahasiswa->nama)
-
+ 
     <div class="container-fluid">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
+                    <a href="{{ route('admin.master-data') }}"
+       class="btn btn-light btn-sm me-2"
+       title="Kembali ke Master Data">
+        <i class="material-icons" style="vertical-align: middle;">
+            arrow_back
+        </i>
+    </a>
                     <div class="row">
                         <div class="col-md-3">
                             <label class="form-label text-dark">Semester</label>
