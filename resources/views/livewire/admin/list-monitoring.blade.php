@@ -141,6 +141,15 @@
                                 <td>{{ $monitoring->periode->nama ?? '-' }}</td>
                                 <td>{!! $monitoring->format_status_beastudi !!}</td>
              <td class="text-center">
+                <button
+    class="btn btn-sm btn-info mt-1"
+    data-bs-toggle="modal"
+    data-bs-target="#modalUbahStatus"
+    wire:click="$emit('openUbahStatus', {{ $monitoring->id }})">
+    <i class="fa fa-edit"></i> Status
+</button>
+
+                
     <button
         class="btn btn-sm btn-success"
         data-bs-toggle="modal"
@@ -175,6 +184,13 @@
             <livewire:admin.presensi-mahasiswa
                 :key="'presensi-modal'"
             />
+        </div>
+    </div>
+</div>
+<div wire:ignore.self class="modal fade" id="modalUbahStatus" tabindex="-1">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            @livewire('admin.ubah-status-beastudi')
         </div>
     </div>
 </div>
@@ -245,7 +261,15 @@ window.addEventListener('download-excel', event => {
 });
 </script>
 @endpush
-
-
+@push('script')
+<script>
+window.addEventListener('close-modal', () => {
+    const modal = bootstrap.Modal.getInstance(
+        document.getElementById('modalUbahStatus')
+    );
+    modal?.hide();
+});
+</script>
+@endpush
 
 </div>

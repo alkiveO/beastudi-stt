@@ -63,7 +63,7 @@
                                     class="btn btn-sm btn-danger"
                                     wire:click="deleteEvaluasi({{ $item->id }})"
                                     onclick="return confirm('Yakin ingin menghapus history SP ini?')">
-                                    <i class="fa fa-trash"></i>
+                                    Hapus
                                 </button>
                             </td>
                         </tr>

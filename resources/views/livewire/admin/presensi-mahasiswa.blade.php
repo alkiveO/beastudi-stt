@@ -42,7 +42,7 @@
                               <button class="btn btn-danger"
                                 wire:click="removeKrs({{ $krs->id }})"
                                 onclick="return confirm('Yakin mahasiswa ini tidak mengambil matakuliah ini?')">
-                            <i class="fa fa-trash"></i>
+                           Hapus
                         </button>
                         </td>
                     </tr>
