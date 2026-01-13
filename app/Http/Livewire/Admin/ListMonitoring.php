@@ -35,7 +35,7 @@ class ListMonitoring extends Component
         'periode' => ['except' => ''],
         'status_beastudi' => ['except' => ''],
     ];
-protected $listeners = ['monitoringUpdated' => 'reloadPengaturan'];
+protected $listeners = ['monitoringUpdated' => 'reloadPengaturan',  'refreshMonitoring' => '$refresh',];
 
 public function reloadPengaturan()
 {

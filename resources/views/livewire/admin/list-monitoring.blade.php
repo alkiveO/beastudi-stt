@@ -105,6 +105,9 @@
                         <span class="spinner-border spinner-border-sm"></span>
                         Proses download...
                     </button>
+
+                  
+
                 </div>
 
                 <div wire:loading.remove wire:target="download">
@@ -112,6 +115,12 @@
                         Download
                     </button>
                 </div>
+                  <button
+    class="btn btn-primary btn-sm"
+    data-bs-toggle="modal"
+    data-bs-target="#modalImportPresensi">
+    <i class="fa fa-upload"></i> Import Excel
+</button>
 
                 <table class="table table-bordered">
                     <thead style="background:#FF4747;">
@@ -195,6 +204,15 @@
     </div>
 </div>
 
+<div wire:ignore.self class="modal fade" id="modalImportPresensi" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            @livewire('admin.import-presensi')
+        </div>
+    </div>
+</div>
+
+
 <div wire:ignore.self class="modal fade" id="modalEvaluasi" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -271,5 +289,28 @@ window.addEventListener('close-modal', () => {
 });
 </script>
 @endpush
+
+@push('script')
+<script>
+window.addEventListener('import-success', function () {
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: 'Import presensi selesai',
+        timer: 1500,
+        showConfirmButton: false
+    });
+
+    // 🔥 Tutup modal bootstrap
+    const modal = bootstrap.Modal.getInstance(
+        document.getElementById('modalImportPresensi')
+    );
+
+    if (modal) modal.hide();
+});
+</script>
+@endpush
+
 
 </div>
