@@ -97,16 +97,17 @@ class DocumentController extends Controller
     }
 }
 
-    public function destroy(Document $document)
-    {
-        $filePath = public_path($document->file);
+  public function destroy($id)
+{
+    $document = Documents::findOrFail($id);
 
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-        }
-
-        $document->delete();
-
-        return back()->with('success', 'Dokumen berhasil dihapus');
+    if (Storage::disk('public')->exists($document->file)) {
+        Storage::disk('public')->delete($document->file);
     }
+
+    $document->delete();
+
+    return back()->with('success', 'Dokumen berhasil dihapus');
+}
+
 }

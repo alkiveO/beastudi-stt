@@ -75,10 +75,10 @@
                                 {{ $doc->created_at->format('d M Y') }}
                             </td>
                             <td>
-                                <a href="{{ asset($doc->file) }}"
-                                   target="_blank"
-                                   class="btn btn-sm btn-info">
-                                    <i class="bi bi-eye"></i>
+                              <a href="{{ asset('storage/' . $doc->file) }}"
+                                target="_blank"
+                                class="btn btn-sm btn-info">
+                                Lihat
                                 </a>
 
                                 <form action="{{ route('admin.documents.destroy', $doc->id) }}"
@@ -88,7 +88,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash"></i>
+                                       Hapus
                                     </button>
                                 </form>
                             </td>
