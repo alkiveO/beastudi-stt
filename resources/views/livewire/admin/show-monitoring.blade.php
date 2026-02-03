@@ -6,12 +6,12 @@
             <div class="card">
                 <div class="card-body">
                     <a href="{{ route('admin.master-data') }}"
-       class="btn btn-light btn-sm me-2"
-       title="Kembali ke Master Data">
-        <i class="material-icons" style="vertical-align: middle;">
-            arrow_back
-        </i>
-    </a>
+                       class="btn btn-light btn-sm me-2"
+                       title="Kembali ke Master Data">
+                        <i class="material-icons" style="vertical-align: middle;">
+                            arrow_back
+                        </i>
+                    </a>
                     <div class="row">
                         <div class="col-md-3">
                             <label class="form-label text-dark">Semester</label>
@@ -27,11 +27,6 @@
                                     <option value="7">7</option>
                                     <option value="8">8</option>
                                 </select>
-                                <div class="dropdown-menu">
-                                    <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
-                                        <ul class="dropdown-menu inner show" role="presentation"></ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -43,11 +38,6 @@
                                     <option value="{{ $periode->id }}">{{ $periode->nama }} | {{$periode->jenis_semester}}</option>
                                     @endforeach
                                 </select>
-                                <div class="dropdown-menu">
-                                    <div class="inner show" role="listbox" id="bs-select-2" tabindex="-1">
-                                        <ul class="dropdown-menu inner show" role="presentation"></ul>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -87,7 +77,7 @@
                                             Tanggal Isi
                                         </label>
                                         <input type="date" class="form-control" id="tanggal_isi" autocomplete="off" wire:model.debounce='tanggal_isi'>
-                                        <span class="required">@error('tanggal_isi') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('tanggal_isi') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -96,7 +86,7 @@
                                             NIM
                                         </label>
                                         <input type="number" class="form-control" id="nim" autocomplete="off" wire:model.debounce='nim' disabled>
-                                        <span class="required">@error('nim') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('nim') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -105,7 +95,7 @@
                                             IPS
                                         </label>
                                         <input type="text" class="form-control" id="ips" autocomplete="off" wire:model.debounce='ips' oninput="validateNumberInput(event)" maxlength="4">
-                                        <span class="required">@error('ips') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('ips') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +106,7 @@
                                             IPK
                                         </label>
                                         <input type="text" class="form-control" id="ipk" autocomplete="off" wire:model.debounce='ipk' oninput="validateNumberInput(event)" maxlength="4">
-                                        <span class="required">@error('ipk') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('ipk') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -128,8 +118,8 @@
                                             <option value="{{ $pa->id }}">{{ $pa->nama }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="required">@error('pembimbing_akademik_id') {{ $message }} @enderror</span>
                                     </div>
+                                    <span class="required text-danger">@error('pembimbing_akademik_id') {{ $message }} @enderror</span>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3" wire:ignore>
@@ -140,8 +130,8 @@
                                             <option value="{{ $kontribusi->id }}">{{ $kontribusi->nama }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="required">@error('kontribusi_khusus_id') {{ $message }} @enderror</span>
                                     </div>
+                                    <span class="required text-danger">@error('kontribusi_khusus_id') {{ $message }} @enderror</span>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +147,7 @@
                                             Capaian Semester
                                         </label>
                                         <textarea class="form-control monitoring" id="deskripsi_capaian" autocomplete="off" wire:model.debounce='deskripsi_capaian' style="resize:none;" maxLength='500' placeholder="Ceritakan capaianmu di semester ini maks. 500 kata"></textarea>
-                                        <span class="required">@error('deskripsi_capaian') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('deskripsi_capaian') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                             </div>
@@ -168,7 +158,7 @@
                                             Kendala Semester
                                         </label>
                                         <textarea class="form-control monitoring" id="deskripsi_kendala" autocomplete="off" wire:model.debounce='deskripsi_kendala' style="resize:none;" maxLength='500' placeholder="Ceritakan kendalamu di semester ini maks. 500 kata"></textarea>
-                                        <span class="required">@error('deskripsi_kendala') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('deskripsi_kendala') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +169,7 @@
                                             Rencana Semester Selanjutnya
                                         </label>
                                         <textarea class="form-control monitoring" id="deskripsi_rencana" autocomplete="off" wire:model.debounce='deskripsi_rencana' style="resize:none;" maxLength='500' placeholder="Ceritakan rencanamu di semester depan maks. 500 kata"></textarea>
-                                        <span class="required">@error('deskripsi_rencana') {{ $message }} @enderror</span>
+                                        <span class="required text-danger">@error('deskripsi_rencana') {{ $message }} @enderror</span>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +179,6 @@
                             <h5 class="mb-0">Bukti Dokumen</h5>
                         </div>
                         <div class="card-body">
-                            <!-- prestasi -->
                             <div class="row">
                                 <div class="col-md-5">
                                     <h5>Kegiatan lomba atau prestasi</h5>
@@ -209,7 +198,7 @@
                                 </div>
                             </div>
 
-                            <!-- spb & lpj-->
+                            @if($file_spb || $file_lpj)
                             <div class="row mt-3">
                                 <div class="col-md-7">
                                     <h5>Dokumen SPK & LPJ</h5>
@@ -228,6 +217,7 @@
                                     @endif
                                 </div>
                             </div>
+                            @endif
                         </div>
 
                         <div class="card-footer" style="border: none;">
@@ -250,21 +240,14 @@
         <script>
             function validateNumberInput(event) {
                 const input = event.target;
-
                 let value = input.value;
-
                 value = value.replace(/[^0-9.]/g, '');
-
+                
+                // Limit to 4 chars
                 if (value.length > 4) {
-                    value = value.slice(0, 2);
+                    value = value.slice(0, 4);
                 }
-                if (value.length === 2 && !value.endsWith('.')) {
-                    value = value.charAt(0) + '.';
-                }
-                if (value.length === 1 && !value.match(/^\d$/)) {
-                    value = '';
-                }
-
+                
                 input.value = value;
             }
 

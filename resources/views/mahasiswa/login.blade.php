@@ -25,6 +25,24 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custome.css') }}" rel="stylesheet">
+    <style>
+        .redaksi-content ul {
+    list-style-type: disc !important;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.redaksi-content ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.redaksi-content li {
+    margin-bottom: 0.5rem;
+}
+
+    </style>
 </head>
 
 <body class="body h-100">
@@ -47,9 +65,10 @@
                             </div>
                         </div>
                     </div>
-                    <p class="fs-5 text-gray">
-                            {!! $redaksi_login_page?->deskripsi !!}
-                    </p>
+                   <div class="fs-5 text-gray redaksi-content">
+    {!! $redaksi_login_page?->deskripsi !!}
+</div>
+
                 </div>
             </div>
         </div>

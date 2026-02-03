@@ -41,6 +41,25 @@
     @livewireStyles
 
     <style>
+        /* ===============================
+   FIX LIST DI SUMMERNOTE EDITOR
+   =============================== */
+.note-editor .note-editable ul {
+    list-style-type: disc !important;
+    padding-left: 1.5rem !important;
+    margin-left: 0 !important;
+}
+
+.note-editor .note-editable ol {
+    list-style-type: decimal !important;
+    padding-left: 1.5rem !important;
+    margin-left: 0 !important;
+}
+
+.note-editor .note-editable li {
+    display: list-item !important;
+}
+
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {

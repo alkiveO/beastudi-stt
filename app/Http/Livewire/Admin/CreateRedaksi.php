@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Admin;
 use App\Models\Redaksi;
 use Livewire\Component;
 use Illuminate\Support\Str;
-
+use DOMDocument;
 class CreateRedaksi extends Component
 {
 //     public $jenis;
@@ -95,6 +95,55 @@ public $jenis;
         'deskripsi' => 'required|string',
     ];
 
+
+
+
+private function normalizeListHtml($html)
+{
+    if (!$html) {
+        return $html;
+    }
+
+    libxml_use_internal_errors(true);
+
+    $dom = new DOMDocument('1.0', 'UTF-8');
+    $dom->loadHTML('<meta charset="UTF-8">'.$html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+
+    foreach ($dom->getElementsByTagName('ul') as $ul) {
+        $lis = $ul->getElementsByTagName('li');
+
+        // jika hanya ada 1 <li> tapi isinya banyak <br>
+        if ($lis->length === 1) {
+            $li = $lis->item(0);
+            $innerHTML = '';
+
+            foreach ($li->childNodes as $child) {
+                $innerHTML .= $dom->saveHTML($child);
+            }
+
+            if (stripos($innerHTML, '<br') !== false) {
+                $lines = preg_split('/<br\s*\/?>/i', $innerHTML);
+
+                // hapus li lama
+                while ($ul->firstChild) {
+                    $ul->removeChild($ul->firstChild);
+                }
+
+                foreach ($lines as $line) {
+                    $text = trim(strip_tags($line));
+                    if ($text !== '') {
+                        $newLi = $dom->createElement('li');
+                        $newLi->appendChild($dom->createTextNode($text));
+                        $ul->appendChild($newLi);
+                    }
+                }
+            }
+        }
+    }
+
+    return $dom->saveHTML();
+}
+
     // 🔥 LOAD DATA SAAT JENIS DIPILIH
     public function updatedJenis($value)
     {
@@ -118,27 +167,33 @@ public $jenis;
     }
 
     public function store()
-    {
-        $this->validate();
+{
+    $this->validate();
 
-        $redaksi = Redaksi::where('jenis', $this->jenis)->first();
+    // 🔥 AUTO FIX LIST HTML DI SINI
+    $this->deskripsi = $this->normalizeListHtml($this->deskripsi);
 
-        if ($redaksi) {
-            $redaksi->update([
-                'judul' => $this->judul,
-                'deskripsi' => $this->deskripsi,
-            ]);
-            $this->emit('alert', 'Berhasil', 'Redaksi berhasil diupdate', 'success');
-        } else {
-            Redaksi::create([
-                'jenis' => $this->jenis,
-                'slug' => Str::slug($this->jenis),
-                'judul' => $this->judul,
-                'deskripsi' => $this->deskripsi,
-            ]);
-            $this->emit('alert', 'Berhasil', 'Redaksi berhasil ditambahkan', 'success');
-        }
+    $redaksi = Redaksi::where('jenis', $this->jenis)->first();
+
+    if ($redaksi) {
+        $redaksi->update([
+            'judul' => $this->judul,
+            'deskripsi' => $this->deskripsi,
+        ]);
+
+        $this->emit('alert', 'Berhasil', 'Redaksi berhasil diupdate', 'success');
+    } else {
+        Redaksi::create([
+            'jenis' => $this->jenis,
+            'slug' => Str::slug($this->jenis),
+            'judul' => $this->judul,
+            'deskripsi' => $this->deskripsi,
+        ]);
+
+        $this->emit('alert', 'Berhasil', 'Redaksi berhasil ditambahkan', 'success');
     }
+}
+
 
     public function render()
     {

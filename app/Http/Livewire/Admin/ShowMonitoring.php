@@ -14,6 +14,7 @@ use Illuminate\Validation\ValidationException;
 
 class ShowMonitoring extends Component
 {
+    // ... (Property lainnya tetap sama) ...
     public $semester_select;
     public $periode_select;
 
@@ -41,8 +42,8 @@ class ShowMonitoring extends Component
     protected $rules = [
         'tanggal_isi' => 'required',
         'semester' => 'required',
-        'ipk' => 'required|min:4',
-        'ips' => 'required|min:4',
+        'ipk' => 'required|numeric|between:0,4.00',
+        'ips' => 'required|numeric|between:0,4.00',
         'pembimbing_akademik_id' => 'required|exists:pembimbing_akademik,id',
         'periode_id' => 'required|exists:periode,id',
         'kontribusi_khusus_id' => 'required|exists:kontribusi_khusus,id',
@@ -52,48 +53,46 @@ class ShowMonitoring extends Component
     ];
 
     protected $messages = [
-        'semester.required' => 'semester harus diisi',
-        'ipk.required' => 'IPK harus diisi',
-        'ipk.min' => 'IPK min / max 4 karakter',
-        'ips.required' => 'IPS harus diisi',
-        'ips.min' => 'IPS min / max 4 karakter',
-        'pembimbing_akademik_id.required' => 'pembimbing akademik harus diisi',
-        'pembimbing_akademik_id.exists' => 'pembimbing akademik tidak valid',
-        'periode_id.required' => 'periode harus diisi',
-        'periode_id.exists' => 'periode tidak valid',
-        'kontribusi_khusus_id.required' => 'kontribusi khusus harus diisi',
-        'kontribusi_khusus_id.exists' => 'kontribusi khusus tidak valid',
-        'deskripsi_capaian.max' => 'deskripsi capaian maksimal 500 kata',
-        'deskripsi_kendala.max' => 'deskripsi kendala maksimal 500 kata',
-        'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
+        'tanggal_isi.required' => 'Tanggal isi wajib diisi',
+        'semester.required' => 'Semester wajib dipilih',
+        'ipk.required' => 'IPK wajib diisi',
+        'ipk.numeric' => 'IPK harus berupa angka',
+        'ipk.between' => 'IPK harus 0.00 - 4.00',
+        'ips.required' => 'IPS wajib diisi',
+        'ips.numeric' => 'IPS harus berupa angka',
+        'ips.between' => 'IPS harus 0.00 - 4.00',
+        'pembimbing_akademik_id.required' => 'Pembimbing Akademik wajib dipilih',
+        'periode_id.required' => 'Periode wajib dipilih',
+        'kontribusi_khusus_id.required' => 'Kontribusi Khusus wajib dipilih',
+        'deskripsi_capaian.max' => 'Deskripsi capaian maksimal 500 karakter',
+        'deskripsi_kendala.max' => 'Deskripsi kendala maksimal 500 karakter',
+        'deskripsi_rencana.max' => 'Deskripsi rencana maksimal 500 karakter',
     ];
 
     public function mount($nim)
     {
-        $this->mahasiswa = Mahasiswa::query()
-            ->where('nim', $nim)
-            ->firstOrFail();
-        $program_studi = ProgramStudi::query()
-            ->where('nama', 'like', '%' . $this->mahasiswa->program_studi . '%')
-            ->first();
-
-        $this->program_studi_nama = $program_studi->nama;
+        $this->nim = $nim;
+        $this->mahasiswa = Mahasiswa::query()->where('nim', $nim)->firstOrFail();
+        $program_studi = ProgramStudi::query()->where('nama', 'like', '%' . $this->mahasiswa->program_studi . '%')->first();
+        $this->program_studi_nama = $program_studi ? $program_studi->nama : null;
     }
 
     public function refreshPrestasi($prestasiId)
     {
-        $this->prestasi = $this->prestasi->map(function($item) use ($prestasiId) {
-            if ($item->id == $prestasiId) {
-                return $item->fresh(['kategori_prestasi']);
-            }
-            return $item;
-        });
+        if ($this->prestasi) {
+            $this->prestasi = $this->prestasi->map(function ($item) use ($prestasiId) {
+                if ($item->id == $prestasiId) {
+                    return $item->fresh(['kategori_prestasi']);
+                }
+                return $item;
+            });
+        }
     }
 
     public function updatedSemesterSelect($value)
     {
         $this->semester = $value;
-
+        $this->resetValidation();
         if ($this->semester && $this->periode_id) {
             $this->setMonitoring();
         }
@@ -102,7 +101,7 @@ class ShowMonitoring extends Component
     public function updatedPeriodeSelect($value)
     {
         $this->periode_id = $value;
-
+        $this->resetValidation();
         if ($this->semester && $this->periode_id) {
             $this->setMonitoring();
         }
@@ -111,12 +110,13 @@ class ShowMonitoring extends Component
     public function setMonitoring()
     {
         $this->monitoring = Monitoring::query()
-            ->where('nim', $this->mahasiswa->nim)
+            ->where('nim', $this->nim)
             ->where('semester', $this->semester)
             ->where('periode_id', $this->periode_id)
             ->first();
 
         if (! $this->monitoring) {
+            // PERBAIKAN 1: Tambahkan 'file_spb' dan 'file_lpj' ke reset agar hilang saat pindah semester kosong
             $this->reset([
                 'tanggal_isi',
                 'ips',
@@ -126,10 +126,11 @@ class ShowMonitoring extends Component
                 'deskripsi_capaian',
                 'deskripsi_kendala',
                 'deskripsi_rencana',
+                'file_spb', // Reset file
+                'file_lpj'  // Reset file
             ]);
 
-            $this->prestasi = [];
-
+            $this->prestasi = collect([]);
             $this->emit('clearSelect');
         }
 
@@ -137,22 +138,22 @@ class ShowMonitoring extends Component
             $this->tanggal_isi = $this->monitoring->tanggal_isi;
             $this->ips = $this->monitoring->ips;
             $this->ipk = $this->monitoring->ipk;
-            $this->semester = $this->monitoring->semester;
             $this->pembimbing_akademik_id = $this->monitoring->pembimbing_akademik_id;
-            $this->periode_id = $this->monitoring->periode_id;
             $this->kontribusi_khusus_id = $this->monitoring->kontribusi_khusus_id;
             $this->deskripsi_capaian = $this->monitoring->deskripsi_capaian;
             $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
+            
+            // Isi variabel file dari database
             $this->file_spb = $this->monitoring->file_spb;
             $this->file_lpj = $this->monitoring->file_lpj;
 
             $this->prestasi = $this->monitoring->prestasi()
                 ->with('kategori_prestasi')
-                ->where('nim', $this->mahasiswa->nim)
+                ->where('nim', $this->nim)
                 ->where('semester', $this->semester)
                 ->where('periode_id', $this->periode_id)
-                ->get();;
+                ->get();
 
             $this->emit('kontribusiSelect', $this->monitoring->kontribusi_khusus_id);
             $this->emit('paSelect', $this->monitoring->pembimbing_akademik_id);
@@ -169,13 +170,23 @@ class ShowMonitoring extends Component
         try {
             $this->validate();
         } catch (ValidationException $e) {
-            $this->emit('alert', 'Ooppss', $e->validator->errors()->all(), 'error');
-            return;
+            // PERBAIKAN 2: Mengambil list error untuk ditampilkan di Popup
+            $allErrors = $e->validator->errors()->all();
+            
+            // Format pesan menjadi list string (contoh: "- IPK wajib diisi")
+            $errorMessageString = "Mohon lengkapi data berikut:\n" . implode("\n- ", $allErrors);
+            
+            $this->emit('alert', 'Validasi Gagal', $errorMessageString, 'error');
+            
+            // Lempar kembali error agar view tetap merah (field highlighting)
+            throw $e;
         }
+
+        $targetNim = $this->nim ?? $this->mahasiswa->nim;
 
         Monitoring::updateOrCreate(
             [
-                'nim' => $this->nim,
+                'nim' => $targetNim,
                 'semester' => $this->semester,
                 'periode_id' => $this->periode_id,
             ],
@@ -191,11 +202,8 @@ class ShowMonitoring extends Component
             ]
         );
 
-        // $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diubah', 'success');
-       $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diperbarui', 'success');
-
-$this->emit('redirectToMasterData');
-
+        $this->emit('alert', 'Berhasil', 'Laporan semester berhasil diperbarui', 'success');
+        $this->emit('redirectToMasterData');
     }
 
     public function render()
@@ -203,11 +211,7 @@ $this->emit('redirectToMasterData');
         return view('livewire.admin.show-monitoring', [
             'list_periode' => Periode::all(),
             'kontribusi_khusus' => KontribusiKhusus::all(),
-            'pembimbing_akademik' => PembimbingAkademik::query()
-                // ->where('program_studi', $this->program_studi_nama)
-                ->orderBy('nama', 'asc')
-                ->get(),
-        ])
-            ->extends('layouts.app');
+            'pembimbing_akademik' => PembimbingAkademik::query()->orderBy('nama', 'asc')->get(),
+        ])->extends('layouts.app');
     }
 }
