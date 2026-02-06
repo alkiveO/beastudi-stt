@@ -91,6 +91,7 @@
                     <option value="SP2">SP 2</option>
                     <option value="SP3">SP 3</option>
                     <option value="SP Terakhir">SP Terakhir</option>
+                     <option value="Pemanggilan">Pemanggilan</option>
                 </select>
                 @error('jenis_sp') <small class="text-danger">{{ $message }}</small> @enderror
             </div>

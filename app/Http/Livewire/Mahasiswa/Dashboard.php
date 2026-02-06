@@ -24,6 +24,7 @@ class Dashboard extends Component
     // 🔥 evaluasi
     public $jenisSp;
     public $keteranganEvaluasi;
+    public $pemberitahuanGlobal = [];
 
     public function updatedSemester($value)
     {
@@ -36,6 +37,30 @@ class Dashboard extends Component
         $this->periode_id = $value;
         $this->loadMonitoring();
     }
+
+
+
+public function mount()
+{
+    // Cari evaluasi terbaru milik mahasiswa ini (tanpa filter semester/periode)
+    // khusus untuk Jenis SP 'Pemanggilan' atau SP yang mungkin perlu segera tampil
+    $globalSP = Evaluasi::whereHas('monitoring', function($query) {
+            $query->where('nim', auth()->guard('mahasiswa')->user()->nim);
+        })
+        ->with('monitoring.periode') // Ambil data periode agar tahu ini untuk T.A kapan
+        ->orderBy('tanggal', 'desc')
+        ->first();
+
+    if ($globalSP && $globalSP->jenis_sp === 'Pemanggilan') {
+        $this->pemberitahuanGlobal = [
+            'jenis' => $globalSP->jenis_sp,
+            'keterangan' => $globalSP->keterangan,
+            'semester' => $globalSP->monitoring->semester,
+            'periode' => $globalSP->monitoring->periode->nama,
+            'monitoring_id' => $globalSP->monitoring_id
+        ];
+    }
+}
 
     protected function loadMonitoring()
     {
@@ -74,6 +99,8 @@ class Dashboard extends Component
 
             return;
         }
+
+        
 
         /**
          * =========================
