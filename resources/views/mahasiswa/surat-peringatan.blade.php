@@ -142,64 +142,69 @@ small {
 </div>
 
 <ul>
+    {{-- Cek apakah ada mata kuliah yang presensinya kurang dari 13 --}}
+    @php
+        $adaMasalahPresensi = false;
+        foreach($presensi as $item) {
+            if($item['hadir'] < 13) {
+                $adaMasalahPresensi = true;
+                break;
+            }
+        }
+    @endphp
+
+    @if($adaMasalahPresensi)
     <li>
-        <b>
-        Presensi mata kuliah kurang dari ketentuan: </b>
+        <b>Presensi mata kuliah kurang dari ketentuan: </b>
         <ol>
-    @foreach($presensi as $item)
-        @if($item['hadir'] < 13)
-            <li>
-                {{ $item['nama_mk'] }}
-                ........................................
-                {{ $item['hadir'] }}/{{ $item['total'] }}
-            </li>
+            @foreach($presensi as $item)
+                @if($item['hadir'] < 13)
+                    <li>
+                        {{ $item['nama_mk'] }}
+                        ........................................
+                        {{ $item['hadir'] }}/{{ $item['total'] }}
+                    </li>
+                @endif
+            @endforeach
+        </ol>
+    </li>
+    <br>
+    @endif
+
+    {{-- Bagian IPS, IPK, Kontribusi, dan LPJ tetap muncul sesuai kondisi masing-masing --}}
+    <table width="90%" cellspacing="0" cellpadding="2">
+        @if(($ips !== null && $ips < 3))
+            <tr>
+                <td width="60%"><li><strong>Indeks Prestasi Semester (IPS)</strong></li></td>
+                <td width="2%">:</td>
+                <td>{{ $ips }}</td>
+            </tr>
         @endif
-    @endforeach
-</ol>
-<br>
-<table width="90%" cellspacing="0" cellpadding="2">
-    @if(($ips !== null && $ips < 3))
-        <tr>
-            <td width="60%"><li><strong>Indeks Prestasi Semester (IPS)</strong></li></td>
-            <td width="2%">:</td>
-            <td>{{ $ips }}</td>
-        </tr>
-    @endif
 
-    @if(($ipk !== null && $ipk < 3))
-        <tr>
-            <td><li><strong>Indeks Prestasi Kumulatif (IPK)</strong></li></td>
-            <td>:</td>
-            <td>{{ $ipk }}</td>
-        </tr>
-    @endif
+        @if(($ipk !== null && $ipk < 3))
+            <tr>
+                <td><li><strong>Indeks Prestasi Kumulatif (IPK)</strong></li></td>
+                <td>:</td>
+                <td>{{ $ipk }}</td>
+            </tr>
+        @endif
 
-   @if($kontribusi === 'Tidak')
-<tr>
-    <td>
-        <li><strong>Penilaian Kontribusi</strong></li>
-    </td>
-    <td>:</td>
-    <td>
-        <strong>Tidak Memenuhi</strong>
-    </td>
-</tr>
-@endif
+        @if($kontribusi === 'Tidak')
+            <tr>
+                <td><li><strong>Penilaian Kontribusi</strong></li></td>
+                <td>:</td>
+                <td><strong>Tidak Memenuhi</strong></td>
+            </tr>
+        @endif
 
-
-    @if(empty($lpj))
-        <tr>
-            <td><li><strong>Pelaporan LPJ Beastudi</strong></li></td>
-            <td>:</td>
-            <td><b>Tidak Melaporkan</b></td>
-        </tr>
-    @endif
-</table>
-
-
-
-
-
+        @if(empty($lpj))
+            <tr>
+                <td><li><strong>Pelaporan LPJ Beastudi</strong></li></td>
+                <td>:</td>
+                <td><b>Tidak Melaporkan</b></td>
+            </tr>
+        @endif
+    </table>
 </ul>
 
 <div align="justify" class="section">
