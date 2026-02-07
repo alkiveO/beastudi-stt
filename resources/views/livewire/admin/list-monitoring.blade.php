@@ -315,6 +315,16 @@ window.addEventListener('import-success', function () {
 
     if (modal) modal.hide();
 });
+
+</script>
+@endpush
+@push('script')
+<script>
+window.addEventListener('trigger-download', event => {
+    // Membuka URL download. Browser akan mengenali ini sebagai file 
+    // dan tidak akan mengganti tampilan halaman saat ini.
+    window.location.href = event.detail.url;
+});
 </script>
 @endpush
 

@@ -51,8 +51,6 @@ public function mount()
 
      
 }
-
-
     /**
      * Ambil status pengumpulan
      */
@@ -121,49 +119,35 @@ public function resetFilter()
     /**
      * DOWNLOAD (DIBLOK JIKA DITUTUP)
      */
-  public function download()
-{
-    Log::info('[DOWNLOAD] Memulai proses download', ['user_id' => auth()->id()]);
+ // Di dalam class ListMonitoring
 
+// HAPUS FUNGSI exportMonitoring DI SINI
+
+public function download()
+{
+    $this->loadPengaturanMonitoring();
+    /*
     if (!$this->pengumpulanAktif) {
         $this->dispatchBrowserEvent('alert', [
-            'title' => 'Pengumpulan Ditutup',
-            'text'  => 'Pengumpulan laporan sudah ditutup.',
-            'icon'  => 'warning',
+            'title' => 'Gagal',
+            'text'  => 'Waktu pengumpulan sudah ditutup',
+            'icon'  => 'error'
         ]);
         return;
     }
+    */
 
-    try {
-        // Membersihkan buffer agar tidak ada karakter tersembunyi yang merusak file Excel
-        if (ob_get_level() > 0) {
-            ob_end_clean();
-        }
+    // Langsung arahkan ke URL download
+    $url = route('admin.export-monitoring', [
+        'nim'             => $this->nim,
+        'nama'            => $this->nama,
+        'semester'        => $this->semester,
+        'periode'         => $this->periode,
+        'status_beastudi' => $this->status_beastudi,
+    ]);
 
-        return Excel::download(
-            new ExportMonitoring([
-                'nim' => $this->nim,
-                'nama' => $this->nama,
-                'semester' => $this->semester,
-                'periode' => $this->periode,
-                'status_beastudi' => $this->status_beastudi,
-            ]),
-            'Monitoring Beastudi.xlsx'
-        );
-
-    } catch (\Throwable $e) {
-        Log::error('[DOWNLOAD] Gagal export Excel: ' . $e->getMessage());
-
-        $this->dispatchBrowserEvent('alert', [
-            'title' => 'Gagal Download',
-            'text'  => 'Terjadi kesalahan teknis di server.',
-            'icon'  => 'error',
-        ]);
-    }
+    $this->dispatchBrowserEvent('trigger-download', ['url' => $url]);
 }
-
-
-
 
     public function render()
 {
