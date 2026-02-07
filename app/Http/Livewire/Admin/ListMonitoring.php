@@ -121,39 +121,24 @@ public function resetFilter()
     /**
      * DOWNLOAD (DIBLOK JIKA DITUTUP)
      */
-    public function download()
+  public function download()
 {
-    Log::info('[DOWNLOAD] Tombol download diklik', [
-        'user_id' => auth()->id(),
-        'pengumpulanAktif' => $this->pengumpulanAktif,
-        'filters' => [
-            'nim' => $this->nim,
-            'nama' => $this->nama,
-            'semester' => $this->semester,
-            'periode' => $this->periode,
-            'status_beastudi' => $this->status_beastudi,
-        ],
-        'time' => now()->toDateTimeString(),
-    ]);
+    Log::info('[DOWNLOAD] Memulai proses download', ['user_id' => auth()->id()]);
 
     if (!$this->pengumpulanAktif) {
-
-        Log::warning('[DOWNLOAD] Diblokir karena pengumpulan ditutup', [
-            'time' => now()->toDateTimeString(),
-        ]);
-
         $this->dispatchBrowserEvent('alert', [
             'title' => 'Pengumpulan Ditutup',
             'text'  => 'Pengumpulan laporan sudah ditutup.',
             'icon'  => 'warning',
         ]);
-
         return;
     }
 
     try {
-
-        Log::info('[DOWNLOAD] Proses Excel::download dimulai');
+        // Membersihkan buffer agar tidak ada karakter tersembunyi yang merusak file Excel
+        if (ob_get_level() > 0) {
+            ob_end_clean();
+        }
 
         return Excel::download(
             new ExportMonitoring([
@@ -167,23 +152,15 @@ public function resetFilter()
         );
 
     } catch (\Throwable $e) {
-
-        Log::error('[DOWNLOAD] Gagal export Excel', [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-        ]);
+        Log::error('[DOWNLOAD] Gagal export Excel: ' . $e->getMessage());
 
         $this->dispatchBrowserEvent('alert', [
             'title' => 'Gagal Download',
-            'text'  => 'Terjadi kesalahan saat membuat file Excel.',
+            'text'  => 'Terjadi kesalahan teknis di server.',
             'icon'  => 'error',
         ]);
-
-        return;
     }
 }
-
 
 
 
