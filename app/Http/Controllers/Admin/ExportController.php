@@ -11,10 +11,10 @@ class ExportController extends Controller
     //
    public function exportMonitoring(Request $request) 
 {
-    // Jangan tambahkan pengecekan PengMonitoring::first() di sini 
-    // jika ingin admin bisa download kapan saja.
-
-    if (ob_get_level() > 0) ob_end_clean();
+    // Pastikan tidak ada output sebelum ini
+    if (ob_get_level() > 0) {
+        ob_end_clean();
+    }
 
     return Excel::download(
         new ExportMonitoring([
