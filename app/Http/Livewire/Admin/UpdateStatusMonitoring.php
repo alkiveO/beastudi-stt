@@ -7,7 +7,11 @@ use App\Models\Monitoring;
 
 class UpdateStatusMonitoring extends Component
 {
-    public $monitoring;
+    // Simpan ID atau parameter pencarian, jangan simpan object Model secara utuh
+    public $monitoringId; 
+    public $nama_mahasiswa;
+    public $nim_mahasiswa;
+    public $prodi_mahasiswa;
 
     public $status_beastudi;
 
@@ -17,32 +21,41 @@ class UpdateStatusMonitoring extends Component
         'status_beastudi' => 'required|in:aman,evaluasi,keluar'
     ];
 
-    protected $messages = [
-        'status_beastudi.required' => 'Status beastudi harus diisi',
-        'status_beastudi.in' => 'Status beastudi tidak valid'
-    ];
-
     public function setMonitoring($nim, $semester, $periode_id)
     {
-        $this->monitoring = Monitoring::query()
+        $monitoring = Monitoring::query()
             ->with(['mahasiswa'])
             ->where('nim', $nim)
             ->where('semester', $semester)
             ->where('periode_id', $periode_id)
             ->first();
 
-        $this->status_beastudi = $this->monitoring->status_beastudi;
+        if ($monitoring) {
+            $this->monitoringId = $monitoring->id; // Pastikan tabel monitoring punya primary key 'id'
+            $this->nama_mahasiswa = $monitoring->mahasiswa->nama;
+            $this->nim_mahasiswa = $monitoring->nim;
+            $this->prodi_mahasiswa = $monitoring->mahasiswa->program_studi;
+            $this->status_beastudi = $monitoring->status_beastudi;
+        }
     }
 
     public function store()
     {
         $this->validate();
 
-        $this->monitoring->update(['status_beastudi' => $this->status_beastudi]);
+        // Cari ulang datanya berdasarkan ID saat akan menyimpan
+        $monitoring = Monitoring::find($this->monitoringId);
+        
+        if ($monitoring) {
+            $monitoring->update([
+                'status_beastudi' => $this->status_beastudi
+            ]);
 
-        $this->emit('alert', 'Berhasil', 'Status monitoring berhasil diubah', 'success');
-
-        $this->emit('closeUpdateStatusMonitoringModal');
+            $this->emit('alert', 'Berhasil', 'Status monitoring berhasil diubah', 'success');
+            $this->emit('closeUpdateStatusMonitoringModal');
+            // Opsional: refresh data di tabel utama
+            $this->emit('refreshMonitoringTable'); 
+        }
     }
 
     public function render()

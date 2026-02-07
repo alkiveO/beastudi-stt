@@ -4,13 +4,13 @@
             <h1 class="modal-title fs-5" id="updateStatusMonitoringModalLabel">Form Monitoring Beastudi / Update Status</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-        @if($monitoring)
-            <h3>{{ $monitoring->mahasiswa->nama }}</h3>
-            <div class="d-flex">
-                <p>{{ $monitoring->nim }}</p> &nbsp;&nbsp;
-                <p>{{ ucwords($monitoring->mahasiswa->program_studi) }}</p>
-            </div>
+     <div class="modal-body">
+    @if($monitoringId) {{-- Cek berdasarkan ID --}}
+        <h3>{{ $nama_mahasiswa }}</h3>
+        <div class="d-flex">
+            <p>{{ $nim_mahasiswa }}</p> &nbsp;&nbsp;
+            <p>{{ ucwords($prodi_mahasiswa) }}</p>
+        </div>
 
             <br>
 
