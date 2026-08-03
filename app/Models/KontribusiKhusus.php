@@ -10,7 +10,7 @@ class KontribusiKhusus extends Model
     use HasFactory;
 
     protected $table = 'kontribusi_khusus';
-    protected $guarded = [];
+    protected $fillable = ['nama', 'slug', 'pic', 'telp_pic'];
 
     public function monitoring()
     {

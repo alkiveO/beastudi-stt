@@ -30,10 +30,6 @@ Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
 Route::get('kelurahan', KelurahanController::class);
 
-Route::get('/phpinfo', function () {
-    phpinfo();
-});
-
 
 // auth
 Route::middleware('guest:web,mahasiswa')->group(function() {
@@ -56,29 +52,16 @@ Route::middleware('auth')
 
         Route::view('master-data', 'admin.master-data')->name('master-data');
         Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)->name('master-data.show');
-        Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)->name('index');
-    Route::get('/export-monitoring', [ExportController::class, 'exportMonitoring'])
-        ->name('export-monitoring');
-        
-Route::get('/monitoring/export', function () {
 
-    return Excel::download(
-        new \App\Exports\ExportMonitoring([
-            'nim' => request('nim'),
-            'nama' => request('nama'),
-            'semester' => request('semester'),
-            'periode' => request('periode'),
-            'status_beastudi' => request('status_beastudi'),
-        ]),
-        'Monitoring Beastudi.xlsx'
-    );
+        Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)->name('master-data-export');
 
-})->name('monitoring.export');
+        Route::get('/export-monitoring', [ExportController::class, 'exportMonitoring'])
+            ->name('export-monitoring');
 
-Route::get('/matakuliah', [MatakuliahController::class, 'index']);
-Route::get('/matakuliah/{id}', [MatakuliahController::class, 'show']);
-Route::post('/matakuliah/{id}/mahasiswa', [MatakuliahController::class, 'storeMahasiswa']);
-Route::post('/matakuliah', [MatakuliahController::class, 'store']);
+        Route::get('/matakuliah', [MatakuliahController::class, 'index']);
+        Route::get('/matakuliah/{id}', [MatakuliahController::class, 'show']);
+        Route::post('/matakuliah/{id}/mahasiswa', [MatakuliahController::class, 'storeMahasiswa']);
+        Route::post('/matakuliah', [MatakuliahController::class, 'store']);
 
 
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');

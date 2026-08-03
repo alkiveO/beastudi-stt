@@ -10,5 +10,5 @@ class Periode extends Model
     use HasFactory;
 
     protected $table = 'periode';
-    protected $guarded = [];
+    protected $fillable = ['nama', 'slug', 'jenis_semester'];
 }

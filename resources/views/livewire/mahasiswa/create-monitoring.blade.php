@@ -252,6 +252,9 @@
                                             <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
                                             <p class="text-dark">Kategori: {{ $item->kategori_prestasi->nama }}</p>
                                             <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
+                                            <button class="btn btn-sm btn-danger" wire:click.prevent="hapusPrestasiExisting({{ $item->id }})" onclick="return confirm('Yakin hapus prestasi ini?')">
+                                                Hapus
+                                            </button>
                                         </div>
                                         @endforeach
                                         @endif

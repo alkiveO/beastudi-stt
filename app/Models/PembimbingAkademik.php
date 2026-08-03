@@ -10,6 +10,6 @@ class PembimbingAkademik extends Model
     use HasFactory;
 
     protected $table = 'pembimbing_akademik';
-    protected $guarded = [];
+    protected $fillable = ['nama', 'program_studi'];
     public $timestamps = false;
 }

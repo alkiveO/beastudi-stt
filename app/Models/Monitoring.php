@@ -10,7 +10,25 @@ class Monitoring extends Model
     use HasFactory;
 
     protected $table = 'monitoring';
-    protected $guarded = [];
+    protected $fillable = [
+        'nim',
+        'tanggal_isi',
+        'semester',
+        'ipk',
+        'ips',
+        'pembimbing_akademik_id',
+        'periode_id',
+        'kontribusi_khusus_id',
+        'deskripsi_capaian',
+        'deskripsi_kendala',
+        'deskripsi_rencana',
+        'file_kegiatan',
+        'file_internal_kampus',
+        'file_prestasi',
+        'file_lpj',
+        'file_spb',
+        'status_beastudi',
+    ];
 
     public function periode()
     {

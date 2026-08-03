@@ -50,10 +50,10 @@ public $documents;
     public $prestasi = [];
 
     protected $rules = [
-        'tanggal_isi' => 'required',
+        'tanggal_isi' => 'required|date',
         'semester' => 'required',
-        'ipk' => 'required|min:4',
-        'ips' => 'required|min:4',
+        'ipk' => 'required|numeric|between:0,4',
+        'ips' => 'required|numeric|between:0,4',
         'pembimbing_akademik_id' => 'required|exists:pembimbing_akademik,id',
         'periode_id' => 'required|exists:periode,id',
         'kontribusi_khusus_id' => 'required|exists:kontribusi_khusus,id',
@@ -68,11 +68,14 @@ public $documents;
 
     protected $messages = [
         'tanggal_isi.required' => 'tanggal harus diisi',
+        'tanggal_isi.date' => 'format tanggal tidak valid',
         'semester.required' => 'semester harus diisi',
         'ipk.required' => 'IPK harus diisi',
-        'ipk.min' => 'IPK min / max 4 karakter',
+        'ipk.numeric' => 'IPK harus berupa angka',
+        'ipk.between' => 'IPK harus antara 0 dan 4',
         'ips.required' => 'IPS harus diisi',
-        'ips.min' => 'IPS min / max 4 karakter',
+        'ips.numeric' => 'IPS harus berupa angka',
+        'ips.between' => 'IPS harus antara 0 dan 4',
         'pembimbing_akademik_id.required' => 'pembimbing akademik harus diisi',
         'pembimbing_akademik_id.exists' => 'pembimbing akademik tidak valid',
         'periode_id.required' => 'periode harus diisi',
@@ -179,6 +182,28 @@ else {
         unset($this->prestasi[$index]);
 
         $this->prestasi = array_values($this->prestasi); // Reset indeks array
+    }
+
+    public function hapusPrestasiExisting($prestasiId)
+    {
+        $prestasi = Prestasi::findOrFail($prestasiId);
+
+        if ($prestasi->file && Storage::disk('public')->exists($prestasi->file)) {
+            Storage::disk('public')->delete($prestasi->file);
+        }
+
+        $prestasi->delete();
+
+        if ($this->monitoring) {
+            $this->arrPrestasi = $this->monitoring->prestasi()
+                ->with('kategori_prestasi')
+                ->where('nim', $this->nim)
+                ->where('semester', $this->semester)
+                ->where('periode_id', $this->periode_id)
+                ->get();
+        }
+
+        $this->emit('alert', 'Berhasil', 'Prestasi dihapus', 'success');
     }
 
     public function updated($propertyName)
