@@ -10,6 +10,6 @@ class ProgramStudi extends Model
     use HasFactory;
 
     protected $table = 'program_studi';
-    protected $guarded = [];
+    protected $fillable = ['nama', 'slug'];
     public $timestamps = false;
 }

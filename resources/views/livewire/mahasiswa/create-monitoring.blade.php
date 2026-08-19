@@ -271,6 +271,9 @@
                                             <p class="text-dark">{{ $loop->iteration }}. {{ $item->nama }}</p>
                                             <p class="text-dark">Kategori: {{ $item->kategori_prestasi->nama }}</p>
                                             <p><a href="{{ Storage::url($item->file) }}" target="_blank" class="text-dark">Lihat Dokumen</a></p>
+                                            <button class="btn btn-sm btn-danger" wire:click.prevent="hapusPrestasiExisting({{ $item->id }})" onclick="return confirm('Yakin hapus prestasi ini?')">
+                                                Hapus
+                                            </button>
                                         </div>
                                         @endforeach
                                         @endif
@@ -297,7 +300,7 @@
                                             </div>
                                             <div class="col-md-4 mb-2">
                                                 {{-- Input file prestasi juga diberi ID unik berdasarkan index --}}
-                                                <input type="file" id="file_prestasi_{{$index}}" class="form-control" wire:model.defer="prestasi.{{ $index }}.file">
+                                                <input type="file" id="file_prestasi_{{$index}}" class="form-control" wire:model="prestasi.{{ $index }}.file">
                                                 @error('prestasi.' . $index . '.file')
                                                 <div class="text-danger">{{ $message }}</div>
                                                 @enderror
@@ -323,7 +326,7 @@
                                         <p>
                                             Pastikan dokumen SPK & LPJ diunggah dengan menggunakan aturan dokumen
                                             yang sesuai dan gambar pada dokumen tersebut harus jelas.
-                                            Unggah dalam bentuk <strong>.PDF</strong> dengan ukuran maksimum 2MB
+                                            Unggah dalam bentuk <strong>.PDF</strong> dengan ukuran maksimum 8MB per dokumen
                                         </p>
 
                                         <h6>Dokumen yang telah di unggah</h6>
@@ -485,18 +488,11 @@
             @push('script')
             <script>
                 function validateNumberInput(event) {
+                    // Hanya mengizinkan angka dan satu titik desimal (tanpa memotong input)
                     const input = event.target;
-                    let value = input.value;
-                    value = value.replace(/[^0-9.]/g, '');
-                    if (value.length > 4) {
-                        value = value.slice(0, 2);
-                    }
-                    if (value.length === 2 && !value.endsWith('.')) {
-                        value = value.charAt(0) + '.';
-                    }
-                    if (value.length === 1 && !value.match(/^\d$/)) {
-                        value = '';
-                    }
+                    let value = input.value.replace(/[^0-9.]/g, '');
+                    // Hapus titik berlebih (hanya 1 titik boleh ada)
+                    value = value.replace(/(\..*)\./g, '$1');
                     input.value = value;
                 }
 

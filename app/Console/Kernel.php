@@ -12,7 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Bersihkan file upload sementara Livewire yang terlantar (lebih dari 24 jam)
+        $schedule->command('beastudi:purge-livewire-temp --older=24')->dailyAt('02:30');
     }
 
     /**

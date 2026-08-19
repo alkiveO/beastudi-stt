@@ -9,6 +9,6 @@ class Agama extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = ['nama'];
     protected $table = 'agama';
 }

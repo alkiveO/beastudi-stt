@@ -10,7 +10,7 @@ class Mou extends Model
     use HasFactory;
 
     protected $table = 'mou';
-    protected $guarded = [];
+    protected $fillable = ['mhs_id', 'spb_rangkap_1', 'spb_rangkap_2', 'surat_komitmen_ortu'];
 
     public function prodi()
     {

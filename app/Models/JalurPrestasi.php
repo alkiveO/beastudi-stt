@@ -10,5 +10,5 @@ class JalurPrestasi extends Model
     use HasFactory;
 
     protected $table = 'jalur_prestasi';
-    protected $guarded = [];
+    protected $fillable = ['nama', 'slug'];
 }

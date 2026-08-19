@@ -57,29 +57,32 @@ public $documents;
     public $prestasi = [];
 
     protected $rules = [
-        'tanggal_isi' => 'required',
+        'tanggal_isi' => 'required|date',
         'semester' => 'required',
-        'ipk' => 'required|min:4',
-        'ips' => 'required|min:4',
+        'ipk' => 'required|numeric|between:0,4',
+        'ips' => 'required|numeric|between:0,4',
         'pembimbing_akademik_id' => 'required|exists:pembimbing_akademik,id',
         'periode_id' => 'required|exists:periode,id',
         'kontribusi_khusus_id' => 'required|exists:kontribusi_khusus,id',
         'deskripsi_capaian' => 'nullable|max:500',
         'deskripsi_kendala' => 'nullable|max:500',
         'deskripsi_rencana' => 'nullable|max:500',
-        'file_spb' => 'required|mimes:pdf|max:2024',
-        'file_lpj' => 'required|mimes:pdf|max:2024',
+        'file_spb' => 'required|pdf_file|max:8192',
+        'file_lpj' => 'required|pdf_file|max:8192',
         'prestasi.*.nama' => 'required',
-        'prestasi.*.file' => 'required|mimes:pdf|max:2024',
+        'prestasi.*.file' => 'required|pdf_file|max:8192',
     ];
 
     protected $messages = [
         'tanggal_isi.required' => 'tanggal harus diisi',
+        'tanggal_isi.date' => 'format tanggal tidak valid',
         'semester.required' => 'semester harus diisi',
         'ipk.required' => 'IPK harus diisi',
-        'ipk.min' => 'IPK min / max 4 karakter',
+        'ipk.numeric' => 'IPK harus berupa angka',
+        'ipk.between' => 'IPK harus antara 0 dan 4',
         'ips.required' => 'IPS harus diisi',
-        'ips.min' => 'IPS min / max 4 karakter',
+        'ips.numeric' => 'IPS harus berupa angka',
+        'ips.between' => 'IPS harus antara 0 dan 4',
         'pembimbing_akademik_id.required' => 'pembimbing akademik harus diisi',
         'pembimbing_akademik_id.exists' => 'pembimbing akademik tidak valid',
         'periode_id.required' => 'periode harus diisi',
@@ -91,14 +94,14 @@ public $documents;
         'deskripsi_rencana.max' => 'deskripsi rencana maksimal 500 kata',
         'file_spb.required' => 'dokumen SPK harus diisi',
         'file_lpj.required' => 'dokumen LPJ harus diisi',
-        'file_spb.mimes' => 'dokumen SPK harus berupa .pdf',
-        'file_lpj.mimes' => 'dokumen LPJ harus berupa .pdf',
-        'file_spb.max' => 'dokumen SPK maksimal 2 MB',
-        'file_lpj.max' => 'dokumen LPJ maksimal 2 MB',
+        'file_spb.pdf_file' => 'dokumen SPK harus berupa file .pdf',
+        'file_lpj.pdf_file' => 'dokumen LPJ harus berupa file .pdf',
+        'file_spb.max' => 'dokumen SPK maksimal 8 MB',
+        'file_lpj.max' => 'dokumen LPJ maksimal 8 MB',
         'prestasi.*.nama.required' => 'lomba atau prestasi harus diisi',
         'prestasi.*.file.required' => 'dokumen harus diisi',
-        'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
-        'prestasi.*.file.max' => 'dokumen maksimal 2 MB.',
+        'prestasi.*.file.pdf_file' => 'dokumen harus berupa file .pdf (hanya PDF yang diterima)',
+        'prestasi.*.file.max' => 'dokumen maksimal 8 MB.',
     ];
 
     public function mount()
@@ -174,12 +177,12 @@ else {
     {
          $this->validate([
             'prestasi.*.nama' => 'required',
-            'prestasi.*.file' => 'required|mimes:pdf|max:2024',
+            'prestasi.*.file' => 'required|pdf_file|max:8192',
         ], [
             'prestasi.*.nama.required' => 'lomba atau prestasi harus diisi',
             'prestasi.*.file.required' => 'dokumen harus diisi',
-            'prestasi.*.file.mimes' => 'dokumen harus berupa .pdf',
-            'prestasi.*.file.max' => 'dokumen maksimal 2 MB.',
+            'prestasi.*.file.pdf_file' => 'dokumen harus berupa file .pdf (hanya PDF yang diterima)',
+            'prestasi.*.file.max' => 'dokumen maksimal 8 MB.',
         ]);
 
         $this->prestasi[] = ['nama' => '', 'kategori_prestasi_id' => null, 'file' => ''];
@@ -192,13 +195,35 @@ else {
         $this->prestasi = array_values($this->prestasi); // Reset indeks array
     }
 
+    public function hapusPrestasiExisting($prestasiId)
+    {
+        $prestasi = Prestasi::findOrFail($prestasiId);
+
+        if ($prestasi->file && Storage::disk('public')->exists($prestasi->file)) {
+            Storage::disk('public')->delete($prestasi->file);
+        }
+
+        $prestasi->delete();
+
+        if ($this->monitoring) {
+            $this->arrPrestasi = $this->monitoring->prestasi()
+                ->with('kategori_prestasi')
+                ->where('nim', $this->nim)
+                ->where('semester', $this->semester)
+                ->where('periode_id', $this->periode_id)
+                ->get();
+        }
+
+        $this->emit('alert', 'Berhasil', 'Prestasi dihapus', 'success');
+    }
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
 
         if (preg_match('/prestasi\.\d+\.file/', $propertyName)) {
             $this->validateOnly($propertyName, [
-                'prestasi.*.file' => 'nullable|mimes:pdf|max:2024',
+                'prestasi.*.file' => 'nullable|pdf_file|max:8192',
             ]);
         }
     }
@@ -206,7 +231,7 @@ else {
     public function updatedFileSpb()
     {
         $this->validate([
-            'file_spb' => 'mimes:pdf|max:2024',
+            'file_spb' => 'pdf_file|max:8192',
         ]);
     }
 
@@ -219,7 +244,7 @@ else {
         }
 
         $this->validate([
-            'file_lpj' => 'mimes:pdf|max:2024',
+            'file_lpj' => 'pdf_file|max:8192',
         ]);
     }
 
@@ -335,16 +360,13 @@ else {
             }
 
             if ($this->file_spb || ($this->monitoring && $this->monitoring->file_spb)) {
-                $this->rules['file_spb'] = 'nullable|mimes:pdf|max:2024';
+                $this->rules['file_spb'] = 'nullable|pdf_file|max:8192';
             } else {
-                $this->rules['file_spb'] = 'required|mimes:pdf|max:2024';
+                $this->rules['file_spb'] = 'required|pdf_file|max:8192';
             }
 
-            if ($this->file_lpj || ($this->monitoring && $this->monitoring->file_lpj)) {
-                 $this->rules['file_lpj'] = 'nullable|mimes:pdf|max:2024';
-            } else {
-                $this->rules['file_lpj'] = 'required|mimes:pdf|max:2024';
-            }
+            // LPJ boleh dikirim belakangan (opsional saat submit pertama)
+            $this->rules['file_lpj'] = 'nullable|pdf_file|max:8192';
 
             $this->validate();
         } catch (ValidationException $e) {

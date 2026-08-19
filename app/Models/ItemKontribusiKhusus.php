@@ -10,6 +10,6 @@ class ItemKontribusiKhusus extends Model
     use HasFactory;
 
     protected $table = 'item_kontribusi_khusus';
-    protected $guarded = [];
+    protected $fillable = ['nama', 'kontribusi_khusus_id'];
     public $timestamps = false;
 }

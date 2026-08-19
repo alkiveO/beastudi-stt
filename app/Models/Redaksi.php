@@ -10,6 +10,6 @@ class Redaksi extends Model
     use HasFactory;
 
     protected $table = 'redaksi';
-    protected $guarded = [];
+    protected $fillable = ['jenis', 'slug', 'judul', 'deskripsi'];
     public $timestamps = false;
 }

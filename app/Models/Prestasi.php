@@ -10,7 +10,15 @@ class Prestasi extends Model
     use HasFactory;
 
     protected $table = 'prestasi';
-    protected $guarded = [];
+    protected $fillable = [
+        'nim',
+        'nama',
+        'file',
+        'semester',
+        'periode_id',
+        'monitoring_id',
+        'kategori_prestasi_id',
+    ];
 
     public function mahasiswa()
     {
