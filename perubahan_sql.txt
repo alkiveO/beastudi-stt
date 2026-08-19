@@ -1,0 +1,14 @@
+# Perubahan SQL / Skema Database
+
+## [2026-08-12] Tambah Kolom Status Review Dokumen di Tabel `monitoring`
+
+ALTER TABLE `monitoring`
+    ADD COLUMN `status_file_spb` VARCHAR(255) NULL AFTER `file_spb`,
+    ADD COLUMN `keterangan_file_spb` TEXT NULL AFTER `status_file_spb`,
+    ADD COLUMN `status_file_lpj` VARCHAR(255) NULL AFTER `file_lpj`,
+    ADD COLUMN `keterangan_file_lpj` TEXT NULL AFTER `status_file_lpj`;
+
+-- Keterangan:
+-- `status_file_*` : 'menunggu' | 'terima' | 'tolak' | NULL (NULL berarti belum pernah dinilai, dianggap 'menunggu')
+-- `keterangan_file_*` : alasan penolakan (diisi saat status 'tolak')
+-- Saat file diganti (oleh mahasiswa maupun admin), status di-reset ke 'menunggu' dan keterangan dikosongkan.

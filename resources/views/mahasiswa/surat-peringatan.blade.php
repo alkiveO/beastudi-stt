@@ -128,6 +128,8 @@ small {
     SURAT PERINGATAN SEBAGAI HASIL EVALUASI BEASTUDI {{$jenis_sp}}
 </h3>
 
+
+
 <div class="section">
     Mahasiswa Beastudi dengan data sebagai berikut:
 </div>
@@ -141,7 +143,13 @@ small {
     Diberikan peringatan karena tidak melaksanakan kewajiban Penerima Beastudi yaitu:
 </div>
 
+@if(!empty($keterangan))
+<div class="section" style="padding:10px;border:1px solid #dc3545;background:#f8d7da;">
+    <strong>Keterangan:</strong> {{ $keterangan }}
+</div>
+@endif
 <ul>
+    
     {{-- Cek apakah ada mata kuliah yang presensinya kurang dari 13 --}}
     @php
         $adaMasalahPresensi = false;

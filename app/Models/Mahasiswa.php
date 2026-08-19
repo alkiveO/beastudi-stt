@@ -13,6 +13,44 @@ class Mahasiswa extends Authenticatable
     protected $table = 'mahasiswa';
     protected $guarded = [];
 
+    protected $dataDiriWajib = [
+        'nama',
+        'tahun_masuk',
+        'program_studi',
+        'jalur_beastudi',
+        'no_ktp',
+        'no_kk',
+        'nomor_hp',
+        'nomor_hp_ortu',
+        'kode_pos',
+        'jenis_kelamin',
+        'tanggal_lahir',
+        'agama',
+        'alamat',
+        'provinsi',
+        'kota',
+        'kecamatan',
+        'kelurahan',
+    ];
+
+    public function isDataDiriLengkap()
+    {
+        return empty($this->missingDataDiri());
+    }
+
+    public function missingDataDiri()
+    {
+        $missing = [];
+
+        foreach ($this->dataDiriWajib as $field) {
+            if (! filled($this->{$field})) {
+                $missing[] = $field;
+            }
+        }
+
+        return $missing;
+    }
+
     public function mou()
     {
         return $this->hasOne(Mou::class, 'mhs_id', 'mhs_id');

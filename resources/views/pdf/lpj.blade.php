@@ -160,6 +160,13 @@
         </ol>
     </div>
 
+    @if($monitoring && $monitoring->status_file_lpj === 'tolak' && $monitoring->keterangan_file_lpj)
+    <div style="margin-top:20px;padding:15px;border:1px solid #dc3545;background:#f8d7da;">
+        <p><strong>KOMENTAR:</strong></p>
+        <p>{{ $monitoring->keterangan_file_lpj }}</p>
+    </div>
+    @endif
+
     <div class="page-break"></div>
 
     <div class="laporan_akademik">

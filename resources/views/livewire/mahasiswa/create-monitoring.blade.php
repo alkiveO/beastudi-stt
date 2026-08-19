@@ -25,6 +25,25 @@
                 </div>
             </div>
 
+            @if(!$isDataDiriLengkap)
+            <div class="alert alert-warning d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fa fa-exclamation-triangle me-1"></i>
+                    <strong>Lengkapi terlebih dahulu data diri anda</strong> sebelum mengisi Laporan Semester (LPJ/SPB).
+                    @if(count($missingDataDiri) > 0)
+                    <div class="small mt-1">
+                        Field yang belum lengkap:
+                        @foreach($missingDataDiri as $field)
+                        <span class="badge badge-warning">{{ str_replace('_', ' ', $field) }}</span>
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
+                <a href="{{ route('mahasiswa.data-diri') }}" class="btn btn-sm btn-warning">Lengkapi Data Diri</a>
+            </div>
+            @endif
+
+            @if($isDataDiriLengkap)
             <div class="row">
 
                 <div class="col-md-3">
@@ -314,7 +333,15 @@
                                         <div class="d-flex justify-content-between align-items-center" style="padding-right:30%;">
                                             <span class="text-dark">SPK</span>
 
-                                            <div class="d-flex gap-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                @if($status_file_spb == 'terima')
+                                                <span class="badge bg-success">Diterima</span>
+                                                @elseif($status_file_spb == 'tolak')
+                                                <span class="badge bg-danger">Ditolak</span>
+                                                @else
+                                                <span class="badge bg-warning text-dark">Menunggu</span>
+                                                @endif
+
                                                 <a href="{{ asset('storage/monitoring/file-spb/' . $monitoring->file_spb) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                                     Lihat
                                                 </a>
@@ -324,6 +351,11 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        @if($status_file_spb == 'tolak' && $keterangan_file_spb)
+                                        <div class="alert alert-danger py-2 mt-1 small">
+                                            Dokumen SPK ditolak. Keterangan: {{ $keterangan_file_spb }}
+                                        </div>
+                                        @endif
                                         @endif
 
                                         {{-- ================= EXISTING: LPJ ================= --}}
@@ -331,7 +363,15 @@
                                         <div class="d-flex justify-content-between align-items-center" style="padding-right:30%;">
                                             <span class="text-dark">LPJ</span>
 
-                                            <div class="d-flex gap-2">
+                                            <div class="d-flex align-items-center gap-2">
+                                                @if($status_file_lpj == 'terima')
+                                                <span class="badge bg-success">Diterima</span>
+                                                @elseif($status_file_lpj == 'tolak')
+                                                <span class="badge bg-danger">Ditolak</span>
+                                                @else
+                                                <span class="badge bg-warning text-dark">Menunggu</span>
+                                                @endif
+
                                                 <a href="{{ asset('storage/monitoring/file-lpj/' . $monitoring->file_lpj) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                                     Lihat
                                                 </a>
@@ -341,6 +381,11 @@
                                                 </a>
                                             </div>
                                         </div>
+                                        @if($status_file_lpj == 'tolak' && $keterangan_file_lpj)
+                                        <div class="alert alert-danger py-2 mt-1 small">
+                                            Dokumen LPJ ditolak. Keterangan: {{ $keterangan_file_lpj }}
+                                        </div>
+                                        @endif
                                         @endif
 
                                         {{-- ================= TAMBAHAN: DOKUMEN DARI TABEL documents ================= --}}
@@ -388,20 +433,28 @@
                                     </div>
 
                                     <div class="col-md-3">
-                                        @if($monitoring && $monitoring->file_lpj)
+                                        @if($status_file_lpj == 'tolak')
                                         <label for="file_lpj" class="form-label text-dark">Unggah dokumen LPJ</label>
-                                        @else
-                                        <label for="file_lpj" class="form-label text-dark">Unggah dokumen LPJ <span class="text-danger">*</span></label>
-                                        @endif
-                                        
-                                        {{-- ID UNIK --}}
-                                        <input class="form-control" type="file" id="file_lpj" wire:model='file_lpj'>
-
-                                        {{-- LOADING INDICATOR --}}
-                                        <div wire:loading wire:target="file_lpj" class="text-info small mt-1">
-                                            <i class="fa fa-spinner fa-spin"></i> Sedang mengunggah...
+                                        <div class="alert alert-danger py-2 mt-1 small">
+                                            <i class="fa fa-ban me-1"></i>
+                                            LPJ ditolak. Anda tidak dapat mengunggah kembali dokumen LPJ.
                                         </div>
-                                        <div class="text-danger">@error('file_lpj') {{ $message }} @enderror</div>
+                                        @else
+                                            @if($monitoring && $monitoring->file_lpj)
+                                            <label for="file_lpj" class="form-label text-dark">Unggah dokumen LPJ</label>
+                                            @else
+                                            <label for="file_lpj" class="form-label text-dark">Unggah dokumen LPJ <span class="text-danger">*</span></label>
+                                            @endif
+                                            
+                                            {{-- ID UNIK --}}
+                                            <input class="form-control" type="file" id="file_lpj" wire:model='file_lpj'>
+
+                                            {{-- LOADING INDICATOR --}}
+                                            <div wire:loading wire:target="file_lpj" class="text-info small mt-1">
+                                                <i class="fa fa-spinner fa-spin"></i> Sedang mengunggah...
+                                            </div>
+                                            <div class="text-danger">@error('file_lpj') {{ $message }} @enderror</div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -427,6 +480,7 @@
                 </form>
                 @endif
             </div>
+            @endif
 
             @push('script')
             <script>

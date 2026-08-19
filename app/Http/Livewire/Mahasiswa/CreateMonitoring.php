@@ -33,6 +33,9 @@ public $tanggalTutupMonitoring = null;
     public $arrPrestasi;
 public $documents;
 
+    public $isDataDiriLengkap = true;
+    public $missingDataDiri = [];
+
     public $tanggal_isi;
     public $nim;
     public $program_studi_nama;
@@ -47,6 +50,10 @@ public $documents;
     public $deskripsi_rencana;
     public $file_spb;
     public $file_lpj;
+    public $status_file_spb;
+    public $keterangan_file_spb;
+    public $status_file_lpj;
+    public $keterangan_file_lpj;
     public $prestasi = [];
 
     protected $rules = [
@@ -98,6 +105,10 @@ public $documents;
     {
         
         $mahasiswa = auth()->guard('mahasiswa')->user();
+
+        $this->isDataDiriLengkap = $mahasiswa->isDataDiriLengkap();
+        $this->missingDataDiri = $mahasiswa->missingDataDiri();
+
         $program_studi = ProgramStudi::query()
             ->where('nama', 'like', '%' . $mahasiswa->program_studi . '%')
             ->first();
@@ -201,6 +212,12 @@ else {
 
     public function updatedFileLpj()
     {
+        if ($this->status_file_lpj === 'tolak') {
+            $this->file_lpj = null;
+            $this->emit('alert', 'Ditolak', 'Dokumen LPJ telah ditolak. Anda tidak dapat mengunggah kembali dokumen LPJ.', 'error');
+            return;
+        }
+
         $this->validate([
             'file_lpj' => 'mimes:pdf|max:2024',
         ]);
@@ -249,6 +266,10 @@ else {
                 'file_spb',
                 'file_lpj',
                 'prestasi',
+                'status_file_spb',
+                'keterangan_file_spb',
+                'status_file_lpj',
+                'keterangan_file_lpj',
             ]);
 
             $this->arrPrestasi = [];
@@ -267,6 +288,11 @@ else {
             $this->deskripsi_capaian = $this->monitoring->deskripsi_capaian;
             $this->deskripsi_kendala = $this->monitoring->deskripsi_kendala;
             $this->deskripsi_rencana = $this->monitoring->deskripsi_rencana;
+
+            $this->status_file_spb = $this->monitoring->status_file_spb;
+            $this->keterangan_file_spb = $this->monitoring->keterangan_file_spb;
+            $this->status_file_lpj = $this->monitoring->status_file_lpj;
+            $this->keterangan_file_lpj = $this->monitoring->keterangan_file_lpj;
 
             $this->arrPrestasi = $this->monitoring->prestasi()
                 ->with('kategori_prestasi')
@@ -291,7 +317,23 @@ else {
     return;
 }
 
+        $mahasiswa = auth()->guard('mahasiswa')->user();
+
+        if (! $mahasiswa->isDataDiriLengkap()) {
+            $this->emit('alert',
+                'Data Diri Belum Lengkap',
+                'Lengkapi terlebih dahulu data diri anda sebelum mengisi Laporan Semester (LPJ/SPB).',
+                'warning'
+            );
+            return;
+        }
+
         try {
+            if ($this->file_lpj && $this->status_file_lpj === 'tolak') {
+                $this->emit('alert', 'Ditolak', 'Dokumen LPJ telah ditolak. Anda tidak dapat mengunggah kembali dokumen LPJ.', 'error');
+                return;
+            }
+
             if ($this->file_spb || ($this->monitoring && $this->monitoring->file_spb)) {
                 $this->rules['file_spb'] = 'nullable|mimes:pdf|max:2024';
             } else {
@@ -326,6 +368,8 @@ else {
             }
         }
 
+        $monitoringLama = $this->monitoring;
+
         $this->monitoring = Monitoring::updateOrCreate(
             ['nim' => $this->nim, 'semester' => $this->semester, 'periode_id' => $this->periode_id],
             [
@@ -340,10 +384,19 @@ else {
                 'deskripsi_capaian' => $this->deskripsi_capaian,
                 'deskripsi_kendala' => $this->deskripsi_kendala,
                 'deskripsi_rencana' => $this->deskripsi_rencana,
-                'file_spb' => $this->file_spb ? basename($file_spb_path) : $this->monitoring->file_spb,
-                'file_lpj' => $this->file_lpj ? basename($file_lpj_path) : $this->monitoring->file_lpj
+                'file_spb' => $this->file_spb ? basename($file_spb_path) : ($monitoringLama ? $monitoringLama->file_spb : null),
+                'file_lpj' => $this->file_lpj ? basename($file_lpj_path) : ($monitoringLama ? $monitoringLama->file_lpj : null),
+                'status_file_spb' => $this->file_spb ? 'menunggu' : ($monitoringLama ? $monitoringLama->status_file_spb : null),
+                'keterangan_file_spb' => $this->file_spb ? null : ($monitoringLama ? $monitoringLama->keterangan_file_spb : null),
+                'status_file_lpj' => $this->file_lpj ? 'menunggu' : ($monitoringLama ? $monitoringLama->status_file_lpj : null),
+                'keterangan_file_lpj' => $this->file_lpj ? null : ($monitoringLama ? $monitoringLama->keterangan_file_lpj : null),
             ]
         );
+
+        $this->status_file_spb = $this->monitoring->status_file_spb;
+        $this->keterangan_file_spb = $this->monitoring->keterangan_file_spb;
+        $this->status_file_lpj = $this->monitoring->status_file_lpj;
+        $this->keterangan_file_lpj = $this->monitoring->keterangan_file_lpj;
 
         foreach ($this->prestasi as $prestasi) {
             $file_prestasi_path = $prestasi['file']->store('monitoring/file-prestasi', 'public');

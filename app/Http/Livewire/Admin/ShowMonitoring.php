@@ -4,16 +4,20 @@ namespace App\Http\Livewire\Admin;
 
 use App\Models\Periode;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use App\Models\Prestasi;
 use App\Models\Mahasiswa;
 use App\Models\Monitoring;
 use App\Models\ProgramStudi;
 use App\Models\KontribusiKhusus;
 use App\Models\PembimbingAkademik;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class ShowMonitoring extends Component
 {
+    use WithFileUploads;
+
     // ... (Property lainnya tetap sama) ...
     public $semester_select;
     public $periode_select;
@@ -37,7 +41,19 @@ class ShowMonitoring extends Component
     public $file_spb;
     public $file_lpj;
 
-    protected $listeners = ['kategoriUpdated' => 'refreshPrestasi'];
+    public $status_file_spb;
+    public $keterangan_file_spb;
+    public $status_file_lpj;
+    public $keterangan_file_lpj;
+
+    public $upload_file_spb;
+    public $upload_file_lpj;
+
+    protected $listeners = [
+        'kategoriUpdated' => 'refreshPrestasi',
+        'terimaDokumen' => 'terimaDokumen',
+        'simpanTolak' => 'simpanTolak',
+    ];
 
     protected $rules = [
         'tanggal_isi' => 'required',
@@ -127,7 +143,11 @@ class ShowMonitoring extends Component
                 'deskripsi_kendala',
                 'deskripsi_rencana',
                 'file_spb', // Reset file
-                'file_lpj'  // Reset file
+                'file_lpj',  // Reset file
+                'status_file_spb',
+                'keterangan_file_spb',
+                'status_file_lpj',
+                'keterangan_file_lpj',
             ]);
 
             $this->prestasi = collect([]);
@@ -148,6 +168,11 @@ class ShowMonitoring extends Component
             $this->file_spb = $this->monitoring->file_spb;
             $this->file_lpj = $this->monitoring->file_lpj;
 
+            $this->status_file_spb = $this->monitoring->status_file_spb;
+            $this->keterangan_file_spb = $this->monitoring->keterangan_file_spb;
+            $this->status_file_lpj = $this->monitoring->status_file_lpj;
+            $this->keterangan_file_lpj = $this->monitoring->keterangan_file_lpj;
+
             $this->prestasi = $this->monitoring->prestasi()
                 ->with('kategori_prestasi')
                 ->where('nim', $this->nim)
@@ -163,6 +188,137 @@ class ShowMonitoring extends Component
     public function updateStatus($nim, $semester, $periode_id)
     {
         $this->emit('showUpdateStatusMonitoringModal', $nim, $semester, $periode_id);
+    }
+
+    public function terimaDokumen($jenis)
+    {
+        if (! $this->monitoring) {
+            return;
+        }
+
+        $jenis = in_array($jenis, ['spb', 'lpj']) ? $jenis : 'spb';
+
+        $this->monitoring->update([
+            'status_file_' . $jenis => 'terima',
+            'keterangan_file_' . $jenis => null,
+        ]);
+
+        $this->monitoring = $this->monitoring->fresh();
+        $this->refreshStatusDokumen();
+
+        $this->emit('alert', 'Berhasil', 'Dokumen ' . strtoupper($jenis) . ' diterima', 'success');
+    }
+
+    public function konfirmasiTerima($jenis)
+    {
+        $this->emit('confirmTerimaDokumen', in_array($jenis, ['spb', 'lpj']) ? $jenis : 'spb');
+    }
+
+    public function konfirmasiTolak($jenis)
+    {
+        $this->emit('confirmTolakDokumen', in_array($jenis, ['spb', 'lpj']) ? $jenis : 'spb');
+    }
+
+    public function simpanTolak($jenis, $keterangan = null)
+    {
+        if (! $this->monitoring) {
+            return;
+        }
+
+        $jenis = in_array($jenis, ['spb', 'lpj']) ? $jenis : 'spb';
+        $keterangan = trim((string) $keterangan);
+
+        if ($keterangan === '') {
+            $this->emit('alert', 'Gagal', 'Keterangan alasan penolakan wajib diisi', 'error');
+            return;
+        }
+
+        if (strlen($keterangan) > 500) {
+            $this->emit('alert', 'Gagal', 'Keterangan maksimal 500 karakter', 'error');
+            return;
+        }
+
+        $this->monitoring->update([
+            'status_file_' . $jenis => 'tolak',
+            'keterangan_file_' . $jenis => $keterangan,
+        ]);
+
+        if ($this->monitoring->status_beastudi !== 'keluar') {
+            $this->monitoring->update(['status_beastudi' => 'evaluasi']);
+        }
+
+        $this->monitoring = $this->monitoring->fresh();
+        $this->refreshStatusDokumen();
+
+        $this->emit('alert', 'Berhasil', 'Dokumen ' . strtoupper($jenis) . ' ditolak', 'success');
+    }
+
+    public function uploadDokumen()
+    {
+        if (! $this->monitoring) {
+            $this->emit('alert', 'Gagal', 'Simpan data monitoring terlebih dahulu sebelum mengunggah dokumen', 'error');
+            return;
+        }
+
+        $this->validate([
+            'upload_file_spb' => 'nullable|mimes:pdf|max:2048',
+            'upload_file_lpj' => 'nullable|mimes:pdf|max:2048',
+        ], [
+            'upload_file_spb.mimes' => 'Dokumen SPK harus berupa .pdf',
+            'upload_file_lpj.mimes' => 'Dokumen LPJ harus berupa .pdf',
+            'upload_file_spb.max' => 'Dokumen SPK maksimal 2 MB',
+            'upload_file_lpj.max' => 'Dokumen LPJ maksimal 2 MB',
+        ]);
+
+        if (! $this->upload_file_spb && ! $this->upload_file_lpj) {
+            $this->emit('alert', 'Tidak Ada File', 'Pilih dokumen terlebih dahulu', 'warning');
+            return;
+        }
+
+        $update = [];
+
+        if ($this->upload_file_spb) {
+            $path = $this->upload_file_spb->store('monitoring/file-spb', 'public');
+
+            if ($this->monitoring->file_spb) {
+                Storage::disk('public')->delete('monitoring/file-spb/' . $this->monitoring->file_spb);
+            }
+
+            $update['file_spb'] = basename($path);
+            $update['status_file_spb'] = 'menunggu';
+            $update['keterangan_file_spb'] = null;
+        }
+
+        if ($this->upload_file_lpj) {
+            $path = $this->upload_file_lpj->store('monitoring/file-lpj', 'public');
+
+            if ($this->monitoring->file_lpj) {
+                Storage::disk('public')->delete('monitoring/file-lpj/' . $this->monitoring->file_lpj);
+            }
+
+            $update['file_lpj'] = basename($path);
+            $update['status_file_lpj'] = 'menunggu';
+            $update['keterangan_file_lpj'] = null;
+        }
+
+        $this->monitoring->update($update);
+
+        $this->monitoring = $this->monitoring->fresh();
+        $this->refreshStatusDokumen();
+
+        $this->reset('upload_file_spb', 'upload_file_lpj');
+
+        $this->emit('alert', 'Berhasil', 'Dokumen berhasil diunggah', 'success');
+    }
+
+    private function refreshStatusDokumen()
+    {
+        $this->file_spb = $this->monitoring->file_spb;
+        $this->file_lpj = $this->monitoring->file_lpj;
+        $this->status_file_spb = $this->monitoring->status_file_spb;
+        $this->keterangan_file_spb = $this->monitoring->keterangan_file_spb;
+        $this->status_file_lpj = $this->monitoring->status_file_lpj;
+        $this->keterangan_file_lpj = $this->monitoring->keterangan_file_lpj;
     }
 
     public function update()

@@ -200,21 +200,76 @@
 
                             @if($file_spb || $file_lpj)
                             <div class="row mt-3">
-                                <div class="col-md-7">
+                                <div class="col-md-8">
                                     <h5>Dokumen SPK & LPJ</h5>
 
                                     @if($file_spb)
-                                        <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                            <p class="text-dark">SPK</p>
-                                            <p><a href="{{ asset('storage/monitoring/file-spb/' . $file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap" style="padding-right:10%;">
+                                            <p class="text-dark mb-0">SPK</p>
+                                            <div class="d-flex align-items-center gap-2">
+                                                @if($status_file_spb == 'terima')
+                                                    <span class="badge bg-success">Diterima</span>
+                                                @elseif($status_file_spb == 'tolak')
+                                                    <span class="badge bg-danger">Ditolak</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark">Menunggu</span>
+                                                @endif
+                                                <a href="{{ asset('storage/monitoring/file-spb/' . $file_spb) }}" target="__blank" class="text-dark">Lihat Dokumen</a>
+                                                @if($status_file_spb != 'terima')
+                                                    <button type="button" class="btn btn-sm btn-success" wire:click='konfirmasiTerima("spb")'>Terima</button>
+                                                @endif
+                                                <button type="button" class="btn btn-sm btn-danger" wire:click='konfirmasiTolak("spb")'>Tolak</button>
+                                            </div>
                                         </div>
+                                        @if($status_file_spb == 'tolak' && $keterangan_file_spb)
+                                            <div class="alert alert-danger py-2 mt-1 small">Keterangan: {{ $keterangan_file_spb }}</div>
+                                        @endif
                                     @endif
                                     @if($file_lpj)
-                                        <div class="d-flex justify-content-between" style="padding-right:30%;">
-                                            <p class="text-dark">LPJ</p>
-                                            <p><a href="{{ asset('storage/monitoring/file-lpj/' . $file_lpj) }}" target="__blank" class="text-dark">Lihat Dokumen</a></p>
+                                        <div class="d-flex justify-content-between align-items-center flex-wrap" style="padding-right:10%;">
+                                            <p class="text-dark mb-0">LPJ</p>
+                                            <div class="d-flex align-items-center gap-2">
+                                                @if($status_file_lpj == 'terima')
+                                                    <span class="badge bg-success">Diterima</span>
+                                                @elseif($status_file_lpj == 'tolak')
+                                                    <span class="badge bg-danger">Ditolak</span>
+                                                @else
+                                                    <span class="badge bg-warning text-dark">Menunggu</span>
+                                                @endif
+                                                <a href="{{ asset('storage/monitoring/file-lpj/' . $file_lpj) }}" target="__blank" class="text-dark">Lihat Dokumen</a>
+                                                @if($status_file_lpj != 'terima')
+                                                    <button type="button" class="btn btn-sm btn-success" wire:click='konfirmasiTerima("lpj")'>Terima</button>
+                                                @endif
+                                                <button type="button" class="btn btn-sm btn-danger" wire:click='konfirmasiTolak("lpj")'>Tolak</button>
+                                            </div>
                                         </div>
+                                        @if($status_file_lpj == 'tolak' && $keterangan_file_lpj)
+                                            <div class="alert alert-danger py-2 mt-1 small">Keterangan: {{ $keterangan_file_lpj }}</div>
+                                        @endif
                                     @endif
+                                </div>
+                            </div>
+                            @endif
+
+                            @if($monitoring)
+                            <div class="row mt-3">
+                                <div class="col-md-8">
+                                    <h5>Upload Dokumen (Admin)</h5>
+                                    <div class="row g-2 align-items-end">
+                                        <div class="col-md-4">
+                                            <label class="form-label text-dark small">Dokumen SPK (PDF, maks 2MB)</label>
+                                            <input type="file" class="form-control" wire:model='upload_file_spb' accept=".pdf">
+                                            @error('upload_file_spb') <span class="text-danger small">{{ $message }}</span> @enderror
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label text-dark small">Dokumen LPJ (PDF, maks 2MB)</label>
+                                            <input type="file" class="form-control" wire:model='upload_file_lpj' accept=".pdf">
+                                            @error('upload_file_lpj') <span class="text-danger small">{{ $message }}</span> @enderror
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" class="btn btn-primary w-100" wire:click='uploadDokumen' wire:loading.attr='disabled'>Upload</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             @endif
@@ -302,6 +357,44 @@
 
             Livewire.on('closeUpdateStatusMonitoringModal', () => {
                 $('#updateStatusMonitoringModal').modal('hide');
+            })
+
+            Livewire.on('confirmTerimaDokumen', (jenis) => {
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Dokumen ' + jenis.toUpperCase() + ' akan diterima.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Terima',
+                    cancelButtonText: 'Batal',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.emit('terimaDokumen', jenis);
+                    }
+                });
+            })
+
+            Livewire.on('confirmTolakDokumen', (jenis) => {
+                Swal.fire({
+                    title: 'Tolak Dokumen ' + jenis.toUpperCase(),
+                    input: 'textarea',
+                    inputPlaceholder: 'Tulis alasan penolakan...',
+                    inputAttributes: {
+                        maxlength: '500',
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Simpan',
+                    cancelButtonText: 'Batal',
+                    inputValidator: (value) => {
+                        if (!value || !value.trim()) {
+                            return 'Keterangan alasan penolakan wajib diisi';
+                        }
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed && result.value && result.value.trim()) {
+                        Livewire.emit('simpanTolak', jenis, result.value.trim());
+                    }
+                });
             })
         </script>
     @endpush
