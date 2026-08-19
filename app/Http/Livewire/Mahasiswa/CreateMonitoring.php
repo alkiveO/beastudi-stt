@@ -352,8 +352,7 @@ else {
             );
             return;
         }
-
-        try {
+               try {
             if ($this->file_lpj && $this->status_file_lpj === 'tolak') {
                 $this->emit('alert', 'Ditolak', 'Dokumen LPJ telah ditolak. Anda tidak dapat mengunggah kembali dokumen LPJ.', 'error');
                 return;
