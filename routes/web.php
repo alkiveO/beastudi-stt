@@ -11,6 +11,7 @@ use App\Http\Controllers\CamabaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mahasiswa\LoginController as MahasiswaLoginController;
 use App\Http\Controllers\Mahasiswa\DashboardController;
+use App\Http\Controllers\Mahasiswa\PasswordResetController;
 use App\Http\Controllers\KabupatenController;
 use App\Http\Controllers\KecamatanController;
 use App\Http\Controllers\KelurahanController;
@@ -26,28 +27,47 @@ use App\Http\Livewire\Admin\ShowMonitoring;
 use App\Http\Livewire\Admin\ListMonitoring;
 use App\Http\Controllers\Admin\MatakuliahController;
 use App\Http\Controllers\Admin\ExportController;
+
 Route::get('kabupaten', KabupatenController::class);
 Route::get('kecamatan', KecamatanController::class);
 Route::get('kelurahan', KelurahanController::class);
 
-
-// auth
-Route::middleware('guest:web,mahasiswa')->group(function() {
+// Auth
+Route::middleware('guest:web,mahasiswa')->group(function () {
     // Route::get('register', [RegisterController::class, 'index']);
     // Route::post('register', [RegisterController::class, 'store']);
 
-    Route::get('mahasiswa-login', [MahasiswaLoginController::class, 'index'])->name('mahasiswa.login');
+    // Login mahasiswa
+    Route::get('mahasiswa-login', [MahasiswaLoginController::class, 'index'])
+        ->name('mahasiswa.login');
+
     Route::post('mahasiswa-login', [MahasiswaLoginController::class, 'store']);
 
-    Route::get('admin-login', [AdminLoginController::class, 'index'])->name('admin.login');
+    // Login admin
+    Route::get('admin-login', [AdminLoginController::class, 'index'])
+        ->name('admin.login');
+
     Route::post('admin-login', [AdminLoginController::class, 'store']);
+
+    // Reset password mahasiswa
+    Route::get('mahasiswa-lupa-password', [PasswordResetController::class, 'showLinkRequestForm'])
+        ->name('mahasiswa.password.request');
+
+    Route::post('mahasiswa-lupa-password', [PasswordResetController::class, 'sendResetLinkEmail'])
+        ->name('mahasiswa.password.email');
+
+    Route::get('mahasiswa-reset-password/{token}', [PasswordResetController::class, 'showResetForm'])
+        ->name('mahasiswa.password.reset');
+
+    Route::post('mahasiswa-reset-password', [PasswordResetController::class, 'reset'])
+        ->name('mahasiswa.password.update');
 });
 
-// admin
+// Admin
 Route::middleware('auth')
     ->prefix('admin')
     ->as('admin.')
-    ->group(function() {
+    ->group(function () {
         Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
 
         Route::view('master-data', 'admin.master-data')->name('master-data');
@@ -63,7 +83,6 @@ Route::middleware('auth')
         Route::post('/matakuliah/{id}/mahasiswa', [MatakuliahController::class, 'storeMahasiswa']);
         Route::post('/matakuliah', [MatakuliahController::class, 'store']);
 
-
         Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
 
         Route::get('download-spb', DownloadSpbController::class)->name('download-spb');
@@ -76,20 +95,28 @@ Route::middleware('auth')
         Route::view('periode', 'admin.periode')->name('periode');
         Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
         Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')->name('kontribusi-khusus');
+
         Route::get('wilayah', ListWilayah::class)->name('wilayah');
-        Route::resource('documents', DocumentController::class)->except(['show', 'edit', 'update']);
-        Route::get('pembimbing-akademik', ListPembimbingAkademik::class)->name('pembimbing-akademik');
-        Route::view('pengaturan-monitoring', 'admin.PengMonitoring')->name('pengaturan-monitoring');
+
+        Route::resource('documents', DocumentController::class)
+            ->except(['show', 'edit', 'update']);
+
+        Route::get('pembimbing-akademik', ListPembimbingAkademik::class)
+            ->name('pembimbing-akademik');
+
+        Route::view('pengaturan-monitoring', 'admin.PengMonitoring')
+            ->name('pengaturan-monitoring');
+
         Route::post('logout', AdminLogoutController::class)->name('logout');
     });
 
-// camaba
+// Camaba
 Route::view('camaba-beastudi', 'camaba-beastudi')->name('camaba-beastudi');
 
-// mahasiswa
+// Mahasiswa
 Route::middleware('auth:mahasiswa')
     ->as('mahasiswa.')
-    ->group(function() {
+    ->group(function () {
         // Route::get('/', DashboardController::class)->name('dashboard');
         Route::view('/', 'mahasiswa.dashboard')->name('dashboard');
 
@@ -97,19 +124,19 @@ Route::middleware('auth:mahasiswa')
         Route::view('laporan-semester', 'mahasiswa.monitoring')->name('monitoring');
 
         Route::post('logout', LogoutController::class)->name('logout');
-       Route::get(
+
+        Route::get(
             'surat-peringatan/{monitoring}',
             [SuratPeringatanController::class, 'cetak']
         )->name('surat-peringatan');
     });
 
-    Route::middleware(['auth', 'role:kemas'])
+// Kemas
+Route::middleware(['auth', 'role:kemas'])
     ->prefix('kemas')
     ->as('kemas.')
     ->group(function () {
-
         Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
         Route::view('prestasi', 'admin.prestasi')->name('prestasi');
         Route::post('logout', AdminLogoutController::class)->name('logout');
     });
-

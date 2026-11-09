@@ -105,7 +105,14 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+
+    'mahasiswa' => [
+        'provider' => 'mahasiswa',
+        'table' => 'mahasiswa_password_reset_tokens',
+        'expire' => 60,
+        'throttle' => 60,
     ],
+],
 
     /*
     |--------------------------------------------------------------------------

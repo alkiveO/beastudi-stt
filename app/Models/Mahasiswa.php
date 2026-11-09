@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
+use App\Notifications\MahasiswaResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Mahasiswa extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'mahasiswa';
+
     protected $fillable = [
         'mhs_id',
         'nim',
@@ -59,6 +61,11 @@ class Mahasiswa extends Authenticatable
         'kelurahan',
     ];
 
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new MahasiswaResetPasswordNotification($token));
+    }
+
     public function isDataDiriLengkap()
     {
         return empty($this->missingDataDiri());
@@ -86,9 +93,9 @@ class Mahasiswa extends Authenticatable
     {
         return $this->hasMany(Monitoring::class, 'nim', 'nim');
     }
-    public function krs()
-{
-    return $this->hasMany(Krs::class, 'mahasiswa_id');
-}
 
+    public function krs()
+    {
+        return $this->hasMany(Krs::class, 'mahasiswa_id');
+    }
 }
