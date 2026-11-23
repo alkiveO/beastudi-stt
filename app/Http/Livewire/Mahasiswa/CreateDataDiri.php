@@ -20,6 +20,7 @@ class CreateDataDiri extends Component
     public $mhs_id;
     public $nama;
     public $tahun_masuk;
+    public $rombel;
     public $program_studi_id;
     public $jalur_prestasi_id;
     public $nomor_hp;
@@ -46,6 +47,7 @@ class CreateDataDiri extends Component
             'mhs_id' => 'string',
             'nama' => 'required|max:255',
             'tahun_masuk' => 'required|min:4|max:4',
+            'rombel' => 'nullable|string|max:255',
             'program_studi_id' => 'required|exists:program_studi,id',
             'jalur_prestasi_id' => 'required|exists:jalur_prestasi,id',
             'nomor_hp' => 'required|min:9|max:13',
@@ -90,6 +92,8 @@ class CreateDataDiri extends Component
         'tahun_masuk.required' => 'tahun angkatan masuk harus diisi',
         'tahun_masuk.min' => 'tahun angkatan masuk minimal 4 karakter',
         'tahun_masuk.max' => 'tahun angkatan masuk maksimal 4 karakter',
+
+        'rombel.max' => 'rombel maksimal 255 karakter',
 
         'program_studi_id.required' => 'program studi harus diisi',
         'program_studi_id.exists' => 'program studi tidak valid',
@@ -150,6 +154,7 @@ class CreateDataDiri extends Component
         return [
             'nama',
             'tahun_masuk',
+            'rombel',
             'program_studi_id',
             'jalur_prestasi_id',
             'nomor_hp',
@@ -261,6 +266,7 @@ class CreateDataDiri extends Component
         $this->no_kk = $mahasiswa->no_kk;
         $this->no_ktp = $mahasiswa->no_ktp;
         $this->tahun_masuk = $mahasiswa->tahun_masuk;
+        $this->rombel = $mahasiswa->rombel;
         $this->jenis_kelamin = $mahasiswa->jenis_kelamin;
         $this->kode_pos = $mahasiswa->kode_pos;
         $this->nomor_hp = $mahasiswa->nomor_hp;
