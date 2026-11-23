@@ -33,6 +33,16 @@
                             <span class="required">@error('tahun_masuk') {{ $message }} @enderror</span>
                         </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3 custom-form">
+                            <label for="rombel" class="form-label text-dark">Rombel</label>
+                            <input type="text" class="form-control" id="rombel" autocomplete="off"
+                                wire:model.debounce="rombel" placeholder="Masukkan rombel"
+                                @disabled(!$isEditing)>
+                            <span class="required">@error('rombel') {{ $message }} @enderror</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
