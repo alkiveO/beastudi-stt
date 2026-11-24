@@ -12,6 +12,7 @@ use App\Models\Province;
 use App\Models\Mahasiswa;
 use App\Models\ProgramStudi;
 use App\Models\JalurPrestasi;
+use App\Models\PembimbingAkademik;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
@@ -23,6 +24,8 @@ class CreateDataDiri extends Component
     public $rombel;
     public $program_studi_id;
     public $jalur_prestasi_id;
+    public $pembimbing_akademik_id;
+
     public $nomor_hp;
     public $nomor_hp_ortu;
     public $alamat;
@@ -48,8 +51,29 @@ class CreateDataDiri extends Component
             'nama' => 'required|max:255',
             'tahun_masuk' => 'required|min:4|max:4',
             'rombel' => 'nullable|string|max:255',
+
             'program_studi_id' => 'required|exists:program_studi,id',
             'jalur_prestasi_id' => 'required|exists:jalur_prestasi,id',
+
+            'pembimbing_akademik_id' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    $programStudi = ProgramStudi::find(
+                        $this->program_studi_id
+                    );
+
+                    $valid = $programStudi
+                        && PembimbingAkademik::query()
+                            ->where('id', $value)
+                            ->where('program_studi', $programStudi->nama)
+                            ->exists();
+
+                    if (! $valid) {
+                        $fail('Pembimbing Akademik tidak valid atau tidak sesuai dengan Program Studi.');
+                    }
+                },
+            ],
+
             'nomor_hp' => 'required|min:9|max:13',
             'nomor_hp_ortu' => 'required|min:9|max:13',
             'alamat' => 'required|max:255',
@@ -100,6 +124,8 @@ class CreateDataDiri extends Component
 
         'jalur_prestasi_id.required' => 'jalur beastudi harus diisi',
         'jalur_prestasi_id.exists' => 'jalur beastudi tidak valid',
+
+        'pembimbing_akademik_id.required' => 'Pembimbing Akademik harus dipilih',
 
         'nomor_hp.required' => 'nomor handphone harus diisi',
         'nomor_hp.min' => 'nomor handphone minimal 9 karakter',
@@ -157,6 +183,7 @@ class CreateDataDiri extends Component
             'rombel',
             'program_studi_id',
             'jalur_prestasi_id',
+            'pembimbing_akademik_id',
             'nomor_hp',
             'nomor_hp_ortu',
             'alamat',
@@ -194,7 +221,7 @@ class CreateDataDiri extends Component
 
     public function cancelEdit()
     {
-        if (!$this->isEditing) {
+        if (! $this->isEditing) {
             return;
         }
 
@@ -212,6 +239,27 @@ class CreateDataDiri extends Component
         ]);
     }
 
+    public function updatedProgramStudiId($value)
+    {
+        $programStudi = ProgramStudi::find($value);
+
+        if (! $programStudi) {
+            $this->pembimbing_akademik_id = null;
+            return;
+        }
+
+        $paMasihSesuai = PembimbingAkademik::query()
+            ->where('id', $this->pembimbing_akademik_id)
+            ->where('program_studi', $programStudi->nama)
+            ->exists();
+
+        if (! $paMasihSesuai) {
+            $this->pembimbing_akademik_id = null;
+        }
+
+        $this->resetValidation('pembimbing_akademik_id');
+    }
+
     public function updated($propertyName)
     {
         if ($this->isEditing) {
@@ -223,7 +271,7 @@ class CreateDataDiri extends Component
     {
         $mahasiswa = auth()->guard('mahasiswa')->user();
 
-        abort_if(!$mahasiswa, 403);
+        abort_if(! $mahasiswa, 403);
 
         $agama = Agama::query()
             ->where('nama', $mahasiswa->agama)
@@ -259,6 +307,7 @@ class CreateDataDiri extends Component
         $this->agama_id = $agama?->id;
         $this->program_studi_id = $program_studi?->id;
         $this->jalur_prestasi_id = $jalur_beastudi?->id;
+        $this->pembimbing_akademik_id = $mahasiswa->pembimbing_akademik_id;
 
         $this->mhs_id = $mahasiswa->mhs_id;
         $this->nama = $mahasiswa->nama;
@@ -323,13 +372,13 @@ class CreateDataDiri extends Component
 
     public function store()
     {
-        if (!$this->isEditing) {
+        if (! $this->isEditing) {
             return;
         }
 
         $mahasiswa = auth()->guard('mahasiswa')->user();
 
-        abort_if(!$mahasiswa, 403);
+        abort_if(! $mahasiswa, 403);
 
         try {
             $validate = collect($this->validate())
@@ -393,11 +442,21 @@ class CreateDataDiri extends Component
 
     public function render()
     {
+        $programStudi = ProgramStudi::find($this->program_studi_id);
+
+        $listPembimbingAkademik = $programStudi
+            ? PembimbingAkademik::query()
+                ->where('program_studi', $programStudi->nama)
+                ->orderBy('nama')
+                ->get()
+            : collect();
+
         return view('livewire.mahasiswa.create-data-diri', [
             'program_studi' => ProgramStudi::all(),
             'list_prestasi' => JalurPrestasi::all(),
             'list_agama' => Agama::all(),
             'list_provinsi' => Province::all(),
+            'list_pembimbing_akademik' => $listPembimbingAkademik,
 
             'list_kabupaten' => Regency::where(
                 'province_id',

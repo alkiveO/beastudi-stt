@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Livewire\Pa;
+
+use App\Models\Mahasiswa;
+use App\Models\Monitoring;
+use App\Models\Periode;
+use Livewire\Component;
+
+class MonitoringStatusChart extends Component
+{
+    public $nim;
+    public $tahunAngkatan;
+    public $tahunAjaran;
+    public $chartData = [];
+
+    protected $listeners = [
+        'updateChart' => 'loadChartData',
+    ];
+
+    public function mount()
+    {
+        $paId = auth()->user()->pembimbing_akademik_id;
+
+        $tahunMasuk = Mahasiswa::query()
+            ->where('pembimbing_akademik_id', $paId)
+            ->whereNotNull('tahun_masuk')
+            ->distinct()
+            ->orderByDesc('tahun_masuk')
+            ->pluck('tahun_masuk');
+
+        $this->nim = request()->query('nim');
+
+        $this->tahunAngkatan = request()->query(
+            'angkatan',
+            $tahunMasuk->first()
+        );
+
+        $this->tahunAjaran = request()->query(
+            'periode_id',
+            Periode::latest()->value('id')
+        );
+
+        $this->loadChartData();
+    }
+
+    public function loadChartData(
+        $nim = null,
+        $tahunAngkatan = null,
+        $tahunAjaran = null
+    ) {
+        $this->nim = $nim ?? $this->nim;
+        $this->tahunAngkatan = $tahunAngkatan ?? $this->tahunAngkatan;
+        $this->tahunAjaran = $tahunAjaran ?? $this->tahunAjaran;
+
+        $paId = auth()->user()->pembimbing_akademik_id;
+
+        $monitoringQuery = Monitoring::query()
+            ->whereHas('mahasiswa', function ($query) use ($paId) {
+                $query->where('pembimbing_akademik_id', $paId);
+            })
+            ->when($this->nim, function ($query) {
+                $query->where('nim', $this->nim);
+            })
+            ->when($this->tahunAngkatan, function ($query) {
+                $query->whereHas('mahasiswa', function ($mahasiswa) {
+                    $mahasiswa->where(
+                        'tahun_masuk',
+                        $this->tahunAngkatan
+                    );
+                });
+            })
+            ->when($this->tahunAjaran, function ($query) {
+                $query->where('periode_id', $this->tahunAjaran);
+            });
+
+        $semesters = (clone $monitoringQuery)
+            ->select('semester')
+            ->distinct()
+            ->orderBy('semester')
+            ->pluck('semester');
+
+        $statusCounts = [
+            'Aman' => [],
+            'Evaluasi' => [],
+            'Keluar' => [],
+        ];
+
+        foreach ($semesters as $semester) {
+            foreach (array_keys($statusCounts) as $status) {
+                $count = (clone $monitoringQuery)
+                    ->where('semester', $semester)
+                    ->where('status_beastudi', strtolower($status))
+                    ->count();
+
+                $statusCounts[$status][] = $count;
+            }
+        }
+
+        $this->chartData = [
+            'labels' => $semesters,
+            'datasets' => [
+                [
+                    'label' => 'Aman',
+                    'data' => $statusCounts['Aman'],
+                    'borderColor' => '#4CAF50',
+                    'backgroundColor' => 'rgba(76, 175, 80, 0.2)',
+                    'fill' => true,
+                ],
+                [
+                    'label' => 'Evaluasi',
+                    'data' => $statusCounts['Evaluasi'],
+                    'borderColor' => '#FF9800',
+                    'backgroundColor' => 'rgba(255, 152, 0, 0.2)',
+                    'fill' => true,
+                ],
+                [
+                    'label' => 'Keluar',
+                    'data' => $statusCounts['Keluar'],
+                    'borderColor' => '#F44336',
+                    'backgroundColor' => 'rgba(244, 67, 54, 0.2)',
+                    'fill' => true,
+                ],
+            ],
+        ];
+
+        $this->emit(
+            'refreshMonitoringStatusChart',
+            $this->chartData
+        );
+    }
+
+    public function render()
+    {
+        return view('livewire.monitoring-status-chart', [
+            'chartData' => $this->chartData,
+        ]);
+    }
+}

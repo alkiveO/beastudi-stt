@@ -14,46 +14,32 @@ class LoginController extends Controller
         return view('admin.login');
     }
 
-    // public function store()
-    // {
-    //     $user = User::query()
-    //         ->where('email', request()->email)
-    //         ->first();
-
-    //     if ($user && $user->isAdmin() && Hash::check(request()->password, $user->password)) {
-    //         Auth::guard('web')->login($user);
-
-    //         return redirect()->intended(route('admin.dashboard'));
-    //     }
-
-    //     return back()->with(['error' => 'Email atau password salah']);
-    // }
-
     public function store()
-{
-    $credentials = request()->only('email', 'password');
+    {
+        $credentials = request()->only('email', 'password');
 
-    $user = User::where('email', $credentials['email'])->first();
+        $user = User::where('email', $credentials['email'])->first();
 
-    if (! $user || ! Hash::check($credentials['password'], $user->password)) {
-        return back()->with(['error' => 'Email atau password salah']);
+        if (! $user || ! Hash::check($credentials['password'], $user->password)) {
+            return back()->with(['error' => 'Email atau password salah']);
+        }
+
+        Auth::guard('web')->login($user);
+
+        if ($user->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->role === 'kemas') {
+            return redirect()->route('kemas.dashboard');
+        }
+
+        if ($user->role === 'pa') {
+            return redirect()->route('pa.dashboard');
+        }
+
+        Auth::guard('web')->logout();
+
+        return back()->with(['error' => 'Role tidak diizinkan']);
     }
-
-    // Login
-    Auth::guard('web')->login($user);
-
-    // Redirect berdasarkan role
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
-
-    if ($user->role === 'kemas') {
-        return redirect()->route('kemas.dashboard');
-    }
-
-    // fallback (jaga-jaga)
-    Auth::logout();
-    return back()->with(['error' => 'Role tidak diizinkan']);
-}
-
 }

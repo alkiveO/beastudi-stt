@@ -6,6 +6,7 @@ use App\Notifications\MahasiswaResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Mahasiswa extends Authenticatable
 {
@@ -39,6 +40,7 @@ class Mahasiswa extends Authenticatable
         'kode_pos',
         'alamat',
         'status',
+        'pembimbing_akademik_id',
     ];
 
     protected $dataDiriWajib = [
@@ -97,5 +99,13 @@ class Mahasiswa extends Authenticatable
     public function krs()
     {
         return $this->hasMany(Krs::class, 'mahasiswa_id');
+    }
+
+    public function pembimbingAkademik(): BelongsTo
+    {
+        return $this->belongsTo(
+            PembimbingAkademik::class,
+            'pembimbing_akademik_id'
+        );
     }
 }

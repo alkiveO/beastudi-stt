@@ -16,13 +16,37 @@
                             <option value="sistem informasi">Sistem Informasi</option>
                             <option value="teknik informatika">Teknik Informatika</option>
                         </select>
-                        @error('program_studi') <span class="text-danger">{{ $message }}</span> @enderror
+                        @error('program_studi')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="mb-3">
                         <label for="nama" class="form-label">Nama Dosen</label>
-                        <input wire:model.lazy='nama' type="text" class="form-control text-uppercase" autocomplete="off">
-                        @error('nama') <span class="text-danger">{{ $message }}</span> @enderror
+                        <input wire:model.lazy="nama" type="text" id="nama" class="form-control text-uppercase" autocomplete="off">
+                        @error('nama')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <hr>
+
+                    <h6 class="mb-3">Informasi Akun PA</h6>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Login</label>
+                        <input wire:model.lazy="email" type="email" id="email" class="form-control" placeholder="Masukkan email PA" autocomplete="off">
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password Login</label>
+                        <input wire:model.lazy="password" type="password" id="password" class="form-control" placeholder="Minimal 8 karakter" autocomplete="new-password">
+                        @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 

@@ -115,6 +115,41 @@
                             <span class="required">@error('program_studi_id') {{ $message }} @enderror</span>
                         </div>
                     </div>
+
+                    <div class="col-md-4">
+                        <div class="mb-3 custom-form">
+                            <label for="pembimbing_akademik_id" class="form-label text-dark">
+                                Pembimbing Akademik
+                            </label>
+
+                            <select id="pembimbing_akademik_id"
+                                class="form-control"
+                                wire:model="pembimbing_akademik_id"
+                                @disabled(!$isEditing || !$program_studi_id)>
+                                <option value="">Pilih Pembimbing Akademik</option>
+
+                                @foreach($list_pembimbing_akademik as $pembimbing)
+                                    <option value="{{ $pembimbing->id }}">
+                                        {{ $pembimbing->nama }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @if(!$program_studi_id)
+                                <small class="text-muted">
+                                    Pilih Program Studi terlebih dahulu.
+                                </small>
+                            @elseif($list_pembimbing_akademik->isEmpty())
+                                <small class="text-muted">
+                                    Belum ada Pembimbing Akademik untuk Program Studi ini.
+                                </small>
+                            @endif
+
+                            <span class="required">
+                                @error('pembimbing_akademik_id') {{ $message }} @enderror
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -279,14 +314,19 @@
                     '#kelurahan'
                 ];
 
-                // Inisialisasi Bootstrap-select sebelum menggunakan val() atau refresh().
                 selectIds.forEach(function (selector) {
                     $(selector).selectpicker();
                 });
 
-                // Sinkronisasi dropdown dengan properti Livewire.
+                // Hanya kirim perubahan jika data-model tersedia dan valid.
                 $('.data-diri-select').on('change', function () {
-                    const model = $(this).data('model');
+                    const model = $(this).attr('data-model');
+
+                    if (typeof model !== 'string' || model.trim() === '') {
+                        console.warn('Select tidak memiliki data-model:', this);
+                        return;
+                    }
+
                     @this.set(model, $(this).val());
                 });
 
@@ -382,11 +422,14 @@
                     });
                 }
 
-                // Mengubah mode tampilan dan mode edit.
                 window.addEventListener('data-diri-mode-changed', function (event) {
                     const editing = event.detail.editing;
 
-                    $('.data-diri-form input, .data-diri-form textarea').prop('disabled', !editing);
+                    $('.data-diri-form input, .data-diri-form textarea')
+                        .prop('disabled', !editing);
+
+                    $('#pembimbing_akademik_id')
+                        .prop('disabled', !editing || !@this.get('program_studi_id'));
 
                     selectIds.forEach(function (selector) {
                         $(selector).prop('disabled', !editing);
@@ -404,7 +447,6 @@
                     }
                 });
 
-                // Mengisi dropdown berdasarkan data mahasiswa saat halaman dibuka.
                 setSelectValue('#jenis_kelamin', @this.get('jenis_kelamin'));
                 setSelectValue('#agama', @this.get('agama_id'));
                 setSelectValue('#prodi', @this.get('program_studi_id'));
@@ -421,7 +463,6 @@
 
                 refreshSelects();
 
-                // Perubahan provinsi.
                 $('#provinsi').on('change', function (e) {
                     const provinsiId = e.target.value;
 
@@ -454,7 +495,6 @@
                     Livewire.emit('provinsiChanged', provinsiId);
                 });
 
-                // Perubahan kabupaten/kota.
                 $('#kabupaten').on('change', function (e) {
                     const regencyId = e.target.value;
 
@@ -485,7 +525,6 @@
                     Livewire.emit('regencyChanged', regencyId);
                 });
 
-                // Perubahan kecamatan.
                 $('#kecamatan').on('change', function (e) {
                     const districtId = e.target.value;
 
@@ -514,7 +553,6 @@
                     Livewire.emit('districtChanged', districtId);
                 });
 
-                // Perubahan kelurahan.
                 $('#kelurahan').on('change', function (e) {
                     Livewire.emit('villageChanged', e.target.value);
                 });

@@ -34,8 +34,6 @@ Route::get('kelurahan', KelurahanController::class);
 
 // Auth
 Route::middleware('guest:web,mahasiswa')->group(function () {
-    // Route::get('register', [RegisterController::class, 'index']);
-    // Route::post('register', [RegisterController::class, 'store']);
 
     // Login mahasiswa
     Route::get('mahasiswa-login', [MahasiswaLoginController::class, 'index'])
@@ -43,7 +41,7 @@ Route::middleware('guest:web,mahasiswa')->group(function () {
 
     Route::post('mahasiswa-login', [MahasiswaLoginController::class, 'store']);
 
-    // Login admin
+    // Login admin, Kemas, dan PA
     Route::get('admin-login', [AdminLoginController::class, 'index'])
         ->name('admin.login');
 
@@ -64,16 +62,22 @@ Route::middleware('guest:web,mahasiswa')->group(function () {
 });
 
 // Admin
-Route::middleware('auth')
+Route::middleware(['auth', 'role:admin'])
     ->prefix('admin')
     ->as('admin.')
     ->group(function () {
-        Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
 
-        Route::view('master-data', 'admin.master-data')->name('master-data');
-        Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)->name('master-data.show');
+        Route::get('dashboard', AdminDashboardController::class)
+            ->name('dashboard');
 
-        Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)->name('master-data-export');
+        Route::view('master-data', 'admin.master-data')
+            ->name('master-data');
+
+        Route::get('master-data/{mhs_id}/mahasiswa', ShowMasterData::class)
+            ->name('master-data.show');
+
+        Route::get('master-data/export-data-mahasiswa', MahasiswaExportController::class)
+            ->name('master-data-export');
 
         Route::get('/export-monitoring', [ExportController::class, 'exportMonitoring'])
             ->name('export-monitoring');
@@ -83,20 +87,35 @@ Route::middleware('auth')
         Route::post('/matakuliah/{id}/mahasiswa', [MatakuliahController::class, 'storeMahasiswa']);
         Route::post('/matakuliah', [MatakuliahController::class, 'store']);
 
-        Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)->name('monitoring.show');
+        Route::get('monitoring/{nim}/mahasiswa', ShowMonitoring::class)
+            ->name('monitoring.show');
 
-        Route::get('download-spb', DownloadSpbController::class)->name('download-spb');
-        Route::get('download-lpj', DownloadLpjController::class)->name('download-lpj');
+        Route::get('download-spb', DownloadSpbController::class)
+            ->name('download-spb');
 
-        Route::view('monitoring', 'admin.monitoring')->name('monitoring');
-        Route::view('redaksi', 'admin.redaksi')->name('redaksi');
-        Route::view('prestasi', 'admin.prestasi')->name('prestasi');
+        Route::get('download-lpj', DownloadLpjController::class)
+            ->name('download-lpj');
 
-        Route::view('periode', 'admin.periode')->name('periode');
-        Route::view('jalur-beastudi', 'admin.jalur-beastudi')->name('jalur-beastudi');
-        Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')->name('kontribusi-khusus');
+        Route::view('monitoring', 'admin.monitoring')
+            ->name('monitoring');
 
-        Route::get('wilayah', ListWilayah::class)->name('wilayah');
+        Route::view('redaksi', 'admin.redaksi')
+            ->name('redaksi');
+
+        Route::view('prestasi', 'admin.prestasi')
+            ->name('prestasi');
+
+        Route::view('periode', 'admin.periode')
+            ->name('periode');
+
+        Route::view('jalur-beastudi', 'admin.jalur-beastudi')
+            ->name('jalur-beastudi');
+
+        Route::view('kontribusi-khusus', 'admin.kontribusi-khusus')
+            ->name('kontribusi-khusus');
+
+        Route::get('wilayah', ListWilayah::class)
+            ->name('wilayah');
 
         Route::resource('documents', DocumentController::class)
             ->except(['show', 'edit', 'update']);
@@ -107,23 +126,30 @@ Route::middleware('auth')
         Route::view('pengaturan-monitoring', 'admin.PengMonitoring')
             ->name('pengaturan-monitoring');
 
-        Route::post('logout', AdminLogoutController::class)->name('logout');
+        Route::post('logout', AdminLogoutController::class)
+            ->name('logout');
     });
 
 // Camaba
-Route::view('camaba-beastudi', 'camaba-beastudi')->name('camaba-beastudi');
+Route::view('camaba-beastudi', 'camaba-beastudi')
+    ->name('camaba-beastudi');
 
 // Mahasiswa
 Route::middleware('auth:mahasiswa')
     ->as('mahasiswa.')
     ->group(function () {
-        // Route::get('/', DashboardController::class)->name('dashboard');
-        Route::view('/', 'mahasiswa.dashboard')->name('dashboard');
 
-        Route::view('data-diri', 'mahasiswa.data-diri')->name('data-diri');
-        Route::view('laporan-semester', 'mahasiswa.monitoring')->name('monitoring');
+        Route::view('/', 'mahasiswa.dashboard')
+            ->name('dashboard');
 
-        Route::post('logout', LogoutController::class)->name('logout');
+        Route::view('data-diri', 'mahasiswa.data-diri')
+            ->name('data-diri');
+
+        Route::view('laporan-semester', 'mahasiswa.monitoring')
+            ->name('monitoring');
+
+        Route::post('logout', LogoutController::class)
+            ->name('logout');
 
         Route::get(
             'surat-peringatan/{monitoring}',
@@ -136,7 +162,38 @@ Route::middleware(['auth', 'role:kemas'])
     ->prefix('kemas')
     ->as('kemas.')
     ->group(function () {
-        Route::get('dashboard', AdminDashboardController::class)->name('dashboard');
-        Route::view('prestasi', 'admin.prestasi')->name('prestasi');
-        Route::post('logout', AdminLogoutController::class)->name('logout');
+
+        Route::get('dashboard', AdminDashboardController::class)
+            ->name('dashboard');
+
+        Route::view('prestasi', 'admin.prestasi')
+            ->name('prestasi');
+
+        Route::post('logout', AdminLogoutController::class)
+            ->name('logout');
+    });
+
+// PA (Pembimbing Akademik)
+Route::middleware(['auth', 'role:pa'])
+    ->prefix('pa')
+    ->as('pa.')
+    ->group(function () {
+
+        Route::view('dashboard', 'pa.dashboard')
+            ->name('dashboard');
+
+        Route::view('master-data', 'pa.master-data')
+            ->name('master-data');
+
+        Route::get('master-data/{mhs_id}/mahasiswa', function ($mhs_id) {
+            return view('pa.show-master-data', compact('mhs_id'));
+        })->name('master-data.show');
+
+        // Detail Monitoring mahasiswa bimbingan PA
+        Route::get('monitoring/{nim}/mahasiswa', function ($nim) {
+            return view('pa.show-monitoring', compact('nim'));
+        })->name('monitoring.show');
+
+        Route::post('logout', AdminLogoutController::class)
+            ->name('logout');
     });
