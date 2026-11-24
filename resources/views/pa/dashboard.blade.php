@@ -6,6 +6,22 @@
 
 @section('content')
     <div class="container-fluid">
+
+        {{-- INFORMASI PEMBIMBING AKADEMIK --}}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="mb-2">Dashboard</h4>
+
+                <h5 class="text-primary mb-1">
+                    {{ auth()->user()->pembimbingAkademik->nama ?? auth()->user()->name }}
+                </h5>
+
+                <p class="mb-0 text-muted">
+                    Pembimbing Akademik
+                </p>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-body">
 
